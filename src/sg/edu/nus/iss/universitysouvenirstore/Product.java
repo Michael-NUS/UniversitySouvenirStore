@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.universitysouvenirstore.product;
+package sg.edu.nus.iss.universitysouvenirstore;
 
 public class Product {
 	private String productId;
