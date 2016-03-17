@@ -9,8 +9,7 @@ public class Transaction {
 	private int transactionCount = 0;
 	
 	Transaction(){
-		//get latest transaction number by reading the trasaction.dat
-		
+		//get latest transaction number by checking the last trasaction.dat's number/count?		
 		//transactionCount = last ID
 		
 		
@@ -43,10 +42,24 @@ public class Transaction {
 		
 	}
 	
-	public void UpdateInventory(){
-		
+	public void UpdateInventory(TransactionedItem item){
+		item.GetProductID();
+		//update the product's arraylist;
 		
 	}
 	
+	public float CheckOut(){
+		float amountPaid = 0;
+		int discount = 0;
+		//Discount class's return the highest discount available
+		
+		
+		for (TransactionedItem item:items){
+			UpdateInventory(item);
+		}
+		
+		//write into the products.dat
+		return amountPaid;
+	}
 	
 }

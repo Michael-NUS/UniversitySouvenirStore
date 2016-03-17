@@ -11,6 +11,12 @@ public class TransactionedItem {
 	
 	public boolean UpdateQuantity(int qty)
 	{
+		
 		return true;
 	}
+	
+	public String GetProductID(){
+		return productID;
+	}
+	
 }
