@@ -12,11 +12,10 @@ public class Transaction {
 		//get latest transaction number by checking the last trasaction.dat's number/count?		
 		//transactionCount = last ID
 		
-		
 	}
 	
-	public void ReadProductList(){
-		
+	public void GetProductList(){
+		//get from Product's method
 	}
 	
 	public void AddTransactionItem (){
@@ -44,7 +43,7 @@ public class Transaction {
 	
 	public void UpdateInventory(TransactionedItem item){
 		item.GetProductID();
-		//update the product's arraylist;
+		//update the product's array list;
 		
 	}
 	
@@ -59,6 +58,9 @@ public class Transaction {
 		}
 		
 		//write into the products.dat
+		//call Product Update (arraylist product);
+		
+		//write to Transaction.dat
 		return amountPaid;
 	}
 	
