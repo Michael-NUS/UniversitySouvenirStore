@@ -19,4 +19,8 @@ public class TransactionedItem {
 		return productID;
 	}
 	
+	public int GetProductQuantity(){
+		return productQty;
+	}
+	
 }
