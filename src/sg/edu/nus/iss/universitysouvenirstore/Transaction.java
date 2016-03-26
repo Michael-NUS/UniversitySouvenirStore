@@ -85,6 +85,7 @@ public class Transaction {
 		amountPaid = amountPaid * (discount/100);
 
 		//get Point to Cash
+		
 		//amountPaid - Points
 		//new amountPaid
 		
