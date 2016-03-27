@@ -12,16 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 
-public class ProductManagerDialog extends JDialog {
+public class TransactionDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
 
 	/**
 	 * Create the dialog.
 	 */
-	public ProductManagerDialog() {
-		setTitle("Product manager");
+	public TransactionDialog() {
+		setTitle("Transaction");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));

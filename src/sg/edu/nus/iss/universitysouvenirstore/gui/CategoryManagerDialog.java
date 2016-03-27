@@ -2,7 +2,6 @@ package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
 
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -12,16 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 
-public class ProductManagerDialog extends JDialog {
+public class CategoryManagerDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
 
 	/**
 	 * Create the dialog.
 	 */
-	public ProductManagerDialog() {
-		setTitle("Product manager");
+	public CategoryManagerDialog() {
+		setTitle("Category manager");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
