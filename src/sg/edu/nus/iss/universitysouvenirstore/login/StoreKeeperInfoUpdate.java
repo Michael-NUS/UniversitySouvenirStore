@@ -42,6 +42,7 @@ public class StoreKeeperInfoUpdate extends JFrame {
 	public AlertDialog alertdialog = new AlertDialog();
 	public UserStatusMessage userstatusmessagedialog = new UserStatusMessage();
 	public SelectionAlert selectionalertdialog = new SelectionAlert();
+	public RegistrationStatus registrationstatusdialog = new RegistrationStatus("");
 	
 	/**
 	 * Create the frame.
@@ -92,13 +93,7 @@ public class StoreKeeperInfoUpdate extends JFrame {
 		lblRetypePassword.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblRetypePassword.setForeground(new Color(0, 0, 128));
 		lblRetypePassword.setBounds(10, 138, 123, 28);
-		contentPane.add(lblRetypePassword);		
-		
-		JLabel lblRegistrationStatus = new JLabel("          Registration unsuccessful !");
-		lblRegistrationStatus.setVisible(false);
-		lblRegistrationStatus.setForeground(new Color(65, 105, 225));
-		lblRegistrationStatus.setBounds(131, 226, 183, 14);
-		contentPane.add(lblRegistrationStatus);
+		contentPane.add(lblRetypePassword);
 			
 		JRadioButton rdbtnAdd = new JRadioButton("Add");
 		rdbtnAdd.setBackground(new Color(205, 92, 92));
@@ -197,10 +192,27 @@ public class StoreKeeperInfoUpdate extends JFrame {
 							passwordField.setText("");/* Clear */
 							passwordFieldRetype.setText("");/* Clear */
 							dispose();
+														
+							try {
+								
+								registrationstatusdialog = new RegistrationStatus("Registration successful!");
+								registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+								registrationstatusdialog.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}							
 						
 						}else{
-							
-							lblRegistrationStatus.setVisible(true);
+														
+							try {
+								
+								registrationstatusdialog = new RegistrationStatus("Registration unsuccessful!");
+								registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+								registrationstatusdialog.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+														
 						}
 						
 				    }else{
@@ -222,6 +234,15 @@ public class StoreKeeperInfoUpdate extends JFrame {
 					
 						usernameField.setText("");/* Clear */
 						dispose();
+						
+						try {
+							
+							registrationstatusdialog = new RegistrationStatus("User removed successfully!");
+							registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+							registrationstatusdialog.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						
 					}else{
 						
@@ -298,10 +319,27 @@ public class StoreKeeperInfoUpdate extends JFrame {
 								passwordField.setText("");/* Clear */
 								passwordFieldRetype.setText("");/* Clear */
 								dispose();
+								
+								try {
+									
+									registrationstatusdialog = new RegistrationStatus("Registration successful!");
+									registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+									registrationstatusdialog.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							
 							}else{
 								
-								lblRegistrationStatus.setVisible(true);
+								try {
+									
+									registrationstatusdialog = new RegistrationStatus("Registration unsuccessful!");
+									registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+									registrationstatusdialog.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								
 							}
 							
 					    }else{
@@ -324,6 +362,15 @@ public class StoreKeeperInfoUpdate extends JFrame {
 						
 							usernameField.setText("");/* Clear */
 							dispose();
+							
+							try {
+								
+								registrationstatusdialog = new RegistrationStatus("User removed successfully!");
+								registrationstatusdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);								
+								registrationstatusdialog.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							
 						}else{
 							

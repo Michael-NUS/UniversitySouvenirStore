@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import java.awt.Window;
+//import java.awt.Window;
 
 public class MainMenu extends JFrame {
 
@@ -75,7 +75,7 @@ public class MainMenu extends JFrame {
 		
 	}
 	
-	public void AllSubWindowsDestoryed(){
+	public void AllSubWindowsDestroyed(){
 		
 		storekeeperframe.dispose();
 		productdialog.dispose();
@@ -88,7 +88,8 @@ public class MainMenu extends JFrame {
 		
 		storekeeperframe.alertdialog.dispose();
 		storekeeperframe.userstatusmessagedialog.dispose();
-		storekeeperframe.selectionalertdialog.dispose();
+		storekeeperframe.selectionalertdialog.dispose();	
+		storekeeperframe.registrationstatusdialog.dispose();
 	}
 	
 	
@@ -165,7 +166,7 @@ public class MainMenu extends JFrame {
 					
 					dispose();/* Destroy current frame where the button exits.*/
 									
-					AllSubWindowsDestoryed();/* Destory all sub-windows after logging out. */
+					AllSubWindowsDestroyed();/* Destory all sub-windows after logging out. */
 					
 				} catch (Exception logine) {
 					logine.printStackTrace();
@@ -189,7 +190,7 @@ public class MainMenu extends JFrame {
 						
 						dispose();/* Destroy current frame where the button exits.*/
 						
-						AllSubWindowsDestoryed();/* Destory all sub-windows after logging out. */
+						AllSubWindowsDestroyed();/* Destroy all sub-windows after logging out. */
 																					
 					} catch (Exception logine) {
 						logine.printStackTrace();
