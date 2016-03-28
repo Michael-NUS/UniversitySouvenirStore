@@ -10,9 +10,29 @@ public class Product {
 	private int reorderQuantity;
 	private int orderQuantity;
 	private String categoryId;
+	private String vendorId;
 	
 	
 	
+	public Product(String productId, String productName, String briefDescription, int availableQuantity, double price,
+			String barCodeNumber, int reorderQuantity, String categoryId, String vendorId) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.briefDescription = briefDescription;
+		this.availableQuantity = availableQuantity;
+		this.price = price;
+		this.barCodeNumber = barCodeNumber;
+		this.reorderQuantity = reorderQuantity;
+		this.categoryId = categoryId;
+		this.vendorId = vendorId;
+	}
+	public String getVendorId() {
+		return vendorId;
+	}
+	public void setVendorId(String vendorId) {
+		this.vendorId = vendorId;
+	}
 	public String getProductId() {
 		return productId;
 	}
