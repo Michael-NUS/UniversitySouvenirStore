@@ -28,21 +28,19 @@ import sg.edu.nus.iss.universitysouvenirstore.*;
 import java.awt.Font;
 import javax.swing.JCheckBox;
 
-public class TransactionDialog extends JDialog {
+public class TransactionMemberDialog extends JDialog {
 	
-	private String memberID = null;
-	private int discount = 0;
-	private float total = 0;
-	private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
-	private TransactionMemberDialog transactionMemberDialog = new TransactionMemberDialog();
+	private String memberID = "12345";
+
+	
 
 	private final JPanel contentPanel = new JPanel();
-
 	/**
 	 * Create the dialog.
 	 */
-	public TransactionDialog() {
-
+	public TransactionMemberDialog() {
+		
+		
 		
 		setTitle("Transaction");
 		setBounds(100, 100, 450, 427);
@@ -51,7 +49,7 @@ public class TransactionDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-
+		
 
 		JList<String> jlist = new JList<String>();
 		jlist.setBounds(5, 101, 280, 153);
@@ -143,16 +141,10 @@ public class TransactionDialog extends JDialog {
 				
 				if(memberCheckBox.isSelected())
 				{
-					
-					TransactionMemberDialog memberInfo = new TransactionMemberDialog();
-					memberInfo.setTitle("New Product");
-					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					memberInfo.setEnabled(true);
-					memberInfo.setVisible(true);
-					//prompt 2nd screen that allow the store keeper to add the MemberID
+					//prompt 2nd screen that allow the store keeper to add the Memebr ID
 					//in the 2nd screen once the Member ID is added, show the member's information
 					//the member can select if they wanted to use the Points to deduct
-					lblPublic.setText(memberInfo.GetMemberID());					
+					lblPublic.setText("memberID");
 				}
 				else
 					lblPublic.setText("PUBLIC");
@@ -161,4 +153,11 @@ public class TransactionDialog extends JDialog {
 		
 
 	}
+	
+	public String GetMemberID ()
+	{
+		return memberID;
+	}
+
+	
 }
