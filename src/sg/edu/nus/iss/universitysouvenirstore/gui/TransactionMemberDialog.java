@@ -27,21 +27,19 @@ import sg.edu.nus.iss.universitysouvenirstore.*;
 
 import java.awt.Font;
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 
 public class TransactionMemberDialog extends JDialog {
 	
-	private String memberID = "12345";
-
+	private String memberID = null;
 	
 
 	private final JPanel contentPanel = new JPanel();
+	private JTextField textField;
 	/**
 	 * Create the dialog.
 	 */
-	public TransactionMemberDialog() {
-		
-		
-		
+	public TransactionMemberDialog(Member member) {		
 		setTitle("Transaction");
 		setBounds(100, 100, 450, 427);
 		getContentPane().setLayout(new BorderLayout());
@@ -50,104 +48,76 @@ public class TransactionMemberDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-
-		JList<String> jlist = new JList<String>();
-		jlist.setBounds(5, 101, 280, 153);
-		contentPanel.add(jlist);
-		
-		JButton button = new JButton("Add Item");
-		button.addActionListener(new ActionListener() {
+		JButton btnRetrieveMember = new JButton("Retrieve Member");
+		btnRetrieveMember.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
 			}
 		});
-		button.setBounds(297, 101, 127, 37);
-		contentPanel.add(button);
+		btnRetrieveMember.setBounds(220, 101, 115, 20);
+		contentPanel.add(btnRetrieveMember);
 		
-		JButton editBtn = new JButton("Edit Item");
-		editBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		editBtn.setBounds(297, 143, 127, 37);
-		contentPanel.add(editBtn);
+		//label for static text display		
+		JLabel lblNewLabel = new JLabel("Current Loyalty Points");
+		lblNewLabel.setBounds(16, 157, 167, 16);
+		contentPanel.add(lblNewLabel);
+		
+		JLabel lblDeductPoints = new JLabel("Redeemable Dollar");
+		lblDeductPoints.setBounds(16, 184, 167, 16);
+		contentPanel.add(lblDeductPoints);
+		
+		JLabel lblGrandTotal = new JLabel("Loyalty Points after Redeem");
+		lblGrandTotal.setBounds(16, 226, 167, 16);
+		contentPanel.add(lblGrandTotal);
+		
+		JCheckBox redeemCheckBox = new JCheckBox("Redeem");
+		redeemCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		redeemCheckBox.setBounds(16, 201, 78, 18);
+		contentPanel.add(redeemCheckBox);
+		
+		textField = new JTextField();
+		textField.setBounds(16, 101, 167, 20);
+		contentPanel.add(textField);
+		textField.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 345, 432, 35);
+		panel.setBounds(0, 353, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
-		JButton checkOutButton = new JButton("Check Out");
-		checkOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnDone = new JButton("Done");
+		btnDone.setEnabled(false);
+		
+		btnDone.setActionCommand("Check Out");
+		panel.add(btnDone);
+		
+		JButton button_1 = new JButton("Cancel");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
+		button_1.setActionCommand("Cancel");
+		panel.add(button_1);
 		
-		
-		JButton removeButton = new JButton("Remove Item");
-		removeButton.setEnabled(false);
-		removeButton.setBounds(297, 184, 127, 37);
-		contentPanel.add(removeButton);
-		
-		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
-		checkOutButton.setEnabled(false); //when no item in the list, Check Out button is disabled
-		
-		
-		checkOutButton.setActionCommand("Check Out");
-		panel.add(checkOutButton);
-		
-		JButton button_3 = new JButton("Cancel");
-		button_3.setActionCommand("Cancel");
-		panel.add(button_3);
-		
-		//label for static text display		
-		JLabel lblNewLabel = new JLabel("Sub Total:");
-		lblNewLabel.setBounds(5, 267, 66, 16);
-		contentPanel.add(lblNewLabel);
-		
-		JLabel lblDeductPoints = new JLabel("Deduct Points:");
-		lblDeductPoints.setBounds(5, 281, 97, 16);
-		contentPanel.add(lblDeductPoints);
-		
-		JLabel lblDiscount = new JLabel("Discount");
-		lblDiscount.setBounds(5, 296, 66, 16);
-		contentPanel.add(lblDiscount);
-		
-		JLabel lblGrandTotal = new JLabel("Grand Total:");
-		lblGrandTotal.setBounds(5, 310, 84, 16);
-		contentPanel.add(lblGrandTotal);
-		
-		JLabel lblItems = new JLabel("Items:");
-		lblItems.setBounds(5, 84, 66, 16);
-		contentPanel.add(lblItems);
-		
-		JLabel lblMemberId = new JLabel("Member ID:");
-		lblMemberId.setBounds(5, 13, 75, 16);
+		JLabel lblMemberId = new JLabel("Member ID");
+		lblMemberId.setBounds(16, 85, 117, 16);
 		contentPanel.add(lblMemberId);
 		
-		JLabel lblPublic = new JLabel("PUBLIC");
-		lblPublic.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblPublic.setBounds(80, 13, 75, 16);
-		contentPanel.add(lblPublic);
-		
-		JCheckBox memberCheckBox = new JCheckBox("Member");
-		memberCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		memberCheckBox.setBounds(297, 229, 75, 25);
-		contentPanel.add(memberCheckBox);
-		
-		memberCheckBox.addActionListener(new ActionListener() {
+		redeemCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//on check, need to prompt Transaction Member screen
 				
-				if(memberCheckBox.isSelected())
+				if(redeemCheckBox.isSelected())
 				{
 					//prompt 2nd screen that allow the store keeper to add the Memebr ID
 					//in the 2nd screen once the Member ID is added, show the member's information
 					//the member can select if they wanted to use the Points to deduct
-					lblPublic.setText("memberID");
+					//lblPublic.setText("memberID");
 				}
-				else
-					lblPublic.setText("PUBLIC");
+				else;
+					//lblPublic.setText("PUBLIC");
 			}
 		});
 		
@@ -158,6 +128,4 @@ public class TransactionMemberDialog extends JDialog {
 	{
 		return memberID;
 	}
-
-	
 }

@@ -1,6 +1,10 @@
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.*;
+
+import sg.edu.nus.iss.universitysouvenirstore.Member;
 
 public class Transaction {
 
@@ -10,7 +14,7 @@ public class Transaction {
 	
 	//private Member member = new Member();
 	
-	Transaction(){
+	public Transaction(){
 		
 		//transactionCount = GetTransactionCount();
 		transactionCount = 5;		
@@ -38,9 +42,9 @@ public class Transaction {
 		//get from Product's method
 	}
 	
-	public void AddTransactionItem (){
-		String productID = null;
-		int quantity = 0;
+	public void AddTransactionItem (String productID, int quantity){
+		//String productID = null;
+		//int quantity = 0;
 		
 		//take in productID and quantity
 		//check it exist
@@ -49,9 +53,16 @@ public class Transaction {
 		items.add(new TransactionedItem(productID, quantity));
 	}
 	
+	/*
 	public ArrayList<TransactionedItem> GetTransactionItems(){
 		return items;		
 	}
+	*/
+	public ArrayList<TransactionedItem> GetTransactionItems() {
+	    	ArrayList<TransactionedItem> result = new ArrayList<TransactionedItem>(items);
+	        //Collections.sort (result);
+	        return (result);
+	    }
 	
 	public void RemoveTransactionItem(int productID){
 		items.remove(productID);

@@ -9,6 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -16,28 +17,30 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionPanel;
 import sg.edu.nus.iss.universitysouvenirstore.*;
-
 
 import java.awt.Font;
 import javax.swing.JCheckBox;
 
 public class TransactionDialog extends JDialog {
+	//private TransactionPanel transactionPanel = new TransactionPanel (manager);
 	
 	private String memberID = null;
 	private int discount = 0;
 	private float total = 0;
-	private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
-	private TransactionMemberDialog transactionMemberDialog = new TransactionMemberDialog();
-
+	//private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
+	private Transaction items = new Transaction();
+	private Member member = new Member();
 	private final JPanel contentPanel = new JPanel();
-
+	int numItems = 0;
 	/**
 	 * Create the dialog.
 	 */
@@ -75,7 +78,7 @@ public class TransactionDialog extends JDialog {
 		contentPanel.add(editBtn);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 345, 432, 35);
+		panel.setBounds(0, 353, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
@@ -144,7 +147,7 @@ public class TransactionDialog extends JDialog {
 				if(memberCheckBox.isSelected())
 				{
 					
-					TransactionMemberDialog memberInfo = new TransactionMemberDialog();
+					TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
 					memberInfo.setTitle("New Product");
 					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					memberInfo.setEnabled(true);
@@ -158,7 +161,20 @@ public class TransactionDialog extends JDialog {
 					lblPublic.setText("PUBLIC");
 			}
 		});
-		
-
 	}
+	
+	public ArrayList<TransactionedItem> GetTransactionedItems(){
+		return items.GetTransactionItems();
+	}
+
+	public JFrame getMainWindow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    
+    public void AddTransactionedItem(String productID, int quantity)
+    {
+    	items.AddTransactionItem(productID, quantity);
+    }
 }
