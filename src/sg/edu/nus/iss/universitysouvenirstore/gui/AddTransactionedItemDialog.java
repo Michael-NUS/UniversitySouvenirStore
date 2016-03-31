@@ -14,7 +14,7 @@ public class AddTransactionedItemDialog extends OkCancelDialog {
     private JTextField productIDField;
 
     public AddTransactionedItemDialog (TransactionDialog manager) {
-        super (manager.getMainWindow(), "Add Member"); //??
+        super (null); //??
         this.manager = manager;
     }
 
@@ -37,7 +37,7 @@ public class AddTransactionedItemDialog extends OkCancelDialog {
             return false;
         }
 
-        manager.AddTransactionedItem(productID, quantity);
+        //manager.AddTransactionedItem(productID, quantity);
         return true;
     }
 
