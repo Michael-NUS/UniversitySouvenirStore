@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.*;
 
-import sg.edu.nus.iss.universitysouvenirstore.Member;
+import sg.edu.nus.iss.universitysouvenirstore.*;
 
 public class Transaction {
 

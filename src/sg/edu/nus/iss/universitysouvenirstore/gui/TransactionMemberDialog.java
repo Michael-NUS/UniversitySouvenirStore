@@ -39,7 +39,8 @@ public class TransactionMemberDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public TransactionMemberDialog(Member member) {		
+	//public TransactionMemberDialog(Member member) {		
+	public TransactionMemberDialog() {		
 		setTitle("Transaction");
 		setBounds(100, 100, 450, 427);
 		getContentPane().setLayout(new BorderLayout());

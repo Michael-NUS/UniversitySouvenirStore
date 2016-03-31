@@ -38,7 +38,7 @@ public class TransactionDialog extends JDialog {
 	private float total = 0;
 	//private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
 	private Transaction items = new Transaction();
-	private Member member = new Member();
+	//private Member member = new Member();
 	private final JPanel contentPanel = new JPanel();
 	int numItems = 0;
 	/**
@@ -147,7 +147,8 @@ public class TransactionDialog extends JDialog {
 				if(memberCheckBox.isSelected())
 				{
 					
-					TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
+					//TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
+					TransactionMemberDialog memberInfo = new TransactionMemberDialog();
 					memberInfo.setTitle("New Product");
 					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					memberInfo.setEnabled(true);
