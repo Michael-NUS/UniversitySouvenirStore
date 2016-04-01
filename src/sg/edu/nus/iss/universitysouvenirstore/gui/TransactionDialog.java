@@ -16,8 +16,12 @@ import sg.edu.nus.iss.universitysouvenirstore.*;
 import java.awt.Font;
 
 import javax.swing.border.EmptyBorder;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class TransactionDialog extends JFrame implements ActionListener {
+public class TransactionDialog extends JFrame{
 	
 	private TransactionItemDialog transactionItemDialog;	
 	private Transaction transaction = new Transaction();
@@ -74,6 +78,8 @@ public class TransactionDialog extends JFrame implements ActionListener {
 
 				//Edit
 				transactionItemDialog.setEditCase(false);
+				transactionItemDialog.setDeleteCase(false);
+				transactionItemDialog.Refresh();
 				//transactionItemDialog.dataInit();
 			}
 			
@@ -82,6 +88,27 @@ public class TransactionDialog extends JFrame implements ActionListener {
 		contentPanel.add(button);
 		
 		JButton editBtn = new JButton("Edit Item");
+		editBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				transactionItemDialog.setTitle("New Item");
+				transactionItemDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				transactionItemDialog.setEnabled(true);
+				transactionItemDialog.setVisible(true);
+				transactionItemDialog.setCurProduct(null);
+
+				//Edit
+				transactionItemDialog.setEditCase(true);
+				transactionItemDialog.setDeleteCase(false);				
+				transactionItemDialog.Refresh();
+				
+				if(jlist.getSelectedItem() != null)
+				{
+					transactionItemDialog.EditItem(jlist.getSelectedItem());
+					//transactionItemDialog.dataInit();
+				}
+				
+			}
+		});
 		editBtn.setBounds(297, 143, 127, 37);
 		contentPanel.add(editBtn);
 		
@@ -93,6 +120,27 @@ public class TransactionDialog extends JFrame implements ActionListener {
 		JButton checkOutButton = new JButton("Check Out");	
 		
 		JButton removeButton = new JButton("Remove Item");		
+		removeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				transactionItemDialog.setTitle("New Item");
+				transactionItemDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				transactionItemDialog.setEnabled(true);
+				transactionItemDialog.setVisible(true);
+				transactionItemDialog.setCurProduct(null);
+
+				//Edit
+				transactionItemDialog.setEditCase(false);
+				transactionItemDialog.setDeleteCase(true);
+				transactionItemDialog.Refresh();
+				
+				if(jlist.getSelectedItem() != null)
+				{
+					transactionItemDialog.EditItem(jlist.getSelectedItem());
+					//transactionItemDialog.dataInit();
+				}
+			}
+		});
 		removeButton.setEnabled(false);
 		
 		removeButton.setBounds(297, 184, 127, 37);
@@ -105,11 +153,22 @@ public class TransactionDialog extends JFrame implements ActionListener {
 		panel.add(checkOutButton);
 		
 		JButton button_3 = new JButton("Cancel");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        setVisible (false);
+		        dispose();
+			}
+		});
 		button_3.setActionCommand("Cancel");
 		panel.add(button_3);
 		
-
-		
+		jlist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				removeButton.setEnabled(true);
+				editBtn.setEnabled(true);
+			}
+		});
 		//Member Checkbox
 		JCheckBox memberCheckBox = new JCheckBox("Member");
 		memberCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -180,13 +239,7 @@ public class TransactionDialog extends JFrame implements ActionListener {
         return this;
     }
     
-    public void AddTransactionedItem(String productID, int quantity)
-    {
-    	transaction.AddTransactionItem(productID, quantity);
-    	this.refresh();
-    	
-    }
-    
+
     public void refresh(){
     	items = GetTransactionedItems();
     	jlist.removeAll();
@@ -200,10 +253,25 @@ public class TransactionDialog extends JFrame implements ActionListener {
 	public ArrayList<TransactionedItem> GetTransactionedItems(){
 		return transaction.GetTransactionItems();
 	}
+	
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void AddTransactionedItem(String productID, int quantity)
+    {
+    	transaction.AddTransactionItem(productID, quantity);
+    	this.refresh();    	
+    }
+    
+    public void EditTransactionedItem(String productID, int quantity)
+    {
+    	transaction.EditTransactionItem(productID, quantity);
+    	//System.out.println(productID + " <-TranscationDialog.EditTransactionedItem-> " + quantity); //debug
+    	this.refresh();    	
+    }
+    
+    public void RemoveTransactionedItem(String productID)
+    {
+    	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
+    	transaction.RemoveTransactionItem(productID);
+    	this.refresh();
+    }
 }

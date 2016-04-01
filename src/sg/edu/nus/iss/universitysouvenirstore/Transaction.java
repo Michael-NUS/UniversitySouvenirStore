@@ -53,6 +53,27 @@ public class Transaction {
 		items.add(new TransactionedItem(productID, quantity));
 	}
 	
+	public void EditTransactionItem (String productID, int quantity)
+	{
+		int counter = 0;
+		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID+"|"); //debug
+		
+		while (counter < items.size())
+		{
+			//System.out.println("items.get(counter).GetProductID()" + items.get(counter).GetProductID()+" compare " + productID ); //debug
+
+			if(items.get(counter).GetProductID().equalsIgnoreCase(productID))
+			{
+				items.get(counter).UpdateQuantity(quantity);
+				System.out.println("New quantity" + items.get(counter).GetProductQuantity());
+			}
+			else
+				System.out.println("nope");
+			
+			counter ++;		
+		}
+	}
+	
 	/*
 	public ArrayList<TransactionedItem> GetTransactionItems(){
 		return items;		
@@ -64,20 +85,31 @@ public class Transaction {
 	        return (result);
 	    }
 	
-	public void RemoveTransactionItem(int productID){
-		items.remove(productID);
+	public void RemoveTransactionItem(String productID){
+		
+		
+		int counter = 0;
+		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID); //debug
+		
+		while (counter < items.size())
+		{
+			//System.out.println("items.get(counter).GetProductID()" + items.get(counter).GetProductID()+" compare " + productID ); //debug
+
+			if(items.get(counter).GetProductID().equalsIgnoreCase(productID))
+			{
+				items.remove(counter);
+			}
+			else
+				System.out.println("nope");
+			
+			counter ++;		
+		}
 	}
 	
 	public void CancelTransaction(){
 		
 	}
 	
-	public void UpdateInventory(TransactionedItem item){
-		item.GetProductID();
-		item.GetProductQuantity();
-		//update the product's array list;
-		
-	}
 	
 	public float GetHighestDiscount(){
 		float highestDiscount = 0;
@@ -102,9 +134,6 @@ public class Transaction {
 		
 		//successful transaction
 		//update the Member Point
-		for (TransactionedItem item:items){
-			UpdateInventory(item);
-		}
 		
 		//write into the products.dat
 		//call Product's Update (arraylist product);
