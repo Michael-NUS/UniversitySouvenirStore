@@ -22,5 +22,10 @@ public class TransactionedItem {
 	public int GetProductQuantity(){
 		return productQty;
 	}
+
+	@Override
+	public String toString() {
+		return productID + " * " + productQty;
+	}
 	
 }
