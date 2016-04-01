@@ -121,6 +121,8 @@ public class TransactionItemDialog extends JDialog {
 					lblNewLabel_1.setText(txtQuantity.getText());
 					transactionDialog.AddTransactionedItem(productName, availableQuantity);
 					
+					txtProductName.setText("");
+					txtQuantity.setText("");
 					//Double price = Double.valueOf(txtPrice.getText());
 					//String barCodeNumber = lblBarCode.getText();
 					//Integer reorderQuantity =Integer.valueOf(txtReorderQuantity.getText());
