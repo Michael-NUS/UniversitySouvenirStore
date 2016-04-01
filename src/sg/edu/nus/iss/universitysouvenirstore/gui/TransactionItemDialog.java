@@ -24,11 +24,20 @@ public class TransactionItemDialog extends JDialog {
 	private JTextField txtProductName;
 	private JTextField txtQuantity;
 	private String title;
-	private boolean isEditCase = false; 
+	private boolean isEditCase = false;
+	private boolean isDeleteCase = false;
 	private Product curProduct = null;
 	private JButton okButton = null;
 	private ArrayList<Product> products =null;
 	private TransactionDialog transactionDialog;
+	
+	
+	JPanel buttonPane = new JPanel();
+	JButton cancelButton = new JButton("Cancel");
+	
+	//JLabel lblNewLabel = new JLabel("New label");
+	//JLabel lblNewLabel_1 = new JLabel("New label");
+
 
 	public Product getCurProduct() {
 		return curProduct;
@@ -62,11 +71,20 @@ public class TransactionItemDialog extends JDialog {
 		this.title = title;
 	}
 
+	
+
 	/**
 	 * Create the dialog.
 	 * @param transactionDialog 
 	 */
 	public TransactionItemDialog(TransactionDialog transactionDialog) {
+		//lblNewLabel.setBounds(74, 152, 56, 16); //label debug
+		//contentPanel.add(lblNewLabel);//label debug
+
+		//lblNewLabel_1.setBounds(74, 170, 56, 16);//label debug
+		//contentPanel.add(lblNewLabel_1);//label debug
+		
+		
 		this.transactionDialog = transactionDialog;
 		// contentPanel.setBackground(new Color(244, 164, 96));
 		setTitle(title);
@@ -95,60 +113,124 @@ public class TransactionItemDialog extends JDialog {
 		contentPanel.add(txtQuantity);
 		txtQuantity.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(74, 152, 56, 16);
-		contentPanel.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(74, 170, 56, 16);
-		contentPanel.add(lblNewLabel_1);
 
-		JPanel buttonPane = new JPanel();
+
+
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		{
-			okButton = new JButton();
-			okButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-					//String categoryId=lblProductId.getText();
-					
-					String productName= txtProductName.getText();
-					
-					int availableQuantity = Integer.valueOf(txtQuantity.getText());
-					
-					lblNewLabel.setText(txtProductName.getText());
-					lblNewLabel_1.setText(txtQuantity.getText());
+		
+		okButton = new JButton();
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//String categoryId=lblProductId.getText();
+				
+				String productName= txtProductName.getText();
+				
+				int availableQuantity = Integer.valueOf(txtQuantity.getText());
+				
+				//lblNewLabel.setText(txtProductName.getText()); //debug
+				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
+				
+				if(!isEditCase && !isDeleteCase)
 					transactionDialog.AddTransactionedItem(productName, availableQuantity);
-					
-					txtProductName.setText("");
-					txtQuantity.setText("");
-					//Double price = Double.valueOf(txtPrice.getText());
-					//String barCodeNumber = lblBarCode.getText();
-					//Integer reorderQuantity =Integer.valueOf(txtReorderQuantity.getText());
-					//String vendorId = comboBoxVendor.getSelectedItem().toString();
-					
-					/*
-					if(isEditCase == true){
-						ProductUtils.editProduct(curProduct, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity,vendorId);
-					}else{
-						ProductUtils.addNewProduct(products, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
-					}
-					
-					*/
-					
-					
+				
+				else if(isEditCase && !isDeleteCase)
+				{
+					transactionDialog.EditTransactionedItem(productName, availableQuantity);	
+			        setVisible (false);
+			        dispose();
 				}
-			});
-			
-			buttonPane.add(okButton);
-			getRootPane().setDefaultButton(okButton);
+				
+				else
+				{
+					transactionDialog.RemoveTransactionedItem(productName);	
+			        setVisible (false);
+			        dispose();
+				}
+				
+				txtProductName.setText("");
+				txtQuantity.setText("");
+				//Double price = Double.valueOf(txtPrice.getText());
+				//String barCodeNumber = lblBarCode.getText();
+				//Integer reorderQuantity =Integer.valueOf(txtReorderQuantity.getText());
+				//String vendorId = comboBoxVendor.getSelectedItem().toString();
+				
+				/*
+				if(isEditCase == true){
+					ProductUtils.editProduct(curProduct, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity,vendorId);
+				}else{
+					ProductUtils.addNewProduct(products, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
+				}
+				
+				*/
+				
+				
+			}
+		});
+		
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		
+		//Cancel Button
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+	}
+	
+	public void Refresh()
+	{		
+		if(isEditCase == true){
+			okButton.setText("Save");
 		}
-		{
-			JButton cancelButton = new JButton("Cancel");
-			cancelButton.setActionCommand("Cancel");
-			buttonPane.add(cancelButton);
+		else if(!isEditCase && !isDeleteCase){
+			okButton.setText("Add New");
 		}
+		else{
+			okButton.setText("Delete");			
+		}
+		
+		txtProductName.setEnabled(true);
+		txtQuantity.setEnabled(true);
+		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        setVisible (false);
+		        dispose();
+			}
+		});
 
+	}
+	
+	public void EditItem(String item)
+	{
+		int counter = 0;
+		String productID = "";
+		int quantity = 0;
+
+	      for (String retval: item.split(" ")){
+	    	 if(counter == 0)
+	    		 productID = retval;
+	    	 
+	    	 if(counter == 2)
+	    		 quantity = Integer.parseInt(retval);
+	    	 
+	    	 counter++;
+	      }
+	      
+		   //System.out.println("ProductID:" + productID + "Quantity:" + quantity ); //debug
+		
+		   txtProductName.setText(productID);
+		   txtQuantity.setText(Integer.toString(quantity));
+		   
+		   txtProductName.setEnabled(false);
+		   txtQuantity.setEnabled(true);
+		   
+		   if(isDeleteCase)
+			   txtQuantity.setEnabled(false);
+
+		   
+	}
+
+	public void setDeleteCase(boolean b) {
+		isDeleteCase = b;
 	}
 }

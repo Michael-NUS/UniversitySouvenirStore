@@ -11,7 +11,7 @@ public class TransactionedItem {
 	
 	public boolean UpdateQuantity(int qty)
 	{
-		
+		this.productQty = qty;		
 		return true;
 	}
 	
