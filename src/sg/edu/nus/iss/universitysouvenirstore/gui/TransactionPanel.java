@@ -14,9 +14,9 @@ public class TransactionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private TransactionDialog        manager;
+	private TransactionDialog       manager ;//= new TransactionDialog() ;
     private List<TransactionedItem> members;
-    private java.awt.List          memberList;
+    private java.awt.List           memberList;
     
 	//private final JPanel contentPanel = new JPanel();
 	//private JTextField textField;
@@ -87,7 +87,7 @@ public class TransactionPanel extends JPanel {
         b = new JButton ("Edit Quantity");
         b.addActionListener (new ActionListener () {
             public void actionPerformed (ActionEvent e) {
-                manager.editSelectedItem();
+                //manager.editSelectedItem();
             }
         });
         
@@ -96,7 +96,7 @@ public class TransactionPanel extends JPanel {
         b = new JButton ("Remove");
         b.addActionListener (new ActionListener () {
             public void actionPerformed (ActionEvent e) {
-                manager.removeSelectedItem();
+                //manager.removeSelectedItem();
             }
         });
         

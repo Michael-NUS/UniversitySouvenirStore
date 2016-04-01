@@ -30,6 +30,10 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class StoreKeeperInfoUpdate extends JFrame {
 
@@ -43,6 +47,8 @@ public class StoreKeeperInfoUpdate extends JFrame {
 	public UserStatusMessage userstatusmessagedialog = new UserStatusMessage();
 	public SelectionAlert selectionalertdialog = new SelectionAlert();
 	public RegistrationStatus registrationstatusdialog = new RegistrationStatus("");
+	
+	private Storekeeper storekeeperNameList = new Storekeeper();
 	
 	/**
 	 * Create the frame.
@@ -94,6 +100,8 @@ public class StoreKeeperInfoUpdate extends JFrame {
 		lblRetypePassword.setForeground(new Color(0, 0, 128));
 		lblRetypePassword.setBounds(10, 138, 123, 28);
 		contentPane.add(lblRetypePassword);
+		
+	    /*****************************************************/
 			
 		JRadioButton rdbtnAdd = new JRadioButton("Add");
 		rdbtnAdd.setBackground(new Color(205, 92, 92));
@@ -123,6 +131,8 @@ public class StoreKeeperInfoUpdate extends JFrame {
 				passwordFieldRetype.setVisible(true);	
 				passwordFieldRetype.setText("");/* Clear */
 				
+				//comboBox.setVisible(false);/* Hide when "add" is selected. */
+				
 			}		
 		});
 		
@@ -139,13 +149,15 @@ public class StoreKeeperInfoUpdate extends JFrame {
 				lblRetypePassword.setVisible(false);
 				passwordFieldRetype.setVisible(false);
 				passwordFieldRetype.setText("");/* Clear */
+				
+				//comboBox.setVisible(true);/* Show when "remove" is selected. */
 			}			
 		});
 						
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.setBounds(162, 180, 129, 35);		
 		contentPane.add(btnConfirm);
-		
+					
 		btnConfirm.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg2) {
