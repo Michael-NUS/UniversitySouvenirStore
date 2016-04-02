@@ -19,8 +19,8 @@ public class FileManangerUtils {
 		File dataFile = null;
 		if(type.toString().contains("Product")){
 			filePath +="/Products.dat";
-			dataFile = new File(filePath);
 		}
+		dataFile = new File(filePath);
 		BufferedWriter bw = null;
 		
 		 try{
@@ -32,11 +32,8 @@ public class FileManangerUtils {
 					Product item = (Product) one;
 					bw.write(item.getProductId() + "," + item.getProductName() + "," + item.getBriefDescription() + ","
 							+ item.getAvailableQuantity() + "," + item.getPrice() + "," + item.getBarCodeNumber() + ","
-							+ item.getReorderQuantity() + "," + 0
-							+ "\r\n");/*
-										 * Replace with text entered from
-										 * textField.
-										 */
+							+ item.getReorderLevel() + "," + item.getReorderQuantity() + "\r\n");
+								
 				}
 			}
 			 bw.flush();	  
@@ -79,9 +76,8 @@ public class FileManangerUtils {
 				String []data= line.split(",");
 				if (type.toString().contains("Product")) {
 					if(data.length == 8 ){
-						String [] tmp = data[0].split("/");
-						
-						Product one = new Product(data[0],data[1],data[2],Integer.valueOf(data[3]), Double.valueOf(data[4]), data[5],Integer.valueOf(data[6]),tmp[0] ,null);
+						String [] tmp = data[0].trim().split("/");
+						Product one = new Product(data[0].trim(),data[1].trim(),data[2].trim(),Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),Integer.valueOf(data[6].trim()),tmp[0].trim() ,Integer.valueOf(data[7].trim()));
 						dataList.add((Object) one);
 					}
 				}

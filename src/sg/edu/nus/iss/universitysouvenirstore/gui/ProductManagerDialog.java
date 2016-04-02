@@ -36,6 +36,7 @@ public class ProductManagerDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private ProductInfoDialog productInfoDialog = new ProductInfoDialog();
+	private ProductReorderDialog productRorderDialog = new ProductReorderDialog();
 	private Map<String, ArrayList<Product>> productList = new HashMap<String, ArrayList<Product>>();
 	private ArrayList<Product> allProducts = new ArrayList<Product>();
 	private String curCategoryType = "";
@@ -50,7 +51,7 @@ public class ProductManagerDialog extends JDialog {
 		// contentPanel.setBackground(new Color(244, 164, 96));
 	
 		setTitle("Product manager");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 462, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,7 +84,7 @@ public class ProductManagerDialog extends JDialog {
 
 			}
 		});
-		btnAddNewProduct.setBounds(297, 10, 127, 37);
+		btnAddNewProduct.setBounds(297, 10, 139, 37);
 		contentPanel.add(btnAddNewProduct);
 
 		JButton btnEditProduct = new JButton("Edit Product");
@@ -107,7 +108,7 @@ public class ProductManagerDialog extends JDialog {
 
 			}
 		});
-		btnEditProduct.setBounds(297, 56, 127, 37);
+		btnEditProduct.setBounds(297, 56, 139, 37);
 		contentPanel.add(btnEditProduct);
 
 		JButton btnRemove = new JButton("Remove Product");
@@ -136,7 +137,7 @@ public class ProductManagerDialog extends JDialog {
 
 			}
 		});
-		btnRemove.setBounds(297, 103, 127, 37);
+		btnRemove.setBounds(297, 103, 139, 37);
 		contentPanel.add(btnRemove);
 
 		categoryList = new JComboBox<String>();
@@ -161,9 +162,32 @@ public class ProductManagerDialog extends JDialog {
 		jlist.setModel(productmodel);
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		JButton btnProductReorder = new JButton("Product Reorder");
+		btnProductReorder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Product> ReorderProductList= ProductUtils.getReorderProductList(products);
+				if(ReorderProductList.size()>0){
+					productRorderDialog.setAllProducts(allProducts);
+					productRorderDialog.setReorderProductList(ReorderProductList);
+					productRorderDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					productRorderDialog.setEnabled(true);
+					productRorderDialog.setVisible(true);
+					productRorderDialog.dataInit();
+				}else{
+					//show message that it don't have 
+				}
+
+				
+			}
+		});
+		btnProductReorder.setBounds(297, 152, 139, 37);
+		contentPanel.add(btnProductReorder);
+		
 		if (!products.isEmpty()) {
 			for (Product one : products) {
-				productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+				if(one.getAvailableQuantity()>-1){
+					productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+				}
 			}
 		}
 		curCategoryType = "All";
@@ -180,7 +204,9 @@ public class ProductManagerDialog extends JDialog {
 					productmodel.removeAllElements();
 					if (!products.isEmpty()) {
 						for (Product one : products) {
-							productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+							if(one.getAvailableQuantity()>-1){
+								productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+							}
 						}
 					}
 				}
@@ -194,15 +220,10 @@ public class ProductManagerDialog extends JDialog {
 
 	private void dataInit(ArrayList<Product> products) {
 		productList.clear();
-
 		productList.put("All", products);
 		allProducts = products;
-		
-		
 		// get the category list from category;
 		String[] category = { "CLO", "MUG", "STA" };
-		
-		
 		for (String one : category) {
 			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one);
 			if (!products.isEmpty()) {
@@ -216,7 +237,9 @@ public class ProductManagerDialog extends JDialog {
 		productmodel.removeAllElements();
 		if (!products.isEmpty()) {
 			for (Product one : products) {
-				productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+				if(one.getAvailableQuantity()>-1){
+					productmodel.addElement(one.getProductId() + "-" + one.getProductName());
+				}
 			}
 		}
 		FileManangerUtils.saveDataToDatFile(Product.class, allProducts);
