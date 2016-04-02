@@ -122,7 +122,23 @@ public class ProductUtils {
 		
 		return product;
 	}
+	public static Product getProductByName(ArrayList<Product> products, String productName){
+		Product product = null;
+		for(Product one : products){
+			if(one.getProductName().equals(productName)){
+				product = one;
+				break;
+			}
+		}
+		
+		return product;
+	}
 	
+	
+	public static boolean  updateTransctionQuantity(ArrayList<TransactionedItem> items){
+		
+		return false ;
+	}
 	public static boolean removeProduct(ArrayList<Product> products, String productId){
 		boolean status = false;
 		Product item =null;
