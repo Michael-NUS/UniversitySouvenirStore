@@ -118,22 +118,35 @@ public class TransactionItemDialog extends JDialog {
 
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		
+		products = ProductUtils.getAllProducts();
 		okButton = new JButton();
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//String categoryId=lblProductId.getText();
+				String productName = null;
+				int availableQuantity = 0;
 				
-				String productName= txtProductName.getText();
 				
-				int availableQuantity = Integer.valueOf(txtQuantity.getText());
-				
+				if(txtProductName.getText() != null && txtQuantity.getText() != null)
+				{
+					productName = txtProductName.getText();				
+					availableQuantity = Integer.valueOf(txtQuantity.getText());
+				}
+				else;
+					//throw InvalidInput("Missing Product ID and/or Quantity")
 				//lblNewLabel.setText(txtProductName.getText()); //debug
 				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
 				
 				if(!isEditCase && !isDeleteCase)
-					transactionDialog.AddTransactionedItem(productName, availableQuantity);
-				
+				{
+					
+					Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
+					
+					if (individualProduct != null)
+						transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+					
+					else;//prompt an error message
+				}
 				else if(isEditCase && !isDeleteCase)
 				{
 					transactionDialog.EditTransactionedItem(productName, availableQuantity);	

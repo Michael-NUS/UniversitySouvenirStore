@@ -3,15 +3,18 @@ package sg.edu.nus.iss.universitysouvenirstore;
 public class TransactionedItem {
 	private String productID;
 	private int productQty;
+	private double price;
 	
-	public TransactionedItem(String id, int qty){
+	public TransactionedItem(String id, int qty, double price){
 		this.productID = id;
 		this.productQty = qty;
+		this.price = price;
 	}
 	
 	public boolean UpdateQuantity(int qty)
 	{
-		this.productQty = qty;		
+		this.productQty = qty;
+		this.price = qty * price;
 		return true;
 	}
 	
@@ -25,7 +28,7 @@ public class TransactionedItem {
 
 	@Override
 	public String toString() {
-		return productID + " * " + productQty;
+		return productID + " * " + productQty + "      " + price;
 	}
 	
 }
