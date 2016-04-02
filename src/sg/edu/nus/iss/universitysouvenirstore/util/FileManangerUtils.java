@@ -30,9 +30,9 @@ public class FileManangerUtils {
 			for (T one : dataList) {
 				if (type.toString().contains("Product")) {
 					Product item = (Product) one;
-					bw.write(item.getProductId() + " " + item.getProductName() + " " + item.getBriefDescription() + " "
-							+ item.getAvailableQuantity() + " " + item.getPrice() + " " + item.getBarCodeNumber() + " "
-							+ item.getReorderQuantity() + " " + 0
+					bw.write(item.getProductId() + "," + item.getProductName() + "," + item.getBriefDescription() + ","
+							+ item.getAvailableQuantity() + "," + item.getPrice() + "," + item.getBarCodeNumber() + ","
+							+ item.getReorderQuantity() + "," + 0
 							+ "\r\n");/*
 										 * Replace with text entered from
 										 * textField.
@@ -80,6 +80,7 @@ public class FileManangerUtils {
 				if (type.toString().contains("Product")) {
 					if(data.length == 8 ){
 						String [] tmp = data[0].split("/");
+						
 						Product one = new Product(data[0],data[1],data[2],Integer.valueOf(data[3]), Double.valueOf(data[4]), data[5],Integer.valueOf(data[6]),tmp[0] ,null);
 						dataList.add((Object) one);
 					}

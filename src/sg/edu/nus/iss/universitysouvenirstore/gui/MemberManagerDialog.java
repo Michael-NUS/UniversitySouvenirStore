@@ -10,10 +10,13 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MemberManagerDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	AddMemberDialog AddMemberDialog = new AddMemberDialog();
 
 	/**
 	 * Create the dialog.
@@ -32,6 +35,20 @@ public class MemberManagerDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						AddMemberDialog.setTitle("New Item");
+						AddMemberDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						AddMemberDialog.setEnabled(true);
+						AddMemberDialog.setVisible(true);
+						AddMemberDialog.setCurProduct(null);
+
+						//Edit
+						AddMemberDialog.setEditCase(false);
+						AddMemberDialog.setDeleteCase(false);
+						AddMemberDialog.Refresh();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
