@@ -31,10 +31,20 @@ public class ProductInfoDialog extends JDialog {
 	private JComboBox<String> comboBoxVendor;
 	private JLabel lblBarCode;
 	private JLabel lblProductId;
-	private boolean isEditCase = false; 
+	private boolean isEditCase = false;
 	private Product curProduct = null;
 	private JButton okButton = null;
-	private ArrayList<Product> products =null;
+	private ArrayList<Product> products = null;
+	private ProductManagerDialog productManagerDialog = null;
+
+
+	public ProductManagerDialog getProductManagerDialog() {
+		return productManagerDialog;
+	}
+
+	public void setProductManagerDialog(ProductManagerDialog productManagerDialog) {
+		this.productManagerDialog = productManagerDialog;
+	}
 
 	public Product getCurProduct() {
 		return curProduct;
@@ -165,23 +175,42 @@ public class ProductInfoDialog extends JDialog {
 			okButton = new JButton();
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String categoryId=lblProductId.getText();
-					String productName= txtProductName.getText();
-					String briefDescription=txtBrief.getText();
-					Integer availableQuantity = Integer.valueOf(txtQuantity.getText());
-					Double price = Double.valueOf(txtPrice.getText());
+					String productId = lblProductId.getText();
+					String productName = txtProductName.getText();
+					String briefDescription = txtBrief.getText();
+					Integer availableQuantity = txtQuantity.getText().isEmpty()?0 :Integer.valueOf(txtQuantity.getText());
+					Double price = txtPrice.getText().isEmpty()?0:Double.valueOf(txtPrice.getText());
 					String barCodeNumber = lblBarCode.getText();
-					Integer reorderQuantity =Integer.valueOf(txtReorderQuantity.getText());
-					String vendorId = comboBoxVendor.getSelectedItem().toString();
-					if(isEditCase == true){
-						ProductUtils.editProduct(curProduct, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity,vendorId);
-					}else{
-						ProductUtils.addNewProduct(products, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
-					}
+					Integer reorderQuantity = txtReorderQuantity.getText().isEmpty()?0:Integer.valueOf(txtReorderQuantity.getText());
+					String vendorId = comboBoxVendor.getSelectedItem()==null?"" :comboBoxVendor.getSelectedItem().toString();
 					
+					// need to check integer, double type
+					if (productId.isEmpty() || productName.isEmpty() || barCodeNumber.isEmpty()||barCodeNumber.isEmpty() ||vendorId .isEmpty()||reorderQuantity<=0|| availableQuantity<=0 || price<=0 ){
+						return;
+					}
+					int status =0;
+					if (isEditCase == true) {
+						status = ProductUtils.editProduct(curProduct, productId, productName, briefDescription,
+								availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
+					} else {
+						status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
+								availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
+						
+					}
+					if(status == 0){
+						// dialog show success
+						
+						// update the productManager
+						productManagerDialog.updateItSelf();
+						dispose();
+						
+					}else {
+						//dialog show fail
+					}
+
 				}
 			});
-			
+
 			buttonPane.add(okButton);
 			getRootPane().setDefaultButton(okButton);
 		}
@@ -195,7 +224,7 @@ public class ProductInfoDialog extends JDialog {
 
 	public void dataInit() {
 		// data init
-		String[] categeoryList = { "lin1", "lin2", "lin3" };
+		String[] categeoryList = { "CLO", "MUG", "STA" };
 		comboBoxCategory.removeAllItems();
 		for (String one : categeoryList) {
 			comboBoxCategory.addItem(one);
@@ -228,17 +257,17 @@ public class ProductInfoDialog extends JDialog {
 		} else {
 			comboBoxCategory.setSelectedIndex(0);
 			comboBoxVendor.setSelectedIndex(0);
-			lblProductId.setText("");
-			lblBarCode.setText("");
+			lblProductId.setText(ProductUtils.productIdGenerator(comboBoxCategory.getSelectedItem().toString()));
+			lblBarCode.setText(ProductUtils.barCodeGenerator(comboBoxCategory.getSelectedItem().toString()));
 			txtProductName.setText("");
 			txtPrice.setText("");
 			txtBrief.setText("");
 			txtQuantity.setText("");
 			txtReorderQuantity.setText("");
 		}
-		if(isEditCase == true){
+		if (isEditCase == true) {
 			okButton.setText("Save");
-		}else{
+		} else {
 			okButton.setText("Add New");
 		}
 	}

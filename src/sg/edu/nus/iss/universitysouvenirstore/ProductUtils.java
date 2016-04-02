@@ -1,21 +1,52 @@
+/**
+ * linwei
+ */
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
 
+import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
+
 public class ProductUtils {
 	
 	   
-	public static void addNewProduct(ArrayList<Product> products, String categoryId, String productName, String briefDesc, int availableQuantity, double price, String barCodeNumber, int reOrderQuantity , String vendorId){
-		String productId = categoryId + "/" + "12";	 // get sizeof content in the category 	
-		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price, barCodeNumber, reOrderQuantity, categoryId,vendorId) ;
-		products.add(product);
+	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price, String barCodeNumber, int reOrderQuantity , String vendorId){
+		String []temp = productId.split("/");
+		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price, barCodeNumber, reOrderQuantity, temp[0],vendorId) ;
+		int status = checkExistOfProduct(products, product);
+		if(status ==0){
+			products.add(product);
+		}
+		return status;
+	}
+	public static int checkExistOfProduct(ArrayList<Product> products, Product checkProduct){
+		int status =0;
+		for(Product one :products ){
+			if(one.getProductId().equals(checkProduct.getProductId())) {
+				status=-1;
+				break;
+			}
+			else if(one.getProductName().equals(checkProduct.getProductName())){
+				status=-2;
+				break;
+			}	
+		}
+		return status;
 	}
 	public static void removeProduct(ArrayList<Product> products, Product product){
 		products.remove(product);	
 	}
-	public static void editProduct(Product original,String categoryId, String productName, String briefDescription, Integer availableQuantity, Double price, String barCodeNumber, Integer reorderQuantity, String vendorId){
-		if(categoryId!=null){
-			String productId = categoryId +"/" +"12"; //need to get the actual id from the category
+	public static String productIdGenerator(String categoryId){
+		return categoryId + "/" + "12";
+	}
+
+	public static String barCodeGenerator(String categoryId){
+		return categoryId + "/" + "12";
+	}
+		
+	public static int editProduct(Product original,String productId, String productName, String briefDescription, Integer availableQuantity, Double price, String barCodeNumber, Integer reorderQuantity, String vendorId){
+		
+		if(productId!=null){
 			original.setProductId(productId);
 		}
 		if(productName!=null){
@@ -39,50 +70,35 @@ public class ProductUtils {
 		if(vendorId!= null){
 			original.setVendorId(vendorId);
 		}
-		
+		return 0;
 	}
 	public static ArrayList<Product> readExistingProductFromDB(){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from the io
-		
-		products.add(new Product("qwe1", "product1", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe2", "product2", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe3", "product3", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe4", "product4", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe5", "product5", "buythings", 0, 0, null, 0, null, null));
-		
+		ArrayList<Object>  objects= FileManangerUtils.readDataFromDatFile(Product.class);
+		for(Object one: objects){
+			products.add((Product)one);
+		}
+
 		return products;
 	}
 	public static ArrayList<Product> getAllProducts(){
 		return readExistingProductFromDB();
 	}
-	public static ArrayList<Product> getProductsForCategory(String categoryId){
+	public static ArrayList<Product> getProductsForCategory(ArrayList<Product> allProducts,String categoryId){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from categoryu
-		
-		if(categoryId.equals("lin1")){
-		products.add(new Product("qwe1", "product1", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe2", "product2", "buythings", 0, 0, null, 0, null, null));
-		}
-		else if(categoryId.equals("lin2")){
-		products.add(new Product("qwe3", "product3", "buythings", 0, 0, null, 0, null, null));
-		products.add(new Product("qwe4", "product4", "buythings", 0, 0, null, 0, null, null));
-		}
-		else{
-		products.add(new Product("qwe5", "product5", "buythings", 0, 0, null, 0, null, null));
+		for(Product one : allProducts){
+			if(one.getCategoryId().equals(categoryId)){
+				products.add(one);
+			}
 		}
 		
 		return products;
 		
 	}
-	public static void saveProductToDB(Product product){
-		// get the IO for product saving 
-	}
-	public static void saveProductsToDB(ArrayList<Product> products){
-		for(Product one: products){
-			saveProductToDB(one);
-		}
-	}
+
+
 	
 	public static void checkProductQuantity(Product product){
 		
@@ -107,8 +123,19 @@ public class ProductUtils {
 		return product;
 	}
 	
-	public static boolean removeProductFromCategory(String categoryId, String productId){
-		boolean status = true;
+	public static boolean removeProduct(ArrayList<Product> products, String productId){
+		boolean status = false;
+		Product item =null;
+		for(Product one : products){
+			if(one.getProductId().equals(productId)){
+				item = one;
+				break;
+			}
+		}
+		if(item!=null){
+			products.remove(item);
+			status = true;
+		}
 		return status;
 	}
 	

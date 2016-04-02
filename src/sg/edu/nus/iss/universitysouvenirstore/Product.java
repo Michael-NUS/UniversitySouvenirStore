@@ -1,3 +1,6 @@
+/**
+ * linwei
+ */
 package sg.edu.nus.iss.universitysouvenirstore;
 
 public class Product {
@@ -14,8 +17,8 @@ public class Product {
 	
 	
 	
-	public Product(String productId, String productName, String briefDescription, int availableQuantity, double price,
-			String barCodeNumber, int reorderQuantity, String categoryId, String vendorId) {
+	public Product(String productId, String productName, String briefDescription, Integer availableQuantity, double price,
+			String barCodeNumber, Integer reorderQuantity, String categoryId, String vendorId) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
