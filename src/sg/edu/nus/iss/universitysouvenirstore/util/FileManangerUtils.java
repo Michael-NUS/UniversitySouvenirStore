@@ -94,4 +94,70 @@ public class FileManangerUtils {
 		}
 		return dataList;
 	}
+
+	public static ArrayList<Object> ReadDataFromDatFile(String strFileName, String strFileType){
+		ArrayList <Object> dataList = new ArrayList<Object>();
+		String filePath = "";
+		File dataFile = null;
+		try{
+			filePath ="./data/sg/edu/nus/iss/universitysouvenirstore/data/"; //to put under config
+			if(!strFileName.isEmpty()){
+				filePath += strFileName + ".dat";
+				dataFile = new File(filePath);
+				if(dataFile.exists() && !dataFile.isDirectory()) { 
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if((br != null) && (br.lines() != null) && (br.lines().count() > 0)){
+						// read lines
+						while ((line = br.readLine()) != null) {
+							String []data= line.split(",");
+							intFileColumnCount = data.length;
+							if (intFileColumnCount > 0) {
+								switch (strFileType.toLowerCase()){
+									case "product": 
+										if(intFileColumnCount != 8){
+											// throw 'invalid product file format' exception
+										}
+										break;
+									case "transaction": 
+										if(intFileColumnCount != 4){
+											// throw 'invalid transaction file format' exception
+										}
+										break;
+									default:
+										// throw 'invalid file type or file format' exception
+										break;
+								}
+								dataList.add(data);
+								break;
+							}
+							else{
+								// throw 'invalid file format' exception
+							}
+						}
+					}
+					else{
+						// throw 'empty file' exception
+					}
+					
+				br.close();
+			}
+			else{
+				// throw 'file/directory not exist' exception
+			}
+		}
+		else{
+			// throw 'Invalid file name' exception
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			// Do garbage collection
+		}
+		return dataList;
+	}
 }
