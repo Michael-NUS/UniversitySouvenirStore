@@ -12,6 +12,7 @@ import java.util.*;
 import javax.swing.*;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
+import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 
 import java.awt.Font;
 
@@ -255,15 +256,41 @@ public class TransactionDialog extends JFrame{
 	}
 	
 
-    public void AddTransactionedItem(String productID, int quantity)
+    public void AddTransactionedItem(String productID, int quantity, double price)
     {
-    	transaction.AddTransactionItem(productID, quantity);
-    	this.refresh();    	
+    	boolean conflict = false;
+    		
+    	conflict = transaction.ConflictItem(productID);
+    	if (!conflict)
+    	{
+	    	price = price * quantity;
+	    	
+	    	transaction.AddTransactionItem(productID, quantity, price);
+	    	this.refresh();    	
+    	}
+    	else
+    	{
+            String title = "Duplicate Item";
+            //String msg = "Do you really want to remove product " + productInfo[1] + " ?";
+            String msg = "Do you want to Delete " + productID + "?";
+            
+            ConfirmDialog d = new ConfirmDialog (null, title, msg) {
+
+    			protected boolean performOkAction () {
+    				//ProductUtils.removeProduct(allProducts, productInfo[0]);
+    				//updateItSelf();
+    				transaction.RemoveTransactionItem(productID);
+    		    	refresh();
+                    return true;
+    			}  
+            }; 
+    	}
     }
     
     public void EditTransactionedItem(String productID, int quantity)
     {
     	transaction.EditTransactionItem(productID, quantity);
+    	
     	//System.out.println(productID + " <-TranscationDialog.EditTransactionedItem-> " + quantity); //debug
     	this.refresh();    	
     }
@@ -271,7 +298,28 @@ public class TransactionDialog extends JFrame{
     public void RemoveTransactionedItem(String productID)
     {
     	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
-    	transaction.RemoveTransactionItem(productID);
-    	this.refresh();
+
+
+        String title = "Remove Product";
+        //String msg = "Do you really want to remove product " + productInfo[1] + " ?";
+        String msg = "Do you want to Delete " + productID + "?";
+        
+        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
+
+			protected boolean performOkAction () {
+				//ProductUtils.removeProduct(allProducts, productInfo[0]);
+				//updateItSelf();
+				transaction.RemoveTransactionItem(productID);
+				
+				//removeButton.setEnabled(false);
+				//editBtn.setEnabled(false);
+		    	refresh();
+                return true;
+			}  
+        }; 
+        d.pack();
+        d.setVisible(true);
+
+
     }
 }

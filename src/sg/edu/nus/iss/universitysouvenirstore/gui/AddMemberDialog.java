@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 
-public class TransactionItemDialog extends JDialog {
+public class AddMemberDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
@@ -77,7 +77,7 @@ public class TransactionItemDialog extends JDialog {
 	 * Create the dialog.
 	 * @param transactionDialog 
 	 */
-	public TransactionItemDialog(TransactionDialog transactionDialog) {
+	public AddMemberDialog() {
 		//lblNewLabel.setBounds(74, 152, 56, 16); //label debug
 		//contentPanel.add(lblNewLabel);//label debug
 
@@ -125,8 +125,6 @@ public class TransactionItemDialog extends JDialog {
 				//String categoryId=lblProductId.getText();
 				String productName = null;
 				int availableQuantity = 0;
-				
-				
 				if(txtProductName.getText() != null && txtQuantity.getText() != null)
 				{
 					productName = txtProductName.getText();				

@@ -1,10 +1,16 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
+import sg.edu.nus.iss.universitysouvenirstore.gui.*;
+import sg.edu.nus.iss.universitysouvenirstore.Transaction;
 import sg.edu.nus.iss.universitysouvenirstore.util.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
-public class AddTransactionedItemDialog extends OkCancelDialog {
+public class AddTransactionedItemDialog extends JDialog {
+
+
 
 	private static final long serialVersionUID = 1L;
 	
@@ -13,12 +19,14 @@ public class AddTransactionedItemDialog extends OkCancelDialog {
 
     private JTextField productIDField;
 
+
+
     public AddTransactionedItemDialog (TransactionDialog manager) {
-        super (null); //??
         this.manager = manager;
     }
 
-    protected JPanel createFormPanel () {
+
+	protected JPanel createFormPanel () {
         JPanel p = new JPanel ();
         p.setLayout (new GridLayout (0, 2));
         p.add (new JLabel ("ProductID"));

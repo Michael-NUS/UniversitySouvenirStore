@@ -42,7 +42,7 @@ public class Transaction {
 		//get from Product's method
 	}
 	
-	public void AddTransactionItem (String productID, int quantity){
+	public void AddTransactionItem (String productID, int quantity, double price){
 		//String productID = null;
 		//int quantity = 0;
 		
@@ -50,7 +50,7 @@ public class Transaction {
 		//check it exist
 		
 		//add the item
-		items.add(new TransactionedItem(productID, quantity));
+		items.add(new TransactionedItem(productID, quantity, price));
 	}
 	
 	public void EditTransactionItem (String productID, int quantity)
@@ -138,8 +138,22 @@ public class Transaction {
 		//write into the products.dat
 		//call Product's Update (arraylist product);
 		
+		ProductUtils.updateTransctionQuantity(items);
+		
 		//write to Transaction.dat
 		return amountPaid;
+	}
+	
+	public boolean ConflictItem(String productID)
+	{
+		boolean conflict = false;
+		
+		for(TransactionedItem item:items)
+		{
+			if(item.GetProductID().equals(productID))
+				conflict = true;
+		}
+		return conflict;
 	}
 	
 }
