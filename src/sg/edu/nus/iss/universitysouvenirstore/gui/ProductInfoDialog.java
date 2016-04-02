@@ -20,6 +20,10 @@ import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 
 public class ProductInfoDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
 	private JTextField txtPrice;

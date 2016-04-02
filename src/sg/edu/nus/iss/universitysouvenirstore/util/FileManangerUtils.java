@@ -1,6 +1,4 @@
-/**
- * linwei
- */
+
 package sg.edu.nus.iss.universitysouvenirstore.util;
 
 import java.io.BufferedReader;

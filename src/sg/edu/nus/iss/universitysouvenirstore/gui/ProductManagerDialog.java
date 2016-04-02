@@ -5,7 +5,6 @@ package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
@@ -30,10 +30,12 @@ import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
-import javax.swing.JScrollPane;
-
 public class ProductManagerDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private ProductInfoDialog productInfoDialog = new ProductInfoDialog();
 	private ProductReorderDialog productRorderDialog = new ProductReorderDialog();

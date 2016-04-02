@@ -21,7 +21,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
-import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
