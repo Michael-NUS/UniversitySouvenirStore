@@ -21,17 +21,22 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class TransactionDialog extends JFrame{
 	
 	private TransactionItemDialog transactionItemDialog;	
 	private Transaction transaction = new Transaction();
-	
+	private boolean cashback = false;
 	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
+    float grandTotal;
+    private boolean isMember = false;
+	int memberCashback;
 	
 	TransactionMemberDialog memberInfo;
 	
-	private String memberID = null;
+	private String memberID = "PUBLIC";
 	private int memberPoint = 0;
 	
 	private int discount = 0;
@@ -50,8 +55,10 @@ public class TransactionDialog extends JFrame{
 	JLabel deductPointLbl = new JLabel("");
 	JLabel discountLbl = new JLabel("");		
 	JLabel grandTotalLbl = new JLabel("");	
+	JLabel lblPublic = new JLabel("PUBLIC");
 	//private TransactionPanel transactionPanel = new TransactionPanel (this);
-	
+	//Member Checkbox
+	JCheckBox memberCheckBox = new JCheckBox("Member");
 	//JList<String> jlist = new JList<String>();
 	
 	private java.awt.List jlist;
@@ -162,7 +169,7 @@ public class TransactionDialog extends JFrame{
 		
 		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
 		checkOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 				transaction.CheckOut();
 			}
 		});
@@ -188,8 +195,8 @@ public class TransactionDialog extends JFrame{
 				editBtn.setEnabled(true);
 			}
 		});
-		//Member Checkbox
-		JCheckBox memberCheckBox = new JCheckBox("Member");
+
+
 		memberCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		memberCheckBox.setBounds(297, 229, 75, 25);
 		contentPanel.add(memberCheckBox);
@@ -197,12 +204,8 @@ public class TransactionDialog extends JFrame{
 		memberCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//on check, need to prompt Transaction Member screen
-				
-				if(memberCheckBox.isSelected())
-				{
-					
+				if(memberCheckBox.isSelected()){					
 					//TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
-
 					memberInfo.setTitle("Member");
 					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					memberInfo.setEnabled(true);
@@ -212,8 +215,17 @@ public class TransactionDialog extends JFrame{
 					//the member can select if they wanted to use the Points to deduct
 					//lblPublic.setText(memberInfo.GetMemberID());					
 				}
-				else;
-					//lblPublic.setText("PUBLIC");
+				else
+				{
+					lblPublic.setText("PUBLIC");
+					memberID = "PUBLIC";
+					memberPoint = 0;
+					isMember = false;
+					System.out.println("Uncheck");
+					refresh();
+				}
+				
+
 			}
 		});
 	}
@@ -244,7 +256,7 @@ public class TransactionDialog extends JFrame{
 		lblMemberId.setBounds(5, 13, 75, 16);
 		contentPanel.add(lblMemberId);
 		
-		JLabel lblPublic = new JLabel("PUBLIC");
+
 		lblPublic.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblPublic.setBounds(80, 13, 75, 16);
 		contentPanel.add(lblPublic);
@@ -277,14 +289,35 @@ public class TransactionDialog extends JFrame{
     public void refresh(){
     	items = GetTransactionedItems();
     	jlist.removeAll();
+
+    	
     	
         Iterator<TransactionedItem> i = items.iterator();
         while (i.hasNext()) {
         	jlist.add (i.next().toString());
         }    	
         
-        subTotalLbl.setText("$" + transaction.GetTotalPrice());
+        String tempSubTotal = String.format("%.2f", transaction.GetTotalPrice());
+        subTotalLbl.setText("$" + tempSubTotal);
+        lblPublic.setText(memberID);
         
+        if(cashback && isMember)
+        {
+        	memberCashback = memberPoint/100;
+           // String tempCashBack = String.format("%.2f", memberCashback);
+        	deductPointLbl.setText("$" + memberCashback);
+        }
+        else
+        {
+        	memberCashback = 0;
+        	deductPointLbl.setText("N/A");      	
+        }
+
+        
+
+        grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));        
+        String tempGrandtotal = String.format("%.2f", grandTotal);
+        grandTotalLbl.setText("$" + tempGrandtotal);
     }    
     
 	public ArrayList<TransactionedItem> GetTransactionedItems(){
@@ -348,4 +381,26 @@ public class TransactionDialog extends JFrame{
     public void SetMemberPoint(int points){
     	memberPoint = points;
     }
+    
+    public void SetMemberID(String memberID){
+    	this.memberID=memberID;
+    	isMember = true;
+    	transaction.SetMember(memberID);
+    	refresh();
+    }
+    
+
+	public void OptCashBack(boolean opt)
+	{
+		cashback = opt;
+		refresh();
+	}
+	
+	public void isMemberToogle ()
+	{
+		if(memberCheckBox.isSelected())
+			isMember = true;
+		else
+			isMember = false;
+	}
 }
