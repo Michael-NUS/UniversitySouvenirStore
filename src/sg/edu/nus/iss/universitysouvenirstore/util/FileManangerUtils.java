@@ -41,8 +41,9 @@ public class FileManangerUtils {
 				}
 
 				else if (type.toString().contains("Member")) {
-					Member member = (Member) one;
-					bw.write(member.getMemberID() + "," + member.getMemberName() + "," + member.getLoyaltyPoint()
+					Member tmpMember = (Member) one;
+					bw.write(tmpMember.getMemberID() + "," + tmpMember.getMemberName() + ","
+							+ tmpMember.getLoyaltyPoint()
 							+ "\r\n");/*
 										 * Replace with text entered from
 										 * textField.
@@ -71,33 +72,43 @@ public class FileManangerUtils {
 		return false;
 	}
 
-	public static ArrayList<Object> readDataFromDatFile( Object type){
-		ArrayList <Object> dataList = new ArrayList<Object>();
-		String filePath ="./data/sg/edu/nus/iss/universitysouvenirstore/data";
+	public static ArrayList<Object> readDataFromDatFile(Object type) {
+		ArrayList<Object> dataList = new ArrayList<Object>();
+		String filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data";
 		File dataFile = null;
 
-		if(type.toString().contains("Product")){
-			filePath +="/Products.dat";
-			
-		}else if(type.toString().contains("Transaction")){
-			filePath +="/Transactions.dat";
+		if (type.toString().contains("Product")) {
+			filePath += "/Products.dat";
+
+		} else if (type.toString().contains("Transaction")) {
+			filePath += "/Transactions.dat";
+		} else if (type.toString().contains("Member")) {
+			filePath += "/Members.dat";
 		}
+
 		dataFile = new File(filePath);
 		// read each line
 		String line = "";
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
 			while ((line = br.readLine()) != null) {
-				String []data= line.split(",");
+				String[] data = line.split(",");
 				if (type.toString().contains("Product")) {
-					if(data.length == 8 ){
-						String [] tmp = data[0].trim().split("/");
-						Product one = new Product(data[0].trim(),data[1].trim(),data[2].trim(),Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),Integer.valueOf(data[6].trim()),tmp[0].trim() ,Integer.valueOf(data[7].trim()));
+					if (data.length == 8) {
+						String[] tmp = data[0].trim().split("/");
+						Product one = new Product(data[0].trim(), data[1].trim(), data[2].trim(),
+								Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),
+								Integer.valueOf(data[6].trim()), tmp[0].trim(), Integer.valueOf(data[7].trim()));
 						dataList.add((Object) one);
 					}
-				}else if(type.toString().contains("Transaction")){
-					if(data.length==5){
+				} else if (type.toString().contains("Transaction")) {
+					if (data.length == 5) {
 						dataList.add(data[0]);
+					}
+				} else if (type.toString().contains("Member")) {
+					if (data.length == 3) {
+						Member tmpMember = new Member(data[0], data[1], Integer.valueOf(data[2]));
+						dataList.add(tmpMember);
 					}
 				}
 			}
@@ -110,6 +121,7 @@ public class FileManangerUtils {
 		}
 		return dataList;
 	}
+
 	public static ArrayList<Object> ReadDataFromDatFile(String strFileName, String strFileType) {
 		ArrayList<Object> dataList = new ArrayList<Object>();
 		String filePath = "";
@@ -143,6 +155,12 @@ public class FileManangerUtils {
 								case "transaction":
 									if (intFileColumnCount != 4) {
 										// throw 'invalid transaction file
+										// format' exception
+									}
+									break;
+								case "member":
+									if (intFileColumnCount != 3) {
+										// throw 'invalid member file
 										// format' exception
 									}
 									break;

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class MemberManager {
@@ -17,10 +19,10 @@ public class MemberManager {
 		// Iterator avoids a ConcurrentModificationException,
 		// in case we need to remove entry
 		Iterator it = members.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
-			Member tmpMember = (Member) pair.getValue();
+		for(Entry<String, Member> one: members.entrySet()){
+			memberList.add(one.getValue());
 		}
+		
 		return memberList;
 	}
 
