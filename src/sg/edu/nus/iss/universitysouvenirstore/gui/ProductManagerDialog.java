@@ -26,6 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.Category;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryUtils;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
@@ -229,8 +232,13 @@ public class ProductManagerDialog extends JDialog {
 		productList.put("All", products);
 		allProducts = products;
 		// get the category list from category;
-		String[] category = { "CLO", "MUG", "STA" };
-		for (String one : category) {
+		CategoryVendorMgr mgr = new CategoryVendorMgr();
+		CategoryUtils utils =mgr.getCategoryUtil();
+		ArrayList<Category> categorys = utils.getCategoryList();
+		
+	
+		for (Category category : categorys) {
+			String one = category.getCategoryId();
 			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one);
 			if (!products.isEmpty()) {
 				productList.put(one, items);
