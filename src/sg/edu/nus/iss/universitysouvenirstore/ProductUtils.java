@@ -5,14 +5,17 @@ package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+
+import sg.edu.nus.iss.universitysouvenirstore.gui.ProductReorderDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductUtils {
 	
 	   
-	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price, String barCodeNumber, int reOrderQuantity , String vendorId){
+	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price,  int reorderQuantity, int reorderLevel ){
 		String []temp = productId.split("/");
-		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price, barCodeNumber, reOrderQuantity, temp[0],vendorId) ;
+		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price,  reorderLevel, temp[0],reorderQuantity) ;
 		int status = checkExistOfProduct(products, product);
 		if(status ==0){
 			products.add(product);
@@ -44,7 +47,7 @@ public class ProductUtils {
 		return categoryId + "/" + "12";
 	}
 		
-	public static int editProduct(Product original,String productId, String productName, String briefDescription, Integer availableQuantity, Double price, String barCodeNumber, Integer reorderQuantity, String vendorId){
+	public static int editProduct(Product original,String productId, String productName, String briefDescription, Integer availableQuantity, Double price, Integer reorderLevel, Integer reorderQuantity){
 		
 		if(productId!=null){
 			original.setProductId(productId);
@@ -61,15 +64,14 @@ public class ProductUtils {
 		if(price!=null){
 			original.setPrice(price);
 		}
-		if(barCodeNumber!=null){
-			original.setBarCodeNumber(barCodeNumber);
-		}
+	
 		if(reorderQuantity!=null){
 			original.setReorderQuantity(reorderQuantity);
 		}
-		if(vendorId!= null){
-			original.setVendorId(vendorId);
+		if(reorderLevel!=null){
+			original.setReorderLevel(reorderLevel);
 		}
+	
 		return 0;
 	}
 	public static ArrayList<Product> readExistingProductFromDB(){
@@ -122,35 +124,53 @@ public class ProductUtils {
 		
 		return product;
 	}
-	public static Product getProductByName(ArrayList<Product> products, String productName){
-		Product product = null;
-		for(Product one : products){
-			if(one.getProductName().equals(productName)){
-				product = one;
-				break;
+
+	
+	public static ArrayList<Product> getReorderProductList(ArrayList<Product> products){
+		ArrayList<Product> reorderlist = new ArrayList<Product>();
+		for(Product product: products ){
+			if(product.getAvailableQuantity()< product.getReorderLevel() && product.getAvailableQuantity()>-1){
+				reorderlist.add(product);
 			}
 		}
-		
-		return product;
+		return reorderlist;
 	}
-	
-	
-	public static boolean  updateTransctionQuantity(ArrayList<TransactionedItem> items){
+	public static boolean  updateTransctionQuantity(ArrayList<Product> products,ArrayList<TransactionedItem> items){
+		ArrayList<Product> reOrderProducts= new ArrayList<Product>();
+		for(Product product: products ){
+			for( TransactionedItem item:items){
+				if(item.GetProductID().equals(product.getProductId())){
+					product.updateAvaliableQuantity(item.GetProductQuantity(),1);
+					if(product.getAvailableQuantity()< product.getReorderLevel() && product.getAvailableQuantity()>-1){
+						reOrderProducts.add(product);
+					}
+					break;
+				}
+			}
+		}
+		ProductReorderDialog productRorderDialog = new ProductReorderDialog();
+		if(reOrderProducts.size()>0){
+			productRorderDialog.setReorderProductList(reOrderProducts);
+			productRorderDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			productRorderDialog.setEnabled(true);
+			productRorderDialog.setVisible(true);
+			productRorderDialog.dataInit();
+		}
+		
+		
+		
 		
 		return false ;
 	}
+
 	public static boolean removeProduct(ArrayList<Product> products, String productId){
 		boolean status = false;
-		Product item =null;
 		for(Product one : products){
 			if(one.getProductId().equals(productId)){
-				item = one;
+				one.setAvailableQuantity(-1);
+				status = true;
 				break;
 			}
-		}
-		if(item!=null){
-			products.remove(item);
-			status = true;
 		}
 		return status;
 	}

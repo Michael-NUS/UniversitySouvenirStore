@@ -9,33 +9,47 @@ public class Product {
 	private String briefDescription;
 	private int availableQuantity;
 	private double price;
-	private String barCodeNumber;
+	private int reorderLevel;
 	private int reorderQuantity;
-	private int orderQuantity;
 	private String categoryId;
-	private String vendorId;
+	private int barCodeNumber;
 	
 	
 	
+	
+	
+
 	public Product(String productId, String productName, String briefDescription, Integer availableQuantity, double price,
-			String barCodeNumber, Integer reorderQuantity, String categoryId, String vendorId) {
+			 Integer reorderLevel, String categoryId, Integer reorderQuantity) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
 		this.briefDescription = briefDescription;
 		this.availableQuantity = availableQuantity;
 		this.price = price;
-		this.barCodeNumber = barCodeNumber;
-		this.reorderQuantity = reorderQuantity;
+		this.barCodeNumber = this.productId.hashCode();
+		this.reorderLevel = reorderLevel;
 		this.categoryId = categoryId;
-		this.vendorId = vendorId;
+		this.reorderQuantity = reorderQuantity;
+
 	}
-	public String getVendorId() {
-		return vendorId;
+	
+	public int getReorderQuantity() {
+		return reorderQuantity;
 	}
-	public void setVendorId(String vendorId) {
-		this.vendorId = vendorId;
+
+	public void setReorderQuantity(int reorderQuantity) {
+		this.reorderQuantity = reorderQuantity;
 	}
+
+	public int getBarCodeNumber() {
+		return barCodeNumber;
+	}
+
+	public void setBarCodeNumber(int barCodeNumber) {
+		this.barCodeNumber = barCodeNumber;
+	}
+
 	public String getProductId() {
 		return productId;
 	}
@@ -63,6 +77,14 @@ public class Product {
 	public int getAvailableQuantity() {
 		return availableQuantity;
 	}
+	public int getReorderLevel() {
+		return reorderLevel;
+	}
+
+	public void setReorderLevel(int reorderLevel) {
+		this.reorderLevel = reorderLevel;
+	}
+
 	public void setAvailableQuantity(int availableQuantity) {
 		this.availableQuantity = availableQuantity;
 	}
@@ -72,27 +94,17 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public String getBarCodeNumber() {
-		return barCodeNumber;
+
+	public void updateAvaliableQuantity(int quantity, int type){
+		if(type==1){
+			this.availableQuantity -= quantity;
+		}else if (type ==2){
+			this.availableQuantity += quantity;
+		}else if(type ==0){
+			this.availableQuantity = quantity;
+		}
 	}
-	public void setBarCodeNumber(String barCodeNumber) {
-		this.barCodeNumber = barCodeNumber;
-	}
-	public int getReorderQuantity() {
-		return reorderQuantity;
-	}
-	public void setReorderQuantity(int reorderQuantity) {
-		this.reorderQuantity = reorderQuantity;
-	}
-	public int getOrderQuantity() {
-		return orderQuantity;
-	}
-	public void setOrderQuantity(int orderQuantity) {
-		this.orderQuantity = orderQuantity;
-	}
-	public void updateProduct(){
-		
-	}
+	
 
 }
 

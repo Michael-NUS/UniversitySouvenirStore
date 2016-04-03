@@ -137,8 +137,8 @@ public class Transaction {
 		
 		//write into the products.dat
 		//call Product's Update (arraylist product);
-		
-		ProductUtils.updateTransctionQuantity(items);
+		ArrayList<Product> products = ProductUtils.getAllProducts();
+		ProductUtils.updateTransctionQuantity(products,items);
 		
 		//write to Transaction.dat
 		return amountPaid;

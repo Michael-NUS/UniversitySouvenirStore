@@ -1,6 +1,4 @@
-/**
- * linwei
- */
+
 package sg.edu.nus.iss.universitysouvenirstore.util;
 
 import java.io.BufferedReader;
@@ -19,8 +17,8 @@ public class FileManangerUtils {
 		File dataFile = null;
 		if(type.toString().contains("Product")){
 			filePath +="/Products.dat";
-			dataFile = new File(filePath);
 		}
+		dataFile = new File(filePath);
 		BufferedWriter bw = null;
 		
 		 try{
@@ -32,11 +30,8 @@ public class FileManangerUtils {
 					Product item = (Product) one;
 					bw.write(item.getProductId() + "," + item.getProductName() + "," + item.getBriefDescription() + ","
 							+ item.getAvailableQuantity() + "," + item.getPrice() + "," + item.getBarCodeNumber() + ","
-							+ item.getReorderQuantity() + "," + 0
-							+ "\r\n");/*
-										 * Replace with text entered from
-										 * textField.
-										 */
+							+ item.getReorderLevel() + "," + item.getReorderQuantity() + "\r\n");
+								
 				}
 			}
 			 bw.flush();	  
@@ -79,9 +74,8 @@ public class FileManangerUtils {
 				String []data= line.split(",");
 				if (type.toString().contains("Product")) {
 					if(data.length == 8 ){
-						String [] tmp = data[0].split("/");
-						
-						Product one = new Product(data[0],data[1],data[2],Integer.valueOf(data[3]), Double.valueOf(data[4]), data[5],Integer.valueOf(data[6]),tmp[0] ,null);
+						String [] tmp = data[0].trim().split("/");
+						Product one = new Product(data[0].trim(),data[1].trim(),data[2].trim(),Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),Integer.valueOf(data[6].trim()),tmp[0].trim() ,Integer.valueOf(data[7].trim()));
 						dataList.add((Object) one);
 					}
 				}
@@ -92,6 +86,72 @@ public class FileManangerUtils {
 
 			e.printStackTrace();
 			return null;
+		}
+		return dataList;
+	}
+
+	public static ArrayList<Object> ReadDataFromDatFile(String strFileName, String strFileType){
+		ArrayList <Object> dataList = new ArrayList<Object>();
+		String filePath = "";
+		File dataFile = null;
+		try{
+			filePath ="./data/sg/edu/nus/iss/universitysouvenirstore/data/"; //to put under config
+			if(!strFileName.isEmpty()){
+				filePath += strFileName + ".dat";
+				dataFile = new File(filePath);
+				if(dataFile.exists() && !dataFile.isDirectory()) { 
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if((br != null) && (br.lines() != null) && (br.lines().count() > 0)){
+						// read lines
+						while ((line = br.readLine()) != null) {
+							String []data= line.split(",");
+							intFileColumnCount = data.length;
+							if (intFileColumnCount > 0) {
+								switch (strFileType.toLowerCase()){
+									case "product": 
+										if(intFileColumnCount != 8){
+											// throw 'invalid product file format' exception
+										}
+										break;
+									case "transaction": 
+										if(intFileColumnCount != 4){
+											// throw 'invalid transaction file format' exception
+										}
+										break;
+									default:
+										// throw 'invalid file type or file format' exception
+										break;
+								}
+								dataList.add(data);
+								break;
+							}
+							else{
+								// throw 'invalid file format' exception
+							}
+						}
+					}
+					else{
+						// throw 'empty file' exception
+					}
+					
+				br.close();
+			}
+			else{
+				// throw 'file/directory not exist' exception
+			}
+		}
+		else{
+			// throw 'Invalid file name' exception
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			// Do garbage collection
 		}
 		return dataList;
 	}
