@@ -36,12 +36,14 @@ public class TransactionMemberDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-	/**
-	 * Create the dialog.
-	 */
+	TransactionDialog transactionDialog;
+
+	
 	//public TransactionMemberDialog(Member member) {		
-	public TransactionMemberDialog() {		
-		setTitle("Transaction");
+	public TransactionMemberDialog(TransactionDialog transactionDialog) {	
+		this.transactionDialog = transactionDialog;
+		
+		setTitle("Member Info");
 		setBounds(100, 100, 450, 427);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
@@ -56,7 +58,7 @@ public class TransactionMemberDialog extends JDialog {
 				
 			}
 		});
-		btnRetrieveMember.setBounds(220, 101, 115, 20);
+		btnRetrieveMember.setBounds(220, 101, 143, 20);
 		contentPanel.add(btnRetrieveMember);
 		
 		//label for static text display		
@@ -83,11 +85,16 @@ public class TransactionMemberDialog extends JDialog {
 		textField.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 353, 434, 35);
+		panel.setBounds(0, 345, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		JButton btnDone = new JButton("Done");
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//redeemCheckBox.isSelected();
+			}
+		});
 		btnDone.setEnabled(false);
 		
 		btnDone.setActionCommand("Check Out");
