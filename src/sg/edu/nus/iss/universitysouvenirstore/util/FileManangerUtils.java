@@ -71,39 +71,34 @@ public class FileManangerUtils {
 		return false;
 	}
 
-	public static ArrayList<Object> readDataFromDatFile(Object type) {
-		ArrayList<Object> dataList = new ArrayList<Object>();
-		String filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data";
+	public static ArrayList<Object> readDataFromDatFile( Object type){
+		ArrayList <Object> dataList = new ArrayList<Object>();
+		String filePath ="./data/sg/edu/nus/iss/universitysouvenirstore/data";
 		File dataFile = null;
 
-		if (type.toString().contains("Product")) {
-			filePath += "/Products.dat";
-			dataFile = new File(filePath);
+		if(type.toString().contains("Product")){
+			filePath +="/Products.dat";
+			
+		}else if(type.toString().contains("Transaction")){
+			filePath +="/Transactions.dat";
 		}
-
-		else if (type.toString().contains("Member")) {
-			filePath += "/Members.dat";
-			dataFile = new File(filePath);
-		}
-
+		dataFile = new File(filePath);
 		// read each line
 		String line = "";
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
 			while ((line = br.readLine()) != null) {
-				String[] data = line.split(",");
+				String []data= line.split(",");
 				if (type.toString().contains("Product")) {
-					if (data.length == 8) {
-						String[] tmp = data[0].trim().split("/");
-						Product one = new Product(data[0].trim(), data[1].trim(), data[2].trim(),
-								Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),
-								Integer.valueOf(data[6].trim()), tmp[0].trim(), Integer.valueOf(data[7].trim()));
+					if(data.length == 8 ){
+						String [] tmp = data[0].trim().split("/");
+						Product one = new Product(data[0].trim(),data[1].trim(),data[2].trim(),Integer.valueOf(data[3].trim()), Double.valueOf(data[4].trim()),Integer.valueOf(data[6].trim()),tmp[0].trim() ,Integer.valueOf(data[7].trim()));
 						dataList.add((Object) one);
 					}
-				}
-
-				else if (type.toString().contains("Member")) {
-					Member one = new Member(data[0], data[1], Integer.valueOf(data[3]));
+				}else if(type.toString().contains("Transaction")){
+					if(data.length==5){
+						dataList.add(data[0]);
+					}
 				}
 			}
 			br.close();
@@ -115,7 +110,6 @@ public class FileManangerUtils {
 		}
 		return dataList;
 	}
-
 	public static ArrayList<Object> ReadDataFromDatFile(String strFileName, String strFileType) {
 		ArrayList<Object> dataList = new ArrayList<Object>();
 		String filePath = "";
