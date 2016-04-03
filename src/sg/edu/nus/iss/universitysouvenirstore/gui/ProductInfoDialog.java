@@ -170,26 +170,25 @@ public class ProductInfoDialog extends JDialog {
 		txtReorderQuantity.setColumns(10);
 		txtReorderQuantity.setBounds(328, 70, 66, 21);
 		contentPanel.add(txtReorderQuantity);
-		if (isEditCase == true) {
+	
 
-			comboBoxCategory.addItemListener(new ItemListener() {
+		comboBoxCategory.addItemListener(new ItemListener() {
 
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					// TODO Auto-generated method stub
-					if (e.getStateChange() == ItemEvent.SELECTED) {
-						JComboBox<?> jcb = (JComboBox<?>) e.getSource();
-						String curCategory = (String) jcb.getSelectedItem();
-						if(!curProduct.getCategoryId().equals(curCategory)){
-							String newProductId = ProductUtils.productIdGenerator(curCategory); // get all the category first 
-							lblProductId.setText(newProductId);
-						}
-						
-					}
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					JComboBox<?> jcb = (JComboBox<?>) e.getSource();
+					String curCategory = (String) jcb.getSelectedItem();
+
+					String newProductId = ProductUtils.productIdGenerator(curCategory); 
+					lblProductId.setText(newProductId);
+
 				}
+			}
 
-			});
-		}
+		});
+	
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

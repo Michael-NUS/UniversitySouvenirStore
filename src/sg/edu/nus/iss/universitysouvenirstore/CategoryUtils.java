@@ -60,7 +60,7 @@ public class CategoryUtils {
 		}
 		return resultProduct;
 	}
-	public int getNewProductIdByCategory(String categoryId){
+	public int getLargestNumByCategory(String categoryId){
 		ArrayList<Product> p=this.getProductListByCategory(categoryId);
 		int largest=0;
 		for(Product product:p){
