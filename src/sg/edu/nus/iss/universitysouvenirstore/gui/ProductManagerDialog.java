@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -106,6 +107,8 @@ public class ProductManagerDialog extends JDialog {
 					productInfoDialog.setVisible(true);
 					productInfoDialog.setEditCase(true);
 					productInfoDialog.dataInit();
+				}else{
+					 JOptionPane.showMessageDialog(null, "Please select one product to edit", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			}
@@ -117,9 +120,10 @@ public class ProductManagerDialog extends JDialog {
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String item = jlist.getSelectedValue();
+				if(item== null){
+					JOptionPane.showMessageDialog(null, "Please select one product to edit", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}else{
 				String[] productInfo = item.split("-");
-				
-				
 		        String title = "Remove Product";
 		        String msg = "Do you really want to remove product " + productInfo[1] + " ?";
 		        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
@@ -136,7 +140,7 @@ public class ProductManagerDialog extends JDialog {
 		        };
 		        d.pack();
 		        d.setVisible (true);
-
+				}
 			}
 		});
 		btnRemove.setBounds(297, 103, 139, 37);
@@ -176,7 +180,7 @@ public class ProductManagerDialog extends JDialog {
 					productRorderDialog.setVisible(true);
 					productRorderDialog.dataInit();
 				}else{
-					//show message that it don't have 
+					JOptionPane.showMessageDialog(null, "There is not product need to reorder", "Info", JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				

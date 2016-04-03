@@ -1,3 +1,6 @@
+/**
+ * linwei
+ **/
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.BorderLayout;
@@ -13,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -98,7 +102,7 @@ public class ProductInfoDialog extends JDialog {
 		contentPanel.setLayout(null);
 
 		JLabel lblCategory = new JLabel("Category:");
-		lblCategory.setBounds(208, 10, 73, 27);
+		lblCategory.setBounds(215, 10, 73, 27);
 		contentPanel.add(lblCategory);
 
 		JLabel lblProductName = new JLabel("Product Name:");
@@ -118,7 +122,7 @@ public class ProductInfoDialog extends JDialog {
 		contentPanel.add(lblBriefDescription);
 
 		JLabel lblReorder = new JLabel("Reorder Level:");
-		lblReorder.setBounds(193, 42, 88, 27);
+		lblReorder.setBounds(193, 42, 106, 27);
 		contentPanel.add(lblReorder);
 
 		txtProductName = new JTextField();
@@ -137,7 +141,7 @@ public class ProductInfoDialog extends JDialog {
 		txtQuantity.setColumns(10);
 
 		txtReorderLevel = new JTextField();
-		txtReorderLevel.setBounds(303, 45, 66, 21);
+		txtReorderLevel.setBounds(328, 42, 66, 21);
 		contentPanel.add(txtReorderLevel);
 		txtReorderLevel.setColumns(10);
 
@@ -147,7 +151,7 @@ public class ProductInfoDialog extends JDialog {
 		txtBrief.setColumns(10);
 
 		comboBoxCategory = new JComboBox<String>();
-		comboBoxCategory.setBounds(303, 13, 66, 21);
+		comboBoxCategory.setBounds(328, 13, 66, 21);
 		contentPanel.add(comboBoxCategory);
 
 		JLabel label1 = new JLabel("ProductId:");
@@ -159,12 +163,12 @@ public class ProductInfoDialog extends JDialog {
 		contentPanel.add(lblProductId);
 		
 		JLabel lblReorderQuantity = new JLabel("Reorder Quantity:");
-		lblReorderQuantity.setBounds(193, 73, 88, 27);
+		lblReorderQuantity.setBounds(193, 73, 106, 27);
 		contentPanel.add(lblReorderQuantity);
 		
 		txtReorderQuantity = new JTextField();
 		txtReorderQuantity.setColumns(10);
-		txtReorderQuantity.setBounds(303, 73, 66, 21);
+		txtReorderQuantity.setBounds(328, 70, 66, 21);
 		contentPanel.add(txtReorderQuantity);
 		if (isEditCase == true) {
 
@@ -203,35 +207,45 @@ public class ProductInfoDialog extends JDialog {
 					Integer reorderQuantity= txtReorderQuantity.getText().isEmpty()?0:Integer.valueOf(txtReorderQuantity.getText());
 					// need to check integer, double type
 					if (productId.isEmpty() || productName.isEmpty() || reorderQuantity<=0|| availableQuantity<=0 || price<=0 ){
-						return;
-					}
-					int status =0;
-					if (isEditCase == true) {
-						if(curProduct.getCategoryId().equals(comboBoxCategory.getSelectedItem().toString())){
-							status = ProductUtils.editProduct(curProduct, productId, productName, briefDescription,
-									availableQuantity, price,   reorderLevel ,reorderQuantity);
-						}else{
-							status = ProductUtils.editProduct(curProduct, curProduct.getProductId(), productName, briefDescription,
-									-1, price,   reorderLevel ,reorderQuantity);
+						JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}else{
+						int status = 0;
+						if (isEditCase == true) {
+							if (curProduct.getCategoryId().equals(comboBoxCategory.getSelectedItem().toString())) {
+								status = ProductUtils.editProduct(curProduct, productId, productName, briefDescription,
+										availableQuantity, price, reorderLevel, reorderQuantity);
+							} else {
+								status = ProductUtils.editProduct(curProduct, curProduct.getProductId(), productName,
+										briefDescription, -1, price, reorderLevel, reorderQuantity);
+								status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
+										availableQuantity, price, reorderLevel, reorderQuantity);
+
+							}
+
+						} else {
 							status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
 									availableQuantity, price, reorderLevel, reorderQuantity);
-							
-						}
-						
-					} else {
-						status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
-								availableQuantity, price, reorderLevel, reorderQuantity);
-						
-					}
-					if(status == 0){
-						// update the productManager
-						productManagerDialog.updateItSelf();
-						dispose();
-						
-					}else {
-						//dialog show fail
-					}
 
+						}
+						if (status == 0) {
+							// update the productManager
+							productManagerDialog.updateItSelf();
+							dispose();
+
+						} else {
+							// dialog show fail
+							String error ="";
+							
+							if(status ==-1){
+								error = "product id duplicate";
+							}else{
+								error = "product name duplicate";
+							}
+							JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+
+						}
+
+					}
 				}
 			});
 

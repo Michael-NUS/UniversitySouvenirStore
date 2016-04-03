@@ -24,12 +24,9 @@ public class ProductUtils {
 	}
 	public static int checkExistOfProduct(ArrayList<Product> products, Product checkProduct){
 		int status =0;
-		if(checkProduct.getAvailableQuantity()<0){
-			status = -3;
-			return status;
-		}
+	
 		for(Product one :products ){
-			
+			if(one.getAvailableQuantity()>-1){
 				if(one.getProductId().equals(checkProduct.getProductId())) {
 					status=-1;
 					break;
@@ -38,7 +35,7 @@ public class ProductUtils {
 					status=-2;
 					break;
 				}
-			
+			}
 		}
 		return status;
 	}
