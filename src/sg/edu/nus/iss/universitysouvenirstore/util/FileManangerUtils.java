@@ -83,7 +83,7 @@ public class FileManangerUtils {
 		} else if (type.toString().contains("Transaction")) {
 			filePath += "/Transactions.dat";
 		} else if (type.toString().contains("Member")) {
-			filePath += "/Member.dat";
+			filePath += "/Members.dat";
 		}
 
 		dataFile = new File(filePath);
