@@ -25,10 +25,9 @@ public class MemberManager {
 
 	public static void readExistingMembersFromDB() {
 		clearMembersMap();
-		Member tmpMember = null;
 
 		// get the members from io
-		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(tmpMember);
+		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(Member.class);
 		for (Object one : objects) {
 			members.put(((Member) one).getMemberID(), (Member) one);
 		}
@@ -50,13 +49,12 @@ public class MemberManager {
 	public static boolean addMember(String memberName, String memberID) {
 		readExistingMembersFromDB();
 		if (!checkExistOfMember(memberID)) {
-			Member m = new Member(memberName, memberID);
-			members.put(memberID, m);
-			Member tmpMember = null;
+			Member tmpMember = new Member(memberName, memberID);
+			members.put(memberID, tmpMember);
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(tmpMember, memberList);
+			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
 			return true;
@@ -74,7 +72,7 @@ public class MemberManager {
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(tmpMember, memberList);
+			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
 			return true;
