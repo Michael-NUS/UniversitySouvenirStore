@@ -64,9 +64,9 @@ public class CategoryUtils {
 		ArrayList<Product> p=this.getProductListByCategory(categoryId);
 		int largest=0;
 		for(Product product:p){
-			String splitString=product.getProductId().split("/");
+			String[] splitString=product.getProductId().split("/");
 			int splitProductId=Integer.parseInt(splitString[1]);
-			if(largest=<splitProductId){
+			if(largest<=splitProductId){
 				largest=splitProductId;
 			}
 		}
