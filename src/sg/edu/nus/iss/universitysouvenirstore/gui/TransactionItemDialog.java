@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -128,52 +129,57 @@ public class TransactionItemDialog extends JDialog {
 				int availableQuantity = 0;
 				
 				
-				if(txtProductName.getText() != null && txtQuantity.getText() != null) //empty input throw exception
+				if(!txtProductName.getText().equals("") && !txtQuantity.getText().equals("")) //empty input throw exception
 				{
 					productName = txtProductName.getText();				
 					availableQuantity = Integer.valueOf(txtQuantity.getText());
-				}
-				else;
-				//throw InvalidInput("Missing Product ID and/or Quantity")
-				//lblNewLabel.setText(txtProductName.getText()); //debug
-				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
-				
-				if(!isEditCase && !isDeleteCase)
-				{
 					
-					Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
-					
-					if (individualProduct != null)
-						transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+					if(!isEditCase && !isDeleteCase)
+					{
+						
+						Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
+						
+						if (individualProduct != null)
+							transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+						
+						else
+						{				        
+							String error ="";
+							error = "Invalid ProductID, please insert the correct ID";
+							JOptionPane.showMessageDialog(null,error, "Invalid ProductID", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else if(isEditCase && !isDeleteCase)
+					{
+						transactionDialog.EditTransactionedItem(productName, availableQuantity);	
+				        setVisible (false);
+				        dispose();
+					}
 					
 					else
 					{
-						String title = "Invalid ProductID";
-				        String msg = "Invalid ProductID, please insert the correct ID";
-				        
-				        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-				        	
-							protected boolean performOkAction () {
-				                return true;
-							}  
-				        };
-				        d.pack();
-				        d.setVisible(true);
+						transactionDialog.RemoveTransactionedItem(productName);	
+				        setVisible (false);
+				        dispose();
 					}
 				}
-				else if(isEditCase && !isDeleteCase)
-				{
-					transactionDialog.EditTransactionedItem(productName, availableQuantity);	
-			        setVisible (false);
-			        dispose();
-				}
-				
 				else
 				{
-					transactionDialog.RemoveTransactionedItem(productName);	
-			        setVisible (false);
-			        dispose();
+					String error ="";
+					
+					if(txtProductName.getText().equals("") && txtQuantity.getText().equals(""))
+						error = "Missing Product ID AND Quantity";
+					else if(txtQuantity.getText().equals(""))
+						error = "Missing Quantity";
+					else if(txtProductName.getText().equals(""))
+						error = "Missing Product ID";
+					//error = "Missing ProductID or Quantity";
+					JOptionPane.showMessageDialog(null,error, "Missing Fields", JOptionPane.INFORMATION_MESSAGE);
 				}
+				//lblNewLabel.setText(txtProductName.getText()); //debug
+				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
+				
+				
 				
 				txtProductName.setText("");
 				txtQuantity.setText("");

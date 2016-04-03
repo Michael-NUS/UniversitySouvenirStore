@@ -161,7 +161,12 @@ public class TransactionDialog extends JFrame{
 		contentPanel.add(removeButton);
 		
 		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
-		checkOutButton.setEnabled(false); //when no item in the list, Check Out button is disabled		
+		checkOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				transaction.CheckOut();
+			}
+		});
+		checkOutButton.setEnabled(true); //when no item in the list, Check Out button is disabled		
 		
 		checkOutButton.setActionCommand("Check Out");
 		panel.add(checkOutButton);
@@ -323,14 +328,11 @@ public class TransactionDialog extends JFrame{
 
 
         String title = "Remove Product";
-        //String msg = "Do you really want to remove product " + productInfo[1] + " ?";
         String msg = "Do you want to Delete " + productID + "?";
         
         ConfirmDialog d = new ConfirmDialog (null, title, msg) {
 
 			protected boolean performOkAction () {
-				//ProductUtils.removeProduct(allProducts, productInfo[0]);
-				//updateItSelf();
 				transaction.RemoveTransactionItem(productID);
 				
 				removeButton.setEnabled(false);
@@ -341,7 +343,9 @@ public class TransactionDialog extends JFrame{
         }; 
         d.pack();
         d.setVisible(true);
-
-
+    }
+    
+    public void SetMemberPoint(int points){
+    	memberPoint = points;
     }
 }

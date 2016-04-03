@@ -18,12 +18,13 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
-
+import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 
 import java.awt.Font;
 import javax.swing.JCheckBox;
@@ -32,12 +33,15 @@ import javax.swing.JTextField;
 public class TransactionMemberDialog extends JDialog {
 	
 	private String memberID = null;
-	
+	private int memberPoints = 0;
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField memberField;
 	TransactionDialog transactionDialog;
 
+	JButton btnRetrieveMember = new JButton("Retrieve Member");
+	JLabel memberPoints_lbl = new JLabel("");
+	JLabel cashback_Lbl = new JLabel("");
 	
 	//public TransactionMemberDialog(Member member) {		
 	public TransactionMemberDialog(TransactionDialog transactionDialog) {	
@@ -51,13 +55,44 @@ public class TransactionMemberDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JButton btnRetrieveMember = new JButton("Retrieve Member");
-		btnRetrieveMember.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-			}
-		});
+		
+
+			btnRetrieveMember.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(!memberField.getText().equals("")){
+						if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){
+							memberPoints = MemberManager.getMemberLoyaltyPoint(memberField.getText());
+							memberID = memberField.getText();
+
+							System.out.println("member points: " + memberPoints);
+							Refresh();
+						}
+						//call MemberUtils to get the loyalty point
+						
+						else{
+							String error ="";
+
+							error = "Member ID not found";
+
+							JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else //empty memberID
+					{
+						String error ="";
+
+						error = "Member ID field Empty";
+
+						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+					
+				}
+			});
+		//}
+		
+
+
 		btnRetrieveMember.setBounds(220, 101, 143, 20);
 		contentPanel.add(btnRetrieveMember);
 		
@@ -70,19 +105,15 @@ public class TransactionMemberDialog extends JDialog {
 		lblDeductPoints.setBounds(16, 184, 167, 16);
 		contentPanel.add(lblDeductPoints);
 		
-		JLabel lblGrandTotal = new JLabel("Loyalty Points after Redeem");
-		lblGrandTotal.setBounds(16, 226, 167, 16);
-		contentPanel.add(lblGrandTotal);
-		
 		JCheckBox redeemCheckBox = new JCheckBox("Redeem");
 		redeemCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		redeemCheckBox.setBounds(16, 201, 78, 18);
 		contentPanel.add(redeemCheckBox);
 		
-		textField = new JTextField();
-		textField.setBounds(16, 101, 167, 20);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		memberField = new JTextField();
+		memberField.setBounds(16, 101, 167, 20);
+		contentPanel.add(memberField);
+		memberField.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 345, 434, 35);
@@ -92,7 +123,12 @@ public class TransactionMemberDialog extends JDialog {
 		JButton btnDone = new JButton("Done");
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(redeemCheckBox.isSelected())
+				{
+					transactionDialog.SetMemberPoint(Integer.parseInt(memberPoints_lbl.getText()));
+				}
 				//redeemCheckBox.isSelected();
+				//transaction 
 			}
 		});
 		btnDone.setEnabled(false);
@@ -112,6 +148,14 @@ public class TransactionMemberDialog extends JDialog {
 		JLabel lblMemberId = new JLabel("Member ID");
 		lblMemberId.setBounds(16, 85, 117, 16);
 		contentPanel.add(lblMemberId);
+		
+
+		memberPoints_lbl.setBounds(220, 157, 56, 16);
+		contentPanel.add(memberPoints_lbl);
+		
+
+		cashback_Lbl.setBounds(220, 184, 56, 16);
+		contentPanel.add(cashback_Lbl);
 		
 		redeemCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -135,5 +179,11 @@ public class TransactionMemberDialog extends JDialog {
 	public String GetMemberID ()
 	{
 		return memberID;
+	}
+	
+	public void Refresh(){
+		memberPoints_lbl.setText(String.valueOf(memberPoints));
+		cashback_Lbl.setText("$" + memberPoints/100);
+		//cashback_Lbl.setText();
 	}
 }
