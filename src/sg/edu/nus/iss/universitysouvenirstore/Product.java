@@ -55,6 +55,8 @@ public class Product {
 	}
 	public void setProductId(String productId) {
 		this.productId = productId;
+		this.barCodeNumber = this.productId.hashCode();
+		
 	}
 	public String getCategoryId() {
 		return categoryId;
@@ -103,6 +105,22 @@ public class Product {
 		}else if(type ==0){
 			this.availableQuantity = quantity;
 		}
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Product) {
+			Product c = (Product) o;
+			if (this.productId == c.getProductId() && this.productName == c.getProductName()
+					&& this.briefDescription == c.getBriefDescription()
+					&& this.availableQuantity == c.getAvailableQuantity() && this.price == c.getPrice()
+					&& this.barCodeNumber == c.getBarCodeNumber() && this.reorderLevel == c.getReorderLevel()
+					&& this.categoryId == c.getCategoryId() && this.reorderQuantity == c.getReorderQuantity())
+
+				return true;
+		}
+		return false;
 	}
 	
 

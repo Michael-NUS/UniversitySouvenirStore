@@ -39,9 +39,7 @@ public class ProductUtils {
 		}
 		return status;
 	}
-	public static void removeProduct(ArrayList<Product> products, Product product){
-		products.remove(product);	
-	}
+
 	public static String productIdGenerator(String categoryId){
 		CategoryUtils  utils = new CategoryUtils();
 		int largest = utils.getLargestNumByCategory(categoryId);
