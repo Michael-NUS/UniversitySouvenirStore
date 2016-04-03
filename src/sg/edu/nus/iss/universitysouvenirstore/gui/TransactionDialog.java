@@ -28,8 +28,12 @@ public class TransactionDialog extends JFrame{
 	private Transaction transaction = new Transaction();
 	
 	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
-
+	
+	TransactionMemberDialog memberInfo;
+	
 	private String memberID = null;
+	private int memberPoint = 0;
+	
 	private int discount = 0;
 	private float total = 0;
 	//private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
@@ -55,6 +59,8 @@ public class TransactionDialog extends JFrame{
 	public TransactionDialog() {	
 		
 		transactionItemDialog = new TransactionItemDialog(this);
+		memberInfo = new TransactionMemberDialog(this);
+		
 		setTitle("Transaction");		
 		setBounds(100, 100, 450, 427);
 		getContentPane().setLayout(new BorderLayout());
@@ -191,8 +197,8 @@ public class TransactionDialog extends JFrame{
 				{
 					
 					//TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
-					TransactionMemberDialog memberInfo = new TransactionMemberDialog();
-					memberInfo.setTitle("New Product");
+
+					memberInfo.setTitle("Member");
 					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					memberInfo.setEnabled(true);
 					memberInfo.setVisible(true);

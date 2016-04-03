@@ -2,22 +2,26 @@ package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
+import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class Transaction {
-
-	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
-	private ArrayList<Product> product = new ArrayList<Product>();
 	private int transactionCount = 0;
-	
+	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
+	private String memberID = "PUBLIC";
+	//private ArrayList<Product> product = new ArrayList<Product>();
+
+	private FileManangerUtils fileManager = new FileManangerUtils();
 	//private Member member = new Member();
 	
-	public Transaction(){
-		
-		//transactionCount = GetTransactionCount();
-		transactionCount = 5;		
+	public Transaction(){	
+		System.out.println("Transaction");
+		GetTransactionCount();
+
+		//transactionCount = 5;		
 	}
 	
 	/*
@@ -33,6 +37,13 @@ public class Transaction {
 	public int GetTransactionCount(){
 		int count = 0;
 		
+		//ArrayList<Object> test = fileManager.ReadDataFromDatFile("Transactions", "Transactions");
+		ArrayList<Object> readTransact = fileManager.readDataFromDatFile(Transaction.class);
+		//System.out.println("HERE" + test.size());
+		count = readTransact.size();
+		
+		transactionCount = Integer.parseInt(readTransact.get(count-1).toString());
+		//System.out.println(test.get(count-1).toString());
 		//get latest transaction number by checking the last trasaction.dat's number/count?	
 		
 		return count;
@@ -122,6 +133,13 @@ public class Transaction {
 	public float CheckOut(){
 		float amountPaid = 0;
 		float discount = 0;
+		int conversionRation = 100;
+		
+		//date
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		//System.out.println(sdf.format(date)); //debug
+
 		//Discount class's return the highest discount available
 		discount = GetHighestDiscount();
 	
@@ -135,10 +153,19 @@ public class Transaction {
 		//successful transaction
 		//update the Member Point
 		
-		//write into the products.dat
-		//call Product's Update (arraylist product);
+		//major's update product
 		ArrayList<Product> products = ProductUtils.getAllProducts();
 		ProductUtils.updateTransctionQuantity(products,items);
+		//end of major's update product
+		
+		ArrayList<String>writeToFile = new ArrayList<String>();
+		String line;
+		
+		for (TransactionedItem item:items)
+		{
+			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + sdf);
+		}
+		
 		
 		//write to Transaction.dat
 		return amountPaid;
@@ -188,6 +215,11 @@ public class Transaction {
 			}
 		}
 		return total;
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction [transactionCount=" + transactionCount + ", items=" + items + "]";
 	}
 	
 }

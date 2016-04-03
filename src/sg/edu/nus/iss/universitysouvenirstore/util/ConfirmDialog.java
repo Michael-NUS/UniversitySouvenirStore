@@ -6,11 +6,7 @@ import javax.swing.JPanel;
 
 public abstract class ConfirmDialog extends OkCancelDialog {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JLabel       messageLabel;
+    private JLabel       messageLabel;
 
     public ConfirmDialog (JFrame parent, String title, String message) {
         super (parent, title);
