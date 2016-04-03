@@ -12,6 +12,7 @@ public class Member extends Customer {
 
 	public Member(String memberName, String memberID) {
 		this.type = "M";
+		this.memberName = memberName;
 		this.memberID = memberID;
 		this.loyaltyPoint = -1;
 	}
@@ -19,6 +20,7 @@ public class Member extends Customer {
 	// for manipulating existing members from member.dat
 	public Member(String memberName, String memberID, int loyaltyPoint) {
 		this.type = "M";
+		this.memberName = memberName;
 		this.memberID = memberID;
 		this.loyaltyPoint = loyaltyPoint;
 	}

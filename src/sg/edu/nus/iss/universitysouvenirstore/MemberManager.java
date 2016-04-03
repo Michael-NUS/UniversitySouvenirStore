@@ -15,14 +15,16 @@ public class MemberManager {
 	public static ArrayList<Member> convertToMemberArraylist() {
 		ArrayList<Member> memberList = new ArrayList<Member>();
 
-		
 		// Iterator avoids a ConcurrentModificationException,
 		// in case we need to remove entry
-		Iterator it = members.entrySet().iterator();
-		for(Entry<String, Member> one: members.entrySet()){
-			memberList.add(one.getValue());
+
+		Iterator iterator = members.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry memberEntry = (Map.Entry) iterator.next();
+			memberList.add((Member) memberEntry.getValue());
 		}
-		
+
+
 		return memberList;
 	}
 
@@ -59,10 +61,8 @@ public class MemberManager {
 			memberList.add(tmpMember);
 			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
-			clearMembersMap();
 			return true;
 		} else {
-			clearMembersMap();
 			return false;
 		}
 	}

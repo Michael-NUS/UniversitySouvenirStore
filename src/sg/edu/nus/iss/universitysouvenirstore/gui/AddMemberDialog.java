@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -30,7 +31,6 @@ public class AddMemberDialog extends JDialog {
 	// private boolean isEditCase = false;
 	// private boolean isDeleteCase = false;
 
-	private JButton okButton = null;
 	private Member curMember = null;
 	private ArrayList<Member> members = null;
 	private MemberManagerDialog memberManagerDialog;
@@ -123,10 +123,13 @@ public class AddMemberDialog extends JDialog {
 						members = MemberManager.convertToMemberArraylist();
 						curMember = MemberManager.getMember(memberID);
 						FileManangerUtils.saveDataToDatFile(Member.class, members);
+						String successMsg = "Successfully Registered the New Member!\n";
+						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed", JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						// Member ID already exists! Cannot register the new
-						// member.
-						;
+						// Member ID already exists!
+						String error = "Member ID already exists! Cannot register the member!\n";
+						JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
+						
 					}
 
 				} else {
