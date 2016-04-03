@@ -13,6 +13,7 @@ public class MemberManager {
 	public static ArrayList<Member> convertToMemberArraylist() {
 		ArrayList<Member> memberList = new ArrayList<Member>();
 
+		
 		// Iterator avoids a ConcurrentModificationException,
 		// in case we need to remove entry
 		Iterator it = members.entrySet().iterator();
