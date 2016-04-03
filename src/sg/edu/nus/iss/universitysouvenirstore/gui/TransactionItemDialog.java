@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
+import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 
 public class TransactionItemDialog extends JDialog {
 
@@ -127,13 +128,13 @@ public class TransactionItemDialog extends JDialog {
 				int availableQuantity = 0;
 				
 				
-				if(txtProductName.getText() != null && txtQuantity.getText() != null)
+				if(txtProductName.getText() != null && txtQuantity.getText() != null) //empty input throw exception
 				{
 					productName = txtProductName.getText();				
 					availableQuantity = Integer.valueOf(txtQuantity.getText());
 				}
 				else;
-					//throw InvalidInput("Missing Product ID and/or Quantity")
+				//throw InvalidInput("Missing Product ID and/or Quantity")
 				//lblNewLabel.setText(txtProductName.getText()); //debug
 				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
 				
@@ -145,7 +146,20 @@ public class TransactionItemDialog extends JDialog {
 					if (individualProduct != null)
 						transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
 					
-					else;//prompt an error message
+					else
+					{
+						String title = "Invalid ProductID";
+				        String msg = "Invalid ProductID, please insert the correct ID";
+				        
+				        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
+				        	
+							protected boolean performOkAction () {
+				                return true;
+							}  
+				        };
+				        d.pack();
+				        d.setVisible(true);
+					}
 				}
 				else if(isEditCase && !isDeleteCase)
 				{

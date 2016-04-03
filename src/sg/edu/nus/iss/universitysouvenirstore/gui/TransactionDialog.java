@@ -37,6 +37,15 @@ public class TransactionDialog extends JFrame{
 	private final JPanel contentPanel = new JPanel();
 	int numItems = 0;
 	DefaultListModel model;
+	
+	JButton checkOutButton = new JButton("Check Out");	
+	JButton editBtn = new JButton("Edit Item");
+	JButton removeButton = new JButton("Remove Item");
+	
+	JLabel subTotalLbl = new JLabel("");
+	JLabel deductPointLbl = new JLabel("");
+	JLabel discountLbl = new JLabel("");		
+	JLabel grandTotalLbl = new JLabel("");	
 	//private TransactionPanel transactionPanel = new TransactionPanel (this);
 	
 	//JList<String> jlist = new JList<String>();
@@ -88,7 +97,7 @@ public class TransactionDialog extends JFrame{
 		button.setBounds(297, 101, 127, 37);
 		contentPanel.add(button);
 		
-		JButton editBtn = new JButton("Edit Item");
+
 		editBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				transactionItemDialog.setTitle("New Item");
@@ -118,9 +127,7 @@ public class TransactionDialog extends JFrame{
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
-		JButton checkOutButton = new JButton("Check Out");	
 		
-		JButton removeButton = new JButton("Remove Item");		
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -206,7 +213,7 @@ public class TransactionDialog extends JFrame{
 		lblNewLabel.setBounds(5, 267, 66, 16);
 		contentPanel.add(lblNewLabel);
 		
-		JLabel lblDeductPoints = new JLabel("Deduct Points:");
+		JLabel lblDeductPoints = new JLabel("Cashback:");
 		lblDeductPoints.setBounds(5, 281, 97, 16);
 		contentPanel.add(lblDeductPoints);
 		
@@ -230,6 +237,21 @@ public class TransactionDialog extends JFrame{
 		lblPublic.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblPublic.setBounds(80, 13, 75, 16);
 		contentPanel.add(lblPublic);
+	
+		subTotalLbl.setBounds(201, 267, 84, 16);
+		contentPanel.add(subTotalLbl);
+		
+
+		deductPointLbl.setBounds(201, 281, 56, 16);
+		contentPanel.add(deductPointLbl);
+		
+
+		discountLbl.setBounds(201, 296, 56, 16);
+		contentPanel.add(discountLbl);
+		
+
+		grandTotalLbl.setBounds(201, 310, 56, 16);
+		contentPanel.add(grandTotalLbl);
 	}
 	
     public void shutdown () {
@@ -249,6 +271,9 @@ public class TransactionDialog extends JFrame{
         while (i.hasNext()) {
         	jlist.add (i.next().toString());
         }    	
+        
+        subTotalLbl.setText("$" + transaction.GetTotalPrice());
+        
     }    
     
 	public ArrayList<TransactionedItem> GetTransactionedItems(){
@@ -270,27 +295,18 @@ public class TransactionDialog extends JFrame{
     	}
     	else
     	{
-            String title = "Duplicate Item";
-            //String msg = "Do you really want to remove product " + productInfo[1] + " ?";
-            String msg = "Do you want to Delete " + productID + "?";
-            
-            ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-
-    			protected boolean performOkAction () {
-    				//ProductUtils.removeProduct(allProducts, productInfo[0]);
-    				//updateItSelf();
-    				transaction.RemoveTransactionItem(productID);
-    		    	refresh();
-                    return true;
-    			}  
-            }; 
+    		transaction.IncreaseTransactionItem(productID, quantity);
+    		this.refresh();  
+    		System.out.println("DUPLICATE");
     	}
     }
     
     public void EditTransactionedItem(String productID, int quantity)
     {
     	transaction.EditTransactionItem(productID, quantity);
-    	
+		removeButton.setEnabled(false);
+		editBtn.setEnabled(false);
+
     	//System.out.println(productID + " <-TranscationDialog.EditTransactionedItem-> " + quantity); //debug
     	this.refresh();    	
     }
@@ -311,8 +327,8 @@ public class TransactionDialog extends JFrame{
 				//updateItSelf();
 				transaction.RemoveTransactionItem(productID);
 				
-				//removeButton.setEnabled(false);
-				//editBtn.setEnabled(false);
+				removeButton.setEnabled(false);
+				editBtn.setEnabled(false);
 		    	refresh();
                 return true;
 			}  

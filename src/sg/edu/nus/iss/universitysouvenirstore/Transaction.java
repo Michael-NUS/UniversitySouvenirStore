@@ -155,5 +155,39 @@ public class Transaction {
 		}
 		return conflict;
 	}
+
+	public void IncreaseTransactionItem(String productID, int quantity) {
+		int counter = 0;
+		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID+"|"); //debug
+		
+		while (counter < items.size())
+		{
+			//System.out.println("items.get(counter).GetProductID()" + items.get(counter).GetProductID()+" compare " + productID ); //debug
+
+			if(items.get(counter).GetProductID().equalsIgnoreCase(productID))
+			{
+				quantity = quantity + items.get(counter).GetProductQuantity();
+				items.get(counter).UpdateQuantity(quantity);
+				//System.out.println("New quantity" + items.get(counter).GetProductQuantity()); //debug
+			}
+			else
+				System.out.println("nope");
+			
+			counter ++;		
+		}
+	}
+	
+	public double GetTotalPrice(){
+		double total = 0;
+		
+		if(items != null)
+		{
+			for (TransactionedItem item:items)
+			{
+				total += item.GetPrice();
+			}
+		}
+		return total;
+	}
 	
 }
