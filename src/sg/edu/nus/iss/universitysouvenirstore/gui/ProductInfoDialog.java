@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.Category;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryUtils;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.DoubleTextField;
@@ -268,9 +271,15 @@ public class ProductInfoDialog extends JDialog {
 
 	public void dataInit() {
 		// data init
-		String[] categeoryList = { "CLO", "MUG", "STA" };
+		
+		// get the category list from category;
+		CategoryVendorMgr mgr = new CategoryVendorMgr();
+		CategoryUtils utils = mgr.getCategoryUtil();
+		ArrayList<Category> categeoryList = utils.getCategoryList();
+	
 		comboBoxCategory.removeAllItems();
-		for (String one : categeoryList) {
+		for (Category category : categeoryList) {
+			String one = category.getCategoryId();
 			comboBoxCategory.addItem(one);
 		}
 
