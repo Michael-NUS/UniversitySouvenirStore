@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -39,6 +41,7 @@ public class ProductInfoDialog extends JDialog {
 	private ArrayList<Product> products = null;
 	private ProductManagerDialog productManagerDialog = null;
 	private JTextField txtReorderQuantity;
+
 
 
 	public ProductManagerDialog getProductManagerDialog() {
@@ -163,7 +166,27 @@ public class ProductInfoDialog extends JDialog {
 		txtReorderQuantity.setColumns(10);
 		txtReorderQuantity.setBounds(303, 73, 66, 21);
 		contentPanel.add(txtReorderQuantity);
+		if (isEditCase == true) {
 
+			comboBoxCategory.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					// TODO Auto-generated method stub
+					if (e.getStateChange() == ItemEvent.SELECTED) {
+						JComboBox<?> jcb = (JComboBox<?>) e.getSource();
+						String curCategory = (String) jcb.getSelectedItem();
+						if(!curProduct.getCategoryId().equals(curCategory)){
+							String newProductId = ProductUtils.productIdGenerator(curCategory); // get all the category first 
+							lblProductId.setText(newProductId);
+						}
+						
+					}
+				}
+
+			});
+		}
+		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -184,8 +207,17 @@ public class ProductInfoDialog extends JDialog {
 					}
 					int status =0;
 					if (isEditCase == true) {
-						status = ProductUtils.editProduct(curProduct, productId, productName, briefDescription,
-								availableQuantity, price,   reorderLevel ,reorderQuantity);
+						if(curProduct.getCategoryId().equals(comboBoxCategory.getSelectedItem().toString())){
+							status = ProductUtils.editProduct(curProduct, productId, productName, briefDescription,
+									availableQuantity, price,   reorderLevel ,reorderQuantity);
+						}else{
+							status = ProductUtils.editProduct(curProduct, curProduct.getProductId(), productName, briefDescription,
+									-1, price,   reorderLevel ,reorderQuantity);
+							status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
+									availableQuantity, price, reorderLevel, reorderQuantity);
+							
+						}
+						
 					} else {
 						status = ProductUtils.addNewProduct(products, productId, productName, briefDescription,
 								availableQuantity, price, reorderLevel, reorderQuantity);

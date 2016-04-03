@@ -24,15 +24,21 @@ public class ProductUtils {
 	}
 	public static int checkExistOfProduct(ArrayList<Product> products, Product checkProduct){
 		int status =0;
+		if(checkProduct.getAvailableQuantity()<0){
+			status = -3;
+			return status;
+		}
 		for(Product one :products ){
-			if(one.getProductId().equals(checkProduct.getProductId())) {
-				status=-1;
-				break;
-			}
-			else if(one.getProductName().equals(checkProduct.getProductName())){
-				status=-2;
-				break;
-			}	
+			
+				if(one.getProductId().equals(checkProduct.getProductId())) {
+					status=-1;
+					break;
+				}
+				else if(one.getProductName().equals(checkProduct.getProductName())){
+					status=-2;
+					break;
+				}
+			
 		}
 		return status;
 	}
