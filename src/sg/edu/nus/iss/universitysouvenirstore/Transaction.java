@@ -198,8 +198,8 @@ public class Transaction {
 		}
 	}
 	
-	public double GetTotalPrice(){
-		double total = 0;
+	public float GetTotalPrice(){
+		float total = 0;
 		
 		if(items != null)
 		{
@@ -216,4 +216,8 @@ public class Transaction {
 		return "Transaction [transactionCount=" + transactionCount + ", items=" + items + "]";
 	}
 	
+	public void SetMember(String memberID){
+		this.memberID = memberID;
+	}
+
 }
