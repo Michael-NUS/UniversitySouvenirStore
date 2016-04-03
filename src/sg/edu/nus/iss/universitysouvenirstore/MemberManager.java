@@ -24,7 +24,6 @@ public class MemberManager {
 			memberList.add((Member) memberEntry.getValue());
 		}
 
-
 		return memberList;
 	}
 
@@ -113,7 +112,7 @@ public class MemberManager {
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(tmpMember, memberList);
+			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
 		} else {
