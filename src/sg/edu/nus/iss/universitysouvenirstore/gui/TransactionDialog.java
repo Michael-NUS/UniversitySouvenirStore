@@ -32,10 +32,11 @@ public class TransactionDialog extends JFrame{
 	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
     float grandTotal;
     private boolean isMember = false;
-    
+	int memberCashback;
+	
 	TransactionMemberDialog memberInfo;
 	
-	private String memberID = null;
+	private String memberID = "PUBLIC";
 	private int memberPoint = 0;
 	
 	private int discount = 0;
@@ -168,7 +169,7 @@ public class TransactionDialog extends JFrame{
 		
 		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
 		checkOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 				transaction.CheckOut();
 			}
 		});
@@ -194,13 +195,17 @@ public class TransactionDialog extends JFrame{
 				editBtn.setEnabled(true);
 			}
 		});
-		memberCheckBox.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				if(memberCheckBox.isSelected())
-				{
-					
-					//TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
 
+
+		memberCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		memberCheckBox.setBounds(297, 229, 75, 25);
+		contentPanel.add(memberCheckBox);
+		
+		memberCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//on check, need to prompt Transaction Member screen
+				if(memberCheckBox.isSelected()){					
+					//TransactionMemberDialog memberInfo = new TransactionMemberDialog(member);
 					memberInfo.setTitle("Member");
 					memberInfo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					memberInfo.setEnabled(true);
@@ -213,20 +218,12 @@ public class TransactionDialog extends JFrame{
 				else
 				{
 					lblPublic.setText("PUBLIC");
+					memberID = "PUBLIC";
+					memberPoint = 0;
 					isMember = false;
+					System.out.println("Uncheck");
 					refresh();
 				}
-			}
-		});
-
-		memberCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		memberCheckBox.setBounds(297, 229, 75, 25);
-		contentPanel.add(memberCheckBox);
-		
-		memberCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//on check, need to prompt Transaction Member screen
-				
 				
 
 			}
@@ -292,7 +289,7 @@ public class TransactionDialog extends JFrame{
     public void refresh(){
     	items = GetTransactionedItems();
     	jlist.removeAll();
-    	int memberCashback;
+
     	
     	
         Iterator<TransactionedItem> i = items.iterator();
@@ -300,13 +297,15 @@ public class TransactionDialog extends JFrame{
         	jlist.add (i.next().toString());
         }    	
         
-        subTotalLbl.setText("$" + transaction.GetTotalPrice());
+        String tempSubTotal = String.format("%.2f", transaction.GetTotalPrice());
+        subTotalLbl.setText("$" + tempSubTotal);
         lblPublic.setText(memberID);
         
         if(cashback && isMember)
         {
         	memberCashback = memberPoint/100;
-        	deductPointLbl.setText("$" + String.valueOf(memberCashback));
+           // String tempCashBack = String.format("%.2f", memberCashback);
+        	deductPointLbl.setText("$" + memberCashback);
         }
         else
         {
@@ -316,9 +315,9 @@ public class TransactionDialog extends JFrame{
 
         
 
-        grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));
-        
-        grandTotalLbl.setText("$" + String.valueOf(grandTotal));
+        grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));        
+        String tempGrandtotal = String.format("%.2f", grandTotal);
+        grandTotalLbl.setText("$" + tempGrandtotal);
     }    
     
 	public ArrayList<TransactionedItem> GetTransactionedItems(){

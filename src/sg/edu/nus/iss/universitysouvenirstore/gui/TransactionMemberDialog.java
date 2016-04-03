@@ -42,7 +42,8 @@ public class TransactionMemberDialog extends JDialog {
 	JButton btnRetrieveMember = new JButton("Retrieve Member");
 	JLabel memberPoints_lbl = new JLabel("");
 	JLabel cashback_Lbl = new JLabel("");
-	
+	JButton btnDone = new JButton("Done");
+	JLabel lblMemberId = new JLabel("Member ID");
 	//public TransactionMemberDialog(Member member) {		
 	public TransactionMemberDialog(TransactionDialog transactionDialog) {	
 		this.transactionDialog = transactionDialog;
@@ -53,42 +54,42 @@ public class TransactionMemberDialog extends JDialog {
 		contentPanel.setBackground(new Color(244, 164, 96));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		
-		
+		contentPanel.setLayout(null);		
 
-			btnRetrieveMember.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(!memberField.getText().equals("")){
-						if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){
-							memberPoints = MemberManager.getMemberLoyaltyPoint(memberField.getText());
-							memberID = memberField.getText();
+		btnRetrieveMember.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!memberField.getText().equals("")){
+					if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){						//call MemberUtils to get the loyalty point
+						memberPoints = MemberManager.getMemberLoyaltyPoint(memberField.getText());
+						memberID = memberField.getText();
 
-							System.out.println("member points: " + memberPoints);
-							Refresh();
-						}
-						//call MemberUtils to get the loyalty point
+						System.out.println("member points: " + memberPoints);
+						btnDone.setEnabled(true); //turn on Done button
 						
-						else{
-							String error ="";
-
-							error = "Member ID not found";
-
-							JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
-						}
+						Refresh(); //redraw this screen				
 					}
-					else //empty memberID
-					{
+
+					
+					else{
 						String error ="";
-
-						error = "Member ID field Empty";
-
+						error = "Member ID not found";
 						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+						
+						memberID = "PUBLIC";
+						memberPoints = 0;
+						btnDone.setEnabled(false); //disable Done button
+						
+						Refresh();
 					}
-					
-					
 				}
-			});
+				else //empty memberID
+				{
+					String error ="";
+					error = "Member ID field Empty";
+					JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+				}					
+			}
+		});
 		//}
 		
 
@@ -116,22 +117,36 @@ public class TransactionMemberDialog extends JDialog {
 		memberField.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 345, 434, 35);
+		panel.setBounds(0, 353, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
-		JButton btnDone = new JButton("Done");
+
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(redeemCheckBox.isSelected())
-				{
-					transactionDialog.SetMemberPoint(Integer.parseInt(memberPoints_lbl.getText()));
-				}
-				//redeemCheckBox.isSelected();
-				//transaction 
+					transactionDialog.SetMemberPoint(Integer.parseInt(memberPoints_lbl.getText())); //capture MemberPoints
+					transactionDialog.SetMemberID(memberID);//capture MemebrID
+					
+					if(redeemCheckBox.isSelected()){
+						transactionDialog.OptCashBack(true);//opted in for cashback
+					}
+					else
+						transactionDialog.OptCashBack(false);//opted out for cashback
+					
+					transactionDialog.refresh();//redraw the Transaction main Screen
+					
+					redeemCheckBox.setSelected(false);;
+					memberID = "PUBLIC";
+					memberPoints = 0;
+					btnDone.setEnabled(false); //disable Done button
+					memberField.setText("");
+					Refresh();
+					dispose();
+					
+					
 			}
-		});
-		btnDone.setEnabled(false);
+		});		
+		btnDone.setEnabled(false); //default grey out
 		
 		btnDone.setActionCommand("Check Out");
 		panel.add(btnDone);
@@ -145,7 +160,7 @@ public class TransactionMemberDialog extends JDialog {
 		button_1.setActionCommand("Cancel");
 		panel.add(button_1);
 		
-		JLabel lblMemberId = new JLabel("Member ID");
+
 		lblMemberId.setBounds(16, 85, 117, 16);
 		contentPanel.add(lblMemberId);
 		

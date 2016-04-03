@@ -12,6 +12,8 @@ public class Transaction {
 	private int transactionCount = 0;
 	private ArrayList<TransactionedItem> items = new ArrayList<TransactionedItem>();
 	private String memberID = "PUBLIC";
+	private int memberPoints = 0;
+	private boolean cashBack = false;
 	//private ArrayList<Product> product = new ArrayList<Product>();
 
 	private FileManangerUtils fileManager = new FileManangerUtils();
@@ -133,14 +135,24 @@ public class Transaction {
 		//System.out.println(sdf.format(date)); //debug
 
 		//Discount class's return the highest discount available
+		amountPaid = GetTotalPrice();
 		discount = GetHighestDiscount();
-	
-		amountPaid = amountPaid * (discount/100);
+
 
 		//get Point to Cash
+		int cashBackValue = 0;
+		if(cashBack == true)
+		{
+			cashBackValue = memberPoints/100;
+			memberPoints = memberPoints%100;			
+		}
 		
-		//amountPaid - Points
-		//new amountPaid
+		amountPaid = (amountPaid - cashBackValue * (discount/100));
+		
+		//new Member Points
+		memberPoints = (int) (memberPoints + (amountPaid/10));
+		
+		//MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
 		
 		//successful transaction
 		//update the Member Point
@@ -198,8 +210,8 @@ public class Transaction {
 		}
 	}
 	
-	public double GetTotalPrice(){
-		double total = 0;
+	public float GetTotalPrice(){
+		float total = 0;
 		
 		if(items != null)
 		{
@@ -218,6 +230,14 @@ public class Transaction {
 	
 	public void SetMember(String id){
 		this.memberID = id;
+	}
+	
+	public void SetMemberPoints(int points){
+		this.memberPoints = points;
+	}
+	
+	public void SetCashBack(boolean toogle){
+		cashBack = toogle;
 	}
 	
 }
