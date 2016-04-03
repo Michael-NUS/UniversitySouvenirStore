@@ -43,7 +43,9 @@ public class ProductUtils {
 		products.remove(product);	
 	}
 	public static String productIdGenerator(String categoryId){
-		return categoryId + "/" + "12";
+		CategoryUtils  utils = new CategoryUtils();
+		int largest = utils.getLargestNumByCategory(categoryId);
+		return categoryId + "/" + largest;
 	}
 
 	public static String barCodeGenerator(String categoryId){
@@ -98,24 +100,10 @@ public class ProductUtils {
 				products.add(one);
 			}
 		}
-		
 		return products;
 		
 	}
 
-
-	
-	public static void checkProductQuantity(Product product){
-		
-	}
-	public static void checkProductsQuantity(ArrayList<Product> products){
-		for (Product one: products){
-			checkProductQuantity(one);
-		}
-	}
-	public static void reOrderProcess(ArrayList<Product> products){
-		
-	}
 	public static Product getProductById(ArrayList<Product> products, String productId){
 		Product product = null;
 		for(Product one : products){

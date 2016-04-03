@@ -18,21 +18,10 @@ public class Transaction {
 	//private Member member = new Member();
 	
 	public Transaction(){	
-		System.out.println("Transaction");
-		GetTransactionCount();
 
-		//transactionCount = 5;		
+		transactionCount = GetTransactionCount() + 1;	
 	}
-	
-	/*
-	Transaction(Member memberCustomer){
-	
-		//transactionCount = GetTransactionCount();
-		member = memberCustomer;
-		transactionCount = 5;
-		
-	}
-	*/
+
 	
 	public int GetTransactionCount(){
 		int count = 0;
@@ -46,6 +35,7 @@ public class Transaction {
 		//System.out.println(test.get(count-1).toString());
 		//get latest transaction number by checking the last trasaction.dat's number/count?	
 		
+		System.out.println("TransactionID " + count);
 		return count;
 	}
 	
@@ -137,7 +127,9 @@ public class Transaction {
 		
 		//date
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String stringDate = String.valueOf(sdf.format(date));
 		//System.out.println(sdf.format(date)); //debug
 
 		//Discount class's return the highest discount available
@@ -153,17 +145,19 @@ public class Transaction {
 		//successful transaction
 		//update the Member Point
 		
-		//major's update product
-		ArrayList<Product> products = ProductUtils.getAllProducts();
-		ProductUtils.updateTransctionQuantity(products,items);
-		//end of major's update product
+			//major's update product
+		//ArrayList<Product> products = ProductUtils.getAllProducts();
+		//ProductUtils.updateTransctionQuantity(products,items);
+			//end of major's update product
 		
 		ArrayList<String>writeToFile = new ArrayList<String>();
 		String line;
 		
 		for (TransactionedItem item:items)
 		{
-			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + sdf);
+			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + stringDate);
+			System.out.println(line);
+			writeToFile.add(line);
 		}
 		
 		
