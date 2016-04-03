@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,79 +16,63 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import sg.edu.nus.iss.universitysouvenirstore.Product;
-import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
+import sg.edu.nus.iss.universitysouvenirstore.MemberManager;
+import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
+import sg.edu.nus.iss.universitysouvenirstore.Member;
 
 public class AddMemberDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtProductName;
-	private JTextField txtQuantity;
+	private JTextField txtMemberName;
+	private JTextField txtMemberID;
 	private String title;
-	private boolean isEditCase = false;
-	private boolean isDeleteCase = false;
-	private Product curProduct = null;
+
+	// private boolean isEditCase = false;
+	// private boolean isDeleteCase = false;
+
 	private JButton okButton = null;
-	private ArrayList<Product> products =null;
-	private TransactionDialog transactionDialog;
-	
-	
+	private Member curMember = null;
+	private ArrayList<Member> members = null;
+	private MemberManagerDialog memberManagerDialog;
+
 	JPanel buttonPane = new JPanel();
 	JButton cancelButton = new JButton("Cancel");
-	
-	//JLabel lblNewLabel = new JLabel("New label");
-	//JLabel lblNewLabel_1 = new JLabel("New label");
 
-
-	public Product getCurProduct() {
-		return curProduct;
-	}
-
-	public ArrayList<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
-	}
-
-	public boolean isEditCase() {
-		return isEditCase;
-	}
-
-	public void setEditCase(boolean isEditCase) {
-		this.isEditCase = isEditCase;
-	}
-
-	public void setCurProduct(Product curProduct) {
-		this.curProduct = curProduct;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	
+	// public boolean isEditCase() {
+	// return isEditCase;
+	// }
+	//
+	// public void setEditCase(boolean isEditCase) {
+	// this.isEditCase = isEditCase;
+	// }
+	//
+	// public void setCurMember(Member curMember) {
+	// this.curMember = curMember;
+	// }
+	//
+	// public String getTitle() {
+	// return title;
+	// }
+	//
+	// public void setTitle(String title) {
+	// this.title = title;
+	// }
 
 	/**
 	 * Create the dialog.
-	 * @param transactionDialog 
+	 * 
+	 * @param transactionDialog
 	 */
 	public AddMemberDialog() {
-		//lblNewLabel.setBounds(74, 152, 56, 16); //label debug
-		//contentPanel.add(lblNewLabel);//label debug
+		// lblNewLabel.setBounds(74, 152, 56, 16); //label debug
+		// contentPanel.add(lblNewLabel);//label debug
 
-		//lblNewLabel_1.setBounds(74, 170, 56, 16);//label debug
-		//contentPanel.add(lblNewLabel_1);//label debug
-		
-		
-		this.transactionDialog = transactionDialog;
+		// lblNewLabel_1.setBounds(74, 170, 56, 16);//label debug
+		// contentPanel.add(lblNewLabel_1);//label debug
+
+		this.memberManagerDialog = memberManagerDialog;
 		// contentPanel.setBackground(new Color(244, 164, 96));
-		setTitle(title);
+		setTitle("Member Registration");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
@@ -95,153 +80,85 @@ public class AddMemberDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JLabel lblProductName = new JLabel("Product Name:");
-		lblProductName.setBounds(10, 54, 88, 27);
-		contentPanel.add(lblProductName);
+		JLabel lblInstruction1 = new JLabel("Please fill in the fields below to register the new member.");
+		lblInstruction1.setBounds(10, 15, 400, 27);
+		contentPanel.add(lblInstruction1);
 
-		JLabel lblQuantity = new JLabel("Quantity:");
-		lblQuantity.setBounds(20, 91, 59, 27);
-		contentPanel.add(lblQuantity);
+		JLabel lblInstruction2 = new JLabel("Please use the student/staff card number as the membership number.");
+		lblInstruction2.setBounds(10, 50, 400, 27);
+		contentPanel.add(lblInstruction2);
 
-		txtProductName = new JTextField();
-		txtProductName.setBounds(110, 56, 138, 21);
-		contentPanel.add(txtProductName);
-		txtProductName.setColumns(10);
+		JLabel lblMemberName = new JLabel("Member Name:");
+		lblMemberName.setBounds(10, 100, 100, 27);
+		contentPanel.add(lblMemberName);
 
-		txtQuantity = new JTextField();
-		txtQuantity.setBounds(108, 97, 66, 21);
-		contentPanel.add(txtQuantity);
-		txtQuantity.setColumns(10);
-		
+		JLabel lblMemberID = new JLabel("Member ID:");
+		lblMemberID.setBounds(10, 150, 100, 27);
+		contentPanel.add(lblMemberID);
 
+		txtMemberName = new JTextField();
+		txtMemberName.setBounds(110, 100, 150, 25);
+		contentPanel.add(txtMemberName);
+		txtMemberName.setColumns(30);
 
+		txtMemberID = new JTextField();
+		txtMemberID.setBounds(110, 150, 150, 25);
+		contentPanel.add(txtMemberID);
+		txtMemberID.setColumns(30);
 
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		products = ProductUtils.getAllProducts();
-		okButton = new JButton();
+
+		JButton okButton = new JButton("Save");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//String categoryId=lblProductId.getText();
-				String productName = null;
-				int availableQuantity = 0;
-				if(txtProductName.getText() != null && txtQuantity.getText() != null)
-				{
-					productName = txtProductName.getText();				
-					availableQuantity = Integer.valueOf(txtQuantity.getText());
+				String memberName = null;
+				String memberID = null;
+				if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
+					memberName = txtMemberName.getText();
+					memberID = txtMemberID.getText();
+					MemberManager.readExistingMembersFromDB();
+					if (!MemberManager.checkExistOfMember(memberID)) {
+						MemberManager.addMember(memberName, memberID);
+						members = MemberManager.convertToMemberArraylist();
+						curMember = MemberManager.getMember(memberID);
+						FileManangerUtils.saveDataToDatFile(Member.class, members);
+					} else {
+						// Member ID already exists! Cannot register the new
+						// member.
+						;
+					}
+
+				} else {
+					;
+					// throw InvalidInput("Missing Product ID and/or Quantity")
+					// lblNewLabel.setText(txtMemberName.getText()); //debug
+					// lblNewLabel_1.setText(txtMemberID.getText()); //debug
+					setVisible(false);
+					dispose();
 				}
-				else;
-					//throw InvalidInput("Missing Product ID and/or Quantity")
-				//lblNewLabel.setText(txtProductName.getText()); //debug
-				//lblNewLabel_1.setText(txtQuantity.getText()); //debug
-				
-				if(!isEditCase && !isDeleteCase)
-				{
-					
-					Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
-					
-					if (individualProduct != null)
-						transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
-					
-					else;//prompt an error message
-				}
-				else if(isEditCase && !isDeleteCase)
-				{
-					transactionDialog.EditTransactionedItem(productName, availableQuantity);	
-			        setVisible (false);
-			        dispose();
-				}
-				
-				else
-				{
-					transactionDialog.RemoveTransactionedItem(productName);	
-			        setVisible (false);
-			        dispose();
-				}
-				
-				txtProductName.setText("");
-				txtQuantity.setText("");
-				//Double price = Double.valueOf(txtPrice.getText());
-				//String barCodeNumber = lblBarCode.getText();
-				//Integer reorderQuantity =Integer.valueOf(txtReorderQuantity.getText());
-				//String vendorId = comboBoxVendor.getSelectedItem().toString();
-				
-				/*
-				if(isEditCase == true){
-					ProductUtils.editProduct(curProduct, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity,vendorId);
-				}else{
-					ProductUtils.addNewProduct(products, categoryId, productName, briefDescription, availableQuantity, price, barCodeNumber, reorderQuantity, vendorId);
-				}
-				
-				*/
-				
-				
+
+				txtMemberName.setText("");
+				txtMemberID.setText("");
+
 			}
 		});
-		
+
+		okButton.setActionCommand("Saved");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		
-		//Cancel Button
+
+		// Cancel Button
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				setVisible(false);
+				dispose();
+			}
+		});
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 	}
-	
-	public void Refresh()
-	{		
-		if(isEditCase == true){
-			okButton.setText("Save");
-		}
-		else if(!isEditCase && !isDeleteCase){
-			okButton.setText("Add New");
-		}
-		else{
-			okButton.setText("Delete");			
-		}
-		
-		txtProductName.setEnabled(true);
-		txtQuantity.setEnabled(true);
-		
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-		        setVisible (false);
-		        dispose();
-			}
-		});
 
-	}
-	
-	public void EditItem(String item)
-	{
-		int counter = 0;
-		String productID = "";
-		int quantity = 0;
-
-	      for (String retval: item.split(" ")){
-	    	 if(counter == 0)
-	    		 productID = retval;
-	    	 
-	    	 if(counter == 2)
-	    		 quantity = Integer.parseInt(retval);
-	    	 
-	    	 counter++;
-	      }
-	      
-		   //System.out.println("ProductID:" + productID + "Quantity:" + quantity ); //debug
-		
-		   txtProductName.setText(productID);
-		   txtQuantity.setText(Integer.toString(quantity));
-		   
-		   txtProductName.setEnabled(false);
-		   txtQuantity.setEnabled(true);
-		   
-		   if(isDeleteCase)
-			   txtQuantity.setEnabled(false);
-
-		   
-	}
-
-	public void setDeleteCase(boolean b) {
-		isDeleteCase = b;
-	}
 }

@@ -107,7 +107,7 @@ public class FileManangerUtils {
 					}
 				} else if (type.toString().contains("Member")) {
 					if (data.length == 3) {
-						Member tmpMember = new Member(data[0], data[1], Integer.valueOf(data[3]));
+						Member tmpMember = new Member(data[0], data[1], Integer.valueOf(data[2]));
 						dataList.add(tmpMember);
 					}
 				}
