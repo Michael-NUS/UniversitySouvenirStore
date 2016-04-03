@@ -216,4 +216,8 @@ public class Transaction {
 		return "Transaction [transactionCount=" + transactionCount + ", items=" + items + "]";
 	}
 	
+	public void SetMember(String id){
+		this.memberID = id;
+	}
+	
 }
