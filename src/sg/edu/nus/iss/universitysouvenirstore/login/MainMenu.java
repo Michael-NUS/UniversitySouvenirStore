@@ -282,9 +282,9 @@ public class MainMenu extends JFrame {
 		JButton btnTransaction = new JButton("New transaction");
 		btnTransaction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
-					
+					transactiondialog = new TransactionDialog();
 					transactiondialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					transactiondialog.setEnabled(true);
 					transactiondialog.setVisible(true);
