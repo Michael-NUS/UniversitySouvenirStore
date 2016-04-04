@@ -22,10 +22,8 @@ public class Transaction {
 	//private Member member = new Member();
 	
 	public Transaction(){	
-
 		transactionCount = GetTransactionCount() + 1;	
 	}
-
 	
 	public int GetTransactionCount(){
 		int count = 0;
@@ -38,7 +36,7 @@ public class Transaction {
 		transactionCount = Integer.parseInt(readTransact.get(count-1).toString());
 		//System.out.println(test.get(count-1).toString());
 		//get latest transaction number by checking the last trasaction.dat's number/count?	
-		
+			  
 		System.out.println("TransactionID " + count);
 		return count;
 	}
@@ -155,12 +153,12 @@ public class Transaction {
 		memberPoints = (int) (memberPoints + (amountPaid/10));
 		
 		//Yakun's point update
-		//MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
+		MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
 		//end of Yakun's update
 		
 		//Major's update product
-		//ArrayList<Product> products = ProductUtils.getAllProducts();
-		//ProductUtils.updateTransctionQuantity(products,items);
+		ArrayList<Product> products = ProductUtils.getAllProducts();
+		ProductUtils.updateTransctionQuantity(products,items);
 		//end of Major's update product
 		
 		ArrayList<String>writeToFile = new ArrayList<String>();

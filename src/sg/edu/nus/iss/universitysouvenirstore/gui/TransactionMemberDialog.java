@@ -24,7 +24,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
-import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 
 import java.awt.Font;
 import javax.swing.JCheckBox;

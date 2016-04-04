@@ -12,7 +12,6 @@ import java.util.*;
 import javax.swing.*;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
-import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 
 import java.awt.Font;
 
@@ -382,7 +381,7 @@ public class TransactionDialog extends JFrame{
 
         String title = "Remove Product";
         String msg = "Do you want to Delete " + productID + "?";
-        
+        /*
         ConfirmDialog d = new ConfirmDialog (null, title, msg) {
 
 			protected boolean performOkAction () {
@@ -394,8 +393,12 @@ public class TransactionDialog extends JFrame{
                 return true;
 			}  
         }; 
+        
         d.pack();
         d.setVisible(true);
+        */
+        
+        
     }
     
     public void SetMemberPoint(int points){
