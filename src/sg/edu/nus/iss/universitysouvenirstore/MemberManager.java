@@ -111,7 +111,7 @@ public class MemberManager {
 			members.replace(memberID, tmpMember);
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
-			memberList.add(tmpMember);
+			//memberList.add(tmpMember);
 			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();

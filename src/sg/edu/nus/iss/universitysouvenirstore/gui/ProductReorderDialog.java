@@ -15,13 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
-import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductReorderDialog extends JDialog {
@@ -61,28 +61,21 @@ public class ProductReorderDialog extends JDialog {
 		btnReorderNow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String title = "Reorder Product";
+				
 		        String msg = "Do you want to reorder products ?";
-		        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-					protected boolean performOkAction () {
+		        
+		        int status=JOptionPane.showOptionDialog(null,msg, "Reorder Product",  JOptionPane.DEFAULT_OPTION,
+		    	        JOptionPane.INFORMATION_MESSAGE, null, null, null);
+					if (status == 0) {
 						for(Product one: reorderProductList){
 							one.updateAvaliableQuantity(one.getReorderQuantity(),2);
 						}
 						dataInit();
 						btnReorderNow.setEnabled(false);
 						FileManangerUtils.saveDataToDatFile(Product.class, allProducts);
-		                return true;
-		            }
-		        };
-		        d.pack();
-		        d.setVisible (true);
-				
-			}
+					}
+		      
+				}
 		});
 		btnReorderNow.setBounds(321, 54, 103, 23);
 		contentPanel.add(btnReorderNow);

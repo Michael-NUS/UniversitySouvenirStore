@@ -161,17 +161,21 @@ public class Transaction {
 		ProductUtils.updateTransctionQuantity(products,items);
 		//end of Major's update product
 		
-		ArrayList<String>writeToFile = new ArrayList<String>();
+		String[]writeToFile = null;
 		String line;
 		
+		int counter = 0;
 		for (TransactionedItem item:items)
 		{
 			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + stringDate);
 			System.out.println(line);
-			writeToFile.add(line);
+			writeToFile[counter] = line;
+			counter++;
 		}		
 		
 		System.out.println(String.valueOf(memberPoints));
+		
+		FileManagerUtils.AppendDataToFile("Transactions", "Transactions", writeToFile);
 		//write to Transaction.dat		
 	}
 	
