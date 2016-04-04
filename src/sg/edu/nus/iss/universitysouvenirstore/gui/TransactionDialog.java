@@ -33,7 +33,7 @@ public class TransactionDialog extends JFrame{
     float grandTotal;
     private boolean isMember = false;
 	int memberCashback;
-	
+
 	TransactionMemberDialog memberInfo;
 	
 	private String memberID = "PUBLIC";
@@ -56,6 +56,7 @@ public class TransactionDialog extends JFrame{
 	JLabel discountLbl = new JLabel("");		
 	JLabel grandTotalLbl = new JLabel("");	
 	JLabel lblPublic = new JLabel("PUBLIC");
+	JLabel pointsLBL = new JLabel("");
 	//private TransactionPanel transactionPanel = new TransactionPanel (this);
 	//Member Checkbox
 	JCheckBox memberCheckBox = new JCheckBox("Member");
@@ -136,7 +137,7 @@ public class TransactionDialog extends JFrame{
 		contentPanel.add(editBtn);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 353, 434, 35);
+		panel.setBounds(0, 345, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
@@ -170,7 +171,16 @@ public class TransactionDialog extends JFrame{
 		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
 		checkOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				transaction.CheckOut();
+				transaction.CheckOut();				
+				transaction = null;
+				
+				transactionItemDialog.setVisible(false);
+				transactionItemDialog.dispose();
+				memberInfo.setVisible(false);
+				memberInfo.dispose();
+				
+		        setVisible (false);
+		        dispose();
 			}
 		});
 		checkOutButton.setEnabled(true); //when no item in the list, Check Out button is disabled		
@@ -181,6 +191,7 @@ public class TransactionDialog extends JFrame{
 		JButton button_3 = new JButton("Cancel");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				transaction = null;
 		        setVisible (false);
 		        dispose();
 			}
@@ -253,11 +264,13 @@ public class TransactionDialog extends JFrame{
 		contentPanel.add(lblItems);
 		
 		JLabel lblMemberId = new JLabel("Member ID:");
+		lblMemberId.setFont(new Font("Cambria", Font.PLAIN, 13));
 		lblMemberId.setBounds(5, 13, 75, 16);
 		contentPanel.add(lblMemberId);
+		lblPublic.setForeground(new Color(255, 255, 204));
 		
 
-		lblPublic.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblPublic.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 14));
 		lblPublic.setBounds(80, 13, 75, 16);
 		contentPanel.add(lblPublic);
 	
@@ -275,6 +288,11 @@ public class TransactionDialog extends JFrame{
 
 		grandTotalLbl.setBounds(201, 310, 56, 16);
 		contentPanel.add(grandTotalLbl);
+		pointsLBL.setFont(new Font("Cambria", Font.PLAIN, 13));
+		
+
+		pointsLBL.setBounds(80, 33, 148, 16);
+		contentPanel.add(pointsLBL);
 	}
 	
     public void shutdown () {
@@ -312,8 +330,11 @@ public class TransactionDialog extends JFrame{
         	memberCashback = 0;
         	deductPointLbl.setText("N/A");      	
         }
-
         
+        if(isMember)
+        	pointsLBL.setText(String.valueOf("Points available: " + memberPoint));
+        else
+        	pointsLBL.setText(String.valueOf(""));
 
         grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));        
         String tempGrandtotal = String.format("%.2f", grandTotal);
@@ -403,4 +424,5 @@ public class TransactionDialog extends JFrame{
 		else
 			isMember = false;
 	}
+	
 }

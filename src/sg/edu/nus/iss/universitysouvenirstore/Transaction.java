@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
+import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class Transaction {
@@ -14,6 +15,7 @@ public class Transaction {
 	private String memberID = "PUBLIC";
 	private int memberPoints = 0;
 	private boolean cashBack = false;
+	
 	//private ArrayList<Product> product = new ArrayList<Product>();
 
 	private FileManangerUtils fileManager = new FileManangerUtils();
@@ -122,7 +124,7 @@ public class Transaction {
 		return highestDiscount;
 	}
 	
-	public float CheckOut(){
+	public void CheckOut(){
 		float amountPaid = 0;
 		float discount = 0;
 		int conversionRation = 100;
@@ -152,15 +154,14 @@ public class Transaction {
 		//new Member Points
 		memberPoints = (int) (memberPoints + (amountPaid/10));
 		
+		//Yakun's point update
 		//MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
+		//end of Yakun's update
 		
-		//successful transaction
-		//update the Member Point
-		
-			//major's update product
+		//Major's update product
 		//ArrayList<Product> products = ProductUtils.getAllProducts();
 		//ProductUtils.updateTransctionQuantity(products,items);
-			//end of major's update product
+		//end of Major's update product
 		
 		ArrayList<String>writeToFile = new ArrayList<String>();
 		String line;
@@ -170,11 +171,10 @@ public class Transaction {
 			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + stringDate);
 			System.out.println(line);
 			writeToFile.add(line);
-		}
+		}		
 		
-		
-		//write to Transaction.dat
-		return amountPaid;
+		System.out.println(String.valueOf(memberPoints));
+		//write to Transaction.dat		
 	}
 	
 	public boolean ConflictItem(String productID)
