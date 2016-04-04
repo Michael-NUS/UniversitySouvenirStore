@@ -223,7 +223,7 @@ public class FileManagerUtils {
 	 * Write/Append data to .dat file 
 	 *
 	 */
-	public static Boolean AppendDataToFile(String strFileName, String strFileType, String[] StrArrdata){
+	public static Boolean AppendDataToFile(String strFileName, String strFileType, ArrayList<String> arrLstData){
 		String filePath = "";
 		File dataFile = null;
 		try {
@@ -233,7 +233,7 @@ public class FileManagerUtils {
 				dataFile = new File(filePath);
 				if (dataFile.exists() && !dataFile.isDirectory()) {
 					int intFileColumnCount = 0;
-					intFileColumnCount = StrArrdata.length;
+					intFileColumnCount = arrLstData.get(0).split(",").length;
 					if (intFileColumnCount > 0) {
 						switch (strFileType.toLowerCase()) {
 						case "products":
@@ -243,14 +243,14 @@ public class FileManagerUtils {
 							}else{
 								// write/append to the file
 								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
-								for (int i = 0; i < StrArrdata.length; i++) 
+								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(StrArrdata[i]);
+						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
-							        	Files.write(Paths.get(filePath),  StrArrdata[i].getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
 						        	}else{
-							        	Files.write(Paths.get(filePath),  ("," + StrArrdata[i]).getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
 							}
@@ -262,32 +262,36 @@ public class FileManagerUtils {
 							}else{
 								// write/append to the file
 								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
-								for (int i = 0; i < StrArrdata.length; i++) 
+								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(StrArrdata[i]);
+						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
-							        	Files.write(Paths.get(filePath),  StrArrdata[i].getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
 						        	}else{
-							        	Files.write(Paths.get(filePath),  ("," + StrArrdata[i]).getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
 							}
 							break;
 						case "members":
-							// write/append to the file
-							Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
-							for (int i = 0; i < StrArrdata.length; i++) 
-					        {
-					        	System.out.println(StrArrdata[i]);
-					        	if(i == 0){
-						        	Files.write(Paths.get(filePath),  StrArrdata[i].getBytes(), StandardOpenOption.APPEND);
+							if (intFileColumnCount != 3) {
+								// throw 'invalid transaction file
+								// format' exception
+							}else{
+								// write/append to the file
+								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
+								for (int i = 0; i < arrLstData.size(); i++) 
+						        {
+						        	System.out.println(arrLstData.get(i));
+						        	if(i == 0){
+							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
-					        	}else{
-						        	Files.write(Paths.get(filePath),  ("," + StrArrdata[i]).getBytes(), StandardOpenOption.APPEND);
-					        	}
-					        }
-							break;
+						        	}else{
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
+						        	}
+						        }
+							}
 						default:
 							// throw 'invalid file type or file format'
 							// exception
