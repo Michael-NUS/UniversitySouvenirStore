@@ -28,7 +28,6 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
-import sg.edu.nus.iss.universitysouvenirstore.util.ConfirmDialog;
 import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductManagerDialog extends JDialog {
@@ -124,22 +123,14 @@ public class ProductManagerDialog extends JDialog {
 					JOptionPane.showMessageDialog(null, "Please select one product to edit", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}else{
 				String[] productInfo = item.split("-");
-		        String title = "Remove Product";
 		        String msg = "Do you really want to remove product " + productInfo[1] + " ?";
-		        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-					protected boolean performOkAction () {
+		    	int status=JOptionPane.showOptionDialog(null,msg, "Remove Product",  JOptionPane.DEFAULT_OPTION,
+		    	        JOptionPane.INFORMATION_MESSAGE, null, null, null);
+					if (status == 0) {
 						ProductUtils.removeProduct(allProducts, productInfo[0]);
 						updateItSelf();
-		                return true;
-		            }
-		        };
-		        d.pack();
-		        d.setVisible (true);
+					}
+		      
 				}
 			}
 		});
