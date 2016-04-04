@@ -347,12 +347,11 @@ public class TransactionDialog extends JFrame{
     public void AddTransactionedItem(String productID, int quantity, double price)
     {
     	boolean conflict = false;
-    		
+    	//System.out.println("Quantity @TransactionDialog: " + quantity);
     	conflict = transaction.ConflictItem(productID);
     	if (!conflict)
     	{
-	    	price = price * quantity;
-	    	
+	    	price = price;	    	
 	    	transaction.AddTransactionItem(productID, quantity, price);
 	    	this.refresh();    	
     	}
@@ -409,6 +408,7 @@ public class TransactionDialog extends JFrame{
     
     public void SetMemberPoint(int points){
     	memberPoint = points;
+    	transaction.SetMemberPoints(points);
     }
     
     public void SetMemberID(String memberID){
@@ -422,6 +422,7 @@ public class TransactionDialog extends JFrame{
 	public void OptCashBack(boolean opt)
 	{
 		cashback = opt;
+		transaction.SetCashBack(opt);
 		refresh();
 	}
 	

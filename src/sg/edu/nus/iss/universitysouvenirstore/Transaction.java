@@ -29,7 +29,7 @@ public class Transaction {
 		int count = 0;
 		
 		//ArrayList<Object> test = fileManager.ReadDataFromDatFile("Transactions", "Transactions");
-		ArrayList<Object> readTransact = fileManager.readDataFromDatFile(Transaction.class);
+		ArrayList<Object> readTransact = FileManagerUtils.readDataFromDatFile(Transaction.class);
 		//System.out.println("HERE" + test.size());
 		count = readTransact.size();
 		
@@ -38,6 +38,8 @@ public class Transaction {
 		//get latest transaction number by checking the last trasaction.dat's number/count?	
 			  
 		System.out.println("TransactionID " + count);
+		//memberPoints = 150 % 100;
+		System.out.println(memberPoints);
 		return count;
 	}
 	
@@ -144,15 +146,17 @@ public class Transaction {
 		if(cashBack == true)
 		{
 			cashBackValue = memberPoints/100;
-			memberPoints = memberPoints%100;			
+			memberPoints = memberPoints % 100;
+			System.out.println("memberPoints before new adjustment:" + memberPoints);
 		}
-		
-		amountPaid = (amountPaid - cashBackValue * (discount/100));
+
+		amountPaid = (amountPaid - cashBackValue * (1 - (discount/100)));
 		
 		//new Member Points
 		memberPoints = (int) (memberPoints + (amountPaid/10));
 		
 		//Yakun's point update
+		System.out.println("MemberID: " + memberID + " - Points: " + memberPoints + "\n" + "Amount Paid: " + amountPaid);
 		MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
 		//end of Yakun's update
 		
@@ -161,16 +165,14 @@ public class Transaction {
 		ProductUtils.updateTransctionQuantity(products,items);
 		//end of Major's update product
 		
-		String[]writeToFile = null;
+		ArrayList<String>writeToFile = new ArrayList<String>();
 		String line;
 		
-		int counter = 0;
 		for (TransactionedItem item:items)
 		{
 			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + stringDate);
 			System.out.println(line);
-			writeToFile[counter] = line;
-			counter++;
+			writeToFile.add(line);
 		}		
 		
 		System.out.println(String.valueOf(memberPoints));

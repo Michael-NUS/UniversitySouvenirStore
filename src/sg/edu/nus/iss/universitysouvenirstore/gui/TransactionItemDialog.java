@@ -131,6 +131,7 @@ public class TransactionItemDialog extends JDialog {
 				{
 					productName = txtProductName.getText();				
 					availableQuantity = Integer.valueOf(txtQuantity.getText());
+					//System.out.println("Quantity: " + availableQuantity);
 					
 					if(!isEditCase && !isDeleteCase)
 					{
@@ -138,8 +139,16 @@ public class TransactionItemDialog extends JDialog {
 						Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
 						
 						if (individualProduct != null)
-							transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
-						
+						{
+							if(individualProduct.getAvailableQuantity() >= availableQuantity)							
+								transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+							else
+							{				        
+								String error ="";
+								error = "Insufficient Quantity, current available quantity: " + individualProduct.getAvailableQuantity();
+								JOptionPane.showMessageDialog(null,error, "Insufficient ProductID", JOptionPane.INFORMATION_MESSAGE);
+							}	
+						}
 						else
 						{				        
 							String error ="";
