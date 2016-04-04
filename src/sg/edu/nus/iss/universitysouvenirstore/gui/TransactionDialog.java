@@ -379,19 +379,24 @@ public class TransactionDialog extends JFrame{
     	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
 
 
-    	
         String title = "Remove Product";
         String msg = "Do you want to Delete " + productID + "?";
-        /*
-        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-
-			protected boolean performOkAction () {
+        
+        int res = JOptionPane.showOptionDialog(null, title, msg, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        	if (res == 0)
+        	{
 				transaction.RemoveTransactionItem(productID);
 				
 				removeButton.setEnabled(false);
 				editBtn.setEnabled(false);
 		    	refresh();
-                return true;
+        	}
+        /*
+        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
+
+			protected boolean performOkAction () {
+
 			}  
         }; 
         
