@@ -322,7 +322,6 @@ public class TransactionDialog extends JFrame{
         if(cashback && isMember)
         {
         	memberCashback = memberPoint/100;
-           // String tempCashBack = String.format("%.2f", memberCashback);
         	deductPointLbl.setText("$" + memberCashback);
         }
         else
