@@ -379,6 +379,7 @@ public class TransactionDialog extends JFrame{
     	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
 
 
+    	
         String title = "Remove Product";
         String msg = "Do you want to Delete " + productID + "?";
         /*
