@@ -12,7 +12,7 @@ import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductUtils {
 	
-	   
+
 	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price,  int reorderQuantity, int reorderLevel ){
 		String []temp = productId.split("/");
 		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price,  reorderLevel, temp[0],reorderQuantity) ;
@@ -137,6 +137,8 @@ public class ProductUtils {
 				}
 			}
 		}
+		
+		FileManangerUtils.saveDataToDatFile(Product.class, products);
 		ProductReorderDialog productRorderDialog = new ProductReorderDialog();
 		if(reOrderProducts.size()>0){
 			productRorderDialog.setReorderProductList(reOrderProducts);
