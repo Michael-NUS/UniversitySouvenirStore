@@ -22,6 +22,7 @@ import sg.edu.nus.iss.universitysouvenirstore.gui.ProductManagerDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.ReportDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.UtilityManagerDialog;
+import sg.edu.nus.iss.universitysouvenirstore.gui.AddMemberDialog;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -43,7 +44,7 @@ public class MainMenu extends JFrame {
 	TransactionDialog transactiondialog = new TransactionDialog();
 	ReportDialog reportdialog = new ReportDialog();
 	DiscountDialog discountdialog = new DiscountDialog();
-	MemberManagerDialog memberdialog = new MemberManagerDialog();
+	AddMemberDialog addMemberdiag = new AddMemberDialog();	
 	UtilityManagerDialog utilitydialog = new UtilityManagerDialog();
 	
 	
@@ -67,8 +68,8 @@ public class MainMenu extends JFrame {
 		discountdialog.setEnabled(false);
 		discountdialog.setVisible(false);
 		
-		memberdialog.setEnabled(false);
-		memberdialog.setVisible(false);
+		addMemberdiag.setEnabled(false);
+		addMemberdiag.setVisible(false);
 		
 		utilitydialog.setEnabled(false);
 		utilitydialog.setVisible(false);
@@ -83,7 +84,7 @@ public class MainMenu extends JFrame {
 		transactiondialog.dispose();
 		reportdialog.dispose();
 		discountdialog.dispose();
-		memberdialog.dispose();
+		addMemberdiag.dispose();
 		utilitydialog.dispose();
 		
 		storekeeperframe.alertdialog.dispose();
@@ -391,15 +392,15 @@ public class MainMenu extends JFrame {
 		btnDiscount.setBounds(25, 114, 195, 51);
 		contentPane.add(btnDiscount);
 		
-		JButton btnAddRemoveMember = new JButton("Add/Remove member");
+		JButton btnAddRemoveMember = new JButton("Register member");
 		btnAddRemoveMember.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
 					
-					memberdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					memberdialog.setEnabled(true);
-					memberdialog.setVisible(true);
+					addMemberdiag.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					addMemberdiag.setEnabled(true);
+					addMemberdiag.setVisible(true);
 				} catch (Exception Membe) {
 					Membe.printStackTrace();
 				}
@@ -416,9 +417,9 @@ public class MainMenu extends JFrame {
 					
 					try {
 						
-						memberdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						memberdialog.setEnabled(true);
-						memberdialog.setVisible(true);
+						addMemberdiag.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						addMemberdiag.setEnabled(true);
+						addMemberdiag.setVisible(true);
 					} catch (Exception Membe) {
 						Membe.printStackTrace();
 					}
