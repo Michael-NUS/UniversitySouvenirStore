@@ -141,6 +141,7 @@ public class ProductUtils {
 		FileManangerUtils.saveDataToDatFile(Product.class, products);
 		ProductReorderDialog productRorderDialog = new ProductReorderDialog();
 		if(reOrderProducts.size()>0){
+			productRorderDialog.setAllProducts(products);
 			productRorderDialog.setReorderProductList(reOrderProducts);
 			productRorderDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			productRorderDialog.setEnabled(true);
