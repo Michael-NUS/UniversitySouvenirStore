@@ -269,7 +269,7 @@ public class FileManagerUtils {
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
 						        	}else{
-							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  ("\n" + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
 							}
