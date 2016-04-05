@@ -115,7 +115,7 @@ public class AddMemberDialog extends JDialog {
 				if (!(Pattern.matches("^[A-Za-z0-9]+$", txtMemberID.getText()))) {
 				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
+				else if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
 				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
