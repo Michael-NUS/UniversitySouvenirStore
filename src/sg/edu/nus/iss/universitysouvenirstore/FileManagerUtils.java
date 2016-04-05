@@ -194,7 +194,7 @@ public class FileManagerUtils {
 										// throw 'invalid member file
 										// format' exception
 									}else{
-										Discount tmpDiscount = new Discount(data[0], data[1], data[2], data[3], data[4], Integer.valueOf(data[5]));
+										Discount tmpDiscount = new Discount(data[0], data[1], data[2], data[3], data[5], Integer.valueOf(data[4]));
 										dataList.add(tmpDiscount);
 									}
 									break;
