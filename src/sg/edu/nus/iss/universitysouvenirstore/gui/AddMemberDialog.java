@@ -6,10 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-
+import java.util.regex.Pattern;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,14 +24,14 @@ public class AddMemberDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtMemberName;
 	private JTextField txtMemberID;
-	private String title;
+	//private String title;
 
 	// private boolean isEditCase = false;
 	// private boolean isDeleteCase = false;
 
-	private Member curMember = null;
+	//private Member curMember = null;
 	private ArrayList<Member> members = null;
-	private MemberManagerDialog memberManagerDialog;
+	//private MemberManagerDialog memberManagerDialog;
 
 	JPanel buttonPane = new JPanel();
 	JButton cancelButton = new JButton("Cancel");
@@ -70,7 +68,7 @@ public class AddMemberDialog extends JDialog {
 		// lblNewLabel_1.setBounds(74, 170, 56, 16);//label debug
 		// contentPanel.add(lblNewLabel_1);//label debug
 
-		this.memberManagerDialog = memberManagerDialog;
+		//this.memberManagerDialog = memberManagerDialog;
 		// contentPanel.setBackground(new Color(244, 164, 96));
 		setTitle("Member Registration");
 		setBounds(100, 100, 450, 300);
@@ -114,14 +112,20 @@ public class AddMemberDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String memberName = null;
 				String memberID = null;
-				if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
+				if (!(Pattern.matches("^[A-Za-z0-9]+$", txtMemberID.getText()))) {
+				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
+				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
 					memberName = txtMemberName.getText();
 					memberID = txtMemberID.getText();
 					MemberManager.readExistingMembersFromDB();
 					if (!MemberManager.checkExistOfMember(memberID)) {
 						MemberManager.addMember(memberName, memberID);
 						members = MemberManager.convertToMemberArraylist();
-						curMember = MemberManager.getMember(memberID);
+						//curMember = MemberManager.getMember(memberID);
 						FileManangerUtils.saveDataToDatFile(Member.class, members);
 						String successMsg = "Successfully Registered the New Member!\n";
 						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed", JOptionPane.INFORMATION_MESSAGE);
