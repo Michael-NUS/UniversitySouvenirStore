@@ -49,7 +49,6 @@ public class FileManagerUtils {
 							+ item.getReorderLevel() + "," + item.getReorderQuantity() + "\r\n");
 
 				}
-
 				else if (type.toString().contains("Member")) {
 					Member tmpMember = (Member) one;
 					bw.write(tmpMember.getID() + "," + tmpMember.getName() + ","
@@ -58,6 +57,13 @@ public class FileManagerUtils {
 										 * Replace with text entered from
 										 * textField.
 										 */
+				}
+				else if (type.toString().contains("Discount")) {
+					Discount tmpDiscount = (Discount) one;
+					bw.write(tmpDiscount.getCode() + "," + tmpDiscount.getDescription() + ","
+							+ tmpDiscount.getStartDate() + "," + tmpDiscount.getPeriod() + ","
+							+ tmpDiscount.getPercentage() + "," + tmpDiscount.getType() + "\r\n");
+										
 				}
 			}
 			bw.flush();
