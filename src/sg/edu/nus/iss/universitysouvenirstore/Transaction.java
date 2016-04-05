@@ -113,7 +113,7 @@ public class Transaction {
 	
 	public int GetHighestDiscount(){
 
-		
+		/*
 		if(!memberID.equals("PUBLIC"))
 		{
 		//call Discount Class's highest discount, will pass member or not
@@ -123,7 +123,7 @@ public class Transaction {
 			highestDiscount = DiscountManger.getHighestDiscount("PUBLIC");
 		
 		System.out.println("Highest Discount = " + highestDiscount);
-		
+		*/
 		return highestDiscount;
 	}
 	
