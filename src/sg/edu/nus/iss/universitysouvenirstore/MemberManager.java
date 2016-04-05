@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
-
 public class MemberManager {
 
 	private static HashMap<String, Member> members = new HashMap<String, Member>();
@@ -31,7 +29,7 @@ public class MemberManager {
 		clearMembersMap();
 
 		// get the members from io
-		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(Member.class);
+		ArrayList<Object> objects = FileManagerUtils.readDataFromDatFile(Member.class);
 		for (Object one : objects) {
 			members.put(((Member) one).getID(), (Member) one);
 		}
@@ -60,7 +58,7 @@ public class MemberManager {
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
+			FileManagerUtils.saveDataToDatFile(Member.class, memberList);
 
 			return true;
 		} else {
@@ -77,7 +75,7 @@ public class MemberManager {
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
+			FileManagerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
 			return true;
@@ -117,7 +115,7 @@ public class MemberManager {
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
 			// memberList.add(tmpMember);
-			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
+			FileManagerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
 		} else {

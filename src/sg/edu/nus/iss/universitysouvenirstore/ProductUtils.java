@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 
 import sg.edu.nus.iss.universitysouvenirstore.gui.ProductReorderDialog;
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductUtils {
 	
@@ -80,7 +79,7 @@ public class ProductUtils {
 	public static ArrayList<Product> readExistingProductFromDB(){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from the io
-		ArrayList<Object>  objects= FileManangerUtils.readDataFromDatFile(Product.class);
+		ArrayList<Object>  objects= FileManagerUtils.readDataFromDatFile(Product.class);
 		for(Object one: objects){
 			products.add((Product)one);
 		}
@@ -138,7 +137,7 @@ public class ProductUtils {
 			}
 		}
 		
-		FileManangerUtils.saveDataToDatFile(Product.class, products);
+		FileManagerUtils.saveDataToDatFile(Product.class, products);
 		ProductReorderDialog productRorderDialog = new ProductReorderDialog();
 		if(reOrderProducts.size()>0){
 			productRorderDialog.setAllProducts(products);

@@ -7,7 +7,6 @@ import java.util.*;
 
 import sg.edu.nus.iss.universitysouvenirstore.*;
 import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionDialog;
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class Transaction {
 	private int transactionCount = 0;
@@ -18,7 +17,7 @@ public class Transaction {
 	private int highestDiscount = 0;
 	//private ArrayList<Product> product = new ArrayList<Product>();
 
-	private FileManangerUtils fileManager = new FileManangerUtils();
+	private FileManagerUtils fileManager = new FileManagerUtils();
 	//private Member member = new Member();
 	
 	public Transaction(){	

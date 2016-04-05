@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.MemberManager;
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
+import sg.edu.nus.iss.universitysouvenirstore.FileManagerUtils;
 import sg.edu.nus.iss.universitysouvenirstore.Member;
 
 public class AddMemberDialog extends JDialog {
@@ -126,7 +126,7 @@ public class AddMemberDialog extends JDialog {
 						MemberManager.addMember(memberName, memberID);
 						members = MemberManager.convertToMemberArraylist();
 						//curMember = MemberManager.getMember(memberID);
-						FileManangerUtils.saveDataToDatFile(Member.class, members);
+						FileManagerUtils.saveDataToDatFile(Member.class, members);
 						String successMsg = "Successfully Registered the New Member!\n";
 						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed", JOptionPane.INFORMATION_MESSAGE);
 					} else {

@@ -17,12 +17,13 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
+import sg.edu.nus.iss.universitysouvenirstore.util.IntegerTextField;
 
 public class TransactionItemDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
-	private JTextField txtQuantity;
+	private IntegerTextField txtQuantity;
 	private String title;
 	private boolean isEditCase = false;
 	private boolean isDeleteCase = false;
@@ -108,7 +109,7 @@ public class TransactionItemDialog extends JDialog {
 		contentPanel.add(txtProductName);
 		txtProductName.setColumns(10);
 
-		txtQuantity = new JTextField();
+		txtQuantity = new IntegerTextField();
 		txtQuantity.setBounds(108, 97, 66, 21);
 		contentPanel.add(txtQuantity);
 		txtQuantity.setColumns(10);

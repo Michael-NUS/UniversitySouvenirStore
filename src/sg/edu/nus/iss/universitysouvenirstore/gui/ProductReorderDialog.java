@@ -21,8 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.FileManagerUtils;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductReorderDialog extends JDialog {
 
@@ -72,7 +72,7 @@ public class ProductReorderDialog extends JDialog {
 						}
 						dataInit();
 						btnReorderNow.setEnabled(false);
-						FileManangerUtils.saveDataToDatFile(Product.class, allProducts);
+						FileManagerUtils.saveDataToDatFile(Product.class, allProducts);
 					}
 		      
 				}

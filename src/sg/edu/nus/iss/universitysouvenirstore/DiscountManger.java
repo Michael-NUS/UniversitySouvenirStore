@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
-
 public class DiscountManger {
 
 	private static HashMap<String, Discount> discounts = new HashMap<String, Discount>();
@@ -36,7 +34,7 @@ public class DiscountManger {
 		clearDiscountsMap();
 
 		// get the discounts from io
-		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(Discount.class);
+		ArrayList<Object> objects = FileManagerUtils.readDataFromDatFile(Discount.class);
 		for (Object one : objects) {
 			discounts.put(((Discount) one).getCode(), (Discount) one);
 		}
@@ -72,7 +70,7 @@ public class DiscountManger {
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
 			discountList.add(tmpDiscount);
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {
@@ -96,7 +94,7 @@ public class DiscountManger {
 			discounts.remove(discountCode);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			clearDiscountsMap();
 			return true;
@@ -259,7 +257,7 @@ public class DiscountManger {
 			discounts.replace(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {
@@ -278,7 +276,7 @@ public class DiscountManger {
 			discounts.replace(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {
@@ -298,7 +296,7 @@ public class DiscountManger {
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
 
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {
@@ -316,7 +314,7 @@ public class DiscountManger {
 			discounts.replace(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {
@@ -335,7 +333,7 @@ public class DiscountManger {
 			discounts.replace(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+			FileManagerUtils.saveDataToDatFile(Discount.class, discountList);
 
 			return true;
 		} else {

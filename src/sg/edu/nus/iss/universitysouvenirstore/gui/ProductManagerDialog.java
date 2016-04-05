@@ -26,9 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.FileManagerUtils;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
-import sg.edu.nus.iss.universitysouvenirstore.util.FileManangerUtils;
 
 public class ProductManagerDialog extends JDialog {
 
@@ -239,6 +239,6 @@ public class ProductManagerDialog extends JDialog {
 				}
 			}
 		}
-		FileManangerUtils.saveDataToDatFile(Product.class, allProducts);
+		FileManagerUtils.saveDataToDatFile(Product.class, allProducts);
 	}
 }
