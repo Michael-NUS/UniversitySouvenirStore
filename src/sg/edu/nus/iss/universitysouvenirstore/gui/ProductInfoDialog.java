@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
+import sg.edu.nus.iss.universitysouvenirstore.util.DoubleTextField;
+import sg.edu.nus.iss.universitysouvenirstore.util.IntegerTextField;
 
 public class ProductInfoDialog extends JDialog {
 
@@ -32,9 +34,9 @@ public class ProductInfoDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
-	private JTextField txtPrice;
-	private JTextField txtQuantity;
-	private JTextField txtReorderLevel;
+	private DoubleTextField txtPrice;
+	private IntegerTextField txtQuantity;
+	private IntegerTextField txtReorderLevel;
 	private JTextField txtBrief;
 	private String title;
 	private JComboBox<String> comboBoxCategory;
@@ -44,7 +46,7 @@ public class ProductInfoDialog extends JDialog {
 	private JButton okButton = null;
 	private ArrayList<Product> products = null;
 	private ProductManagerDialog productManagerDialog = null;
-	private JTextField txtReorderQuantity;
+	private IntegerTextField txtReorderQuantity;
 
 
 
@@ -130,17 +132,17 @@ public class ProductInfoDialog extends JDialog {
 		contentPanel.add(txtProductName);
 		txtProductName.setColumns(10);
 
-		txtPrice = new JTextField();
+		txtPrice = new DoubleTextField();
 		txtPrice.setBounds(108, 96, 66, 21);
 		contentPanel.add(txtPrice);
 		txtPrice.setColumns(10);
 
-		txtQuantity = new JTextField();
+		txtQuantity = new IntegerTextField();
 		txtQuantity.setBounds(108, 70, 66, 21);
 		contentPanel.add(txtQuantity);
 		txtQuantity.setColumns(10);
 
-		txtReorderLevel = new JTextField();
+		txtReorderLevel = new IntegerTextField();
 		txtReorderLevel.setBounds(328, 42, 66, 21);
 		contentPanel.add(txtReorderLevel);
 		txtReorderLevel.setColumns(10);
@@ -166,7 +168,7 @@ public class ProductInfoDialog extends JDialog {
 		lblReorderQuantity.setBounds(193, 73, 106, 27);
 		contentPanel.add(lblReorderQuantity);
 		
-		txtReorderQuantity = new JTextField();
+		txtReorderQuantity = new IntegerTextField();
 		txtReorderQuantity.setColumns(10);
 		txtReorderQuantity.setBounds(328, 70, 66, 21);
 		contentPanel.add(txtReorderQuantity);
