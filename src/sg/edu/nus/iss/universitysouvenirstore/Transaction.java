@@ -15,7 +15,7 @@ public class Transaction {
 	private String memberID = "PUBLIC";
 	private int memberPoints = 0;
 	private boolean cashBack = false;
-	
+	private int highestDiscount = 0;
 	//private ArrayList<Product> product = new ArrayList<Product>();
 
 	private FileManangerUtils fileManager = new FileManangerUtils();
@@ -110,23 +110,26 @@ public class Transaction {
 			counter ++;		
 		}
 	}
+
 	
-	public void CancelTransaction(){
+	public int GetHighestDiscount(){
+
 		
-	}
-	
-	
-	public float GetHighestDiscount(){
-		float highestDiscount = 0;
-		
+		if(!memberID.equals("PUBLIC"))
+		{
 		//call Discount Class's highest discount, will pass member or not
+			highestDiscount = DiscountManger.getHighestDiscount("MEMBER");
+		}
+		else
+			highestDiscount = DiscountManger.getHighestDiscount("PUBLIC");
+		
+		System.out.println("Highest Discount = " + highestDiscount);
 		
 		return highestDiscount;
 	}
 	
 	public void CheckOut(){
 		float amountPaid = 0;
-		float discount = 0;
 		int conversionRation = 100;
 		
 		//date
@@ -138,7 +141,7 @@ public class Transaction {
 
 		//Discount class's return the highest discount available
 		amountPaid = GetTotalPrice();
-		discount = GetHighestDiscount();
+
 
 
 		//get Point to Cash
@@ -150,7 +153,7 @@ public class Transaction {
 			System.out.println("memberPoints before new adjustment:" + memberPoints);
 		}
 
-		amountPaid = (amountPaid - cashBackValue * (1 - (discount/100)));
+		amountPaid = (amountPaid - cashBackValue * (1 - (highestDiscount/100)));
 		
 		//new Member Points
 		memberPoints = (int) (memberPoints + (amountPaid/10));

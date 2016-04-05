@@ -32,7 +32,7 @@ public class TransactionDialog extends JFrame{
     float grandTotal;
     private boolean isMember = false;
 	int memberCashback;
-
+	
 	TransactionMemberDialog memberInfo;
 	
 	private String memberID = "PUBLIC";
@@ -40,8 +40,6 @@ public class TransactionDialog extends JFrame{
 	
 	private int discount = 0;
 	private float total = 0;
-	//private ArrayList<TransactionedItem> itemList = new ArrayList<TransactionedItem>();
-	//private Member member = new Member();
 	private final JPanel contentPanel = new JPanel();
 	int numItems = 0;
 	DefaultListModel model;
@@ -76,7 +74,7 @@ public class TransactionDialog extends JFrame{
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		
+		discount = transaction.GetHighestDiscount();
 		
 		CreateButtonPanel();
 		CreateLabelPanel();
@@ -309,6 +307,8 @@ public class TransactionDialog extends JFrame{
     public void refresh(){
     	items = GetTransactionedItems();
     	jlist.removeAll();
+    	
+		discount = transaction.GetHighestDiscount();
 
     	
     	
@@ -341,7 +341,7 @@ public class TransactionDialog extends JFrame{
         	pointsLBL.setText(String.valueOf("Points available: " + memberPoint));
         else
         	pointsLBL.setText(String.valueOf(""));
-
+    	discountLbl.setText(String.valueOf(discount));
         grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));        
         String tempGrandtotal = String.format("%.2f", grandTotal);
         grandTotalLbl.setText("$" + tempGrandtotal);
