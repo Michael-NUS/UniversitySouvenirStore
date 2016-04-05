@@ -111,14 +111,14 @@ public class DiscountManger {
 		return discounts.get(discountCode);
 	}
 
-	/* Member="MEMBER" or Non-member="PUBLIC" */
-	public static int getHighestDiscount(String customerType) {
+	/* customerID="MemberID" for member or ="PUBLIC" for public customer */
+	public static int getHighestDiscount(String customerID) {
 		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 
 		ArrayList<Integer> availableDiscountList = new ArrayList<Integer>();
 
-		customerType = customerType.toUpperCase();
+		customerID = customerID.toUpperCase();
 
 		Iterator iterator = discounts.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -133,33 +133,17 @@ public class DiscountManger {
 			Date currentDate = new Date();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
-			if (customerType == "MEMBER") {
+			// Member discounts
+			if (customerID != "PUBLIC") {
+
+				// return 1st time discount for member's 1st purchase
+				if (MemberManager.getMemberLoyaltyPoint(customerID) == -1) {
+					return getDiscountPercentage("FIRST_TIME_DISCOUNT");
+				}
+
 				// add discount to the list if the current date is within the
 				// discount period
-				if (tmpDiscountStartDate == "ALWAYS") {
-					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-				} else {
-
-					try {
-						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
-					} catch (ParseException e) {
-						// Invalid DiscountStartDate detected
-						e.printStackTrace();
-					}
-
-					if (currentDiscountPeriod == "ALWAYS") {
-						if (currentDate.after(currentDiscountStartDate)) {
-							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-						}
-					} else {
-						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
-						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
-							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-						}
-					}
-				}
-			} else if (currentDiscountType == "A") { // exclude the member discount from the list
-				if (tmpDiscountStartDate == "ALWAYS") {
+				else if (tmpDiscountStartDate == "ALWAYS") {
 					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
 				} else {
 
@@ -183,6 +167,31 @@ public class DiscountManger {
 				}
 			}
 
+			// Public discounts, to exclude the member discounts from the list
+			else if (currentDiscountType == "A") {
+				if (tmpDiscountStartDate == "ALWAYS") {
+					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+				} else {
+
+					try {
+						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
+					} catch (ParseException e) {
+						// Invalid DiscountStartDate detected
+						e.printStackTrace();
+					}
+
+					if (currentDiscountPeriod == "ALWAYS") {
+						if (currentDate.after(currentDiscountStartDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					} else {
+						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
+						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					}
+				}
+			}
 		}
 
 		return Collections.max(availableDiscountList);
