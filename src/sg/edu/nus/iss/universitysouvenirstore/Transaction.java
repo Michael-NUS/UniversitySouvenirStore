@@ -103,8 +103,6 @@ public class Transaction {
 			{
 				items.remove(counter);
 			}
-			else
-				System.out.println("nope");
 			
 			counter ++;		
 		}
@@ -113,17 +111,17 @@ public class Transaction {
 	
 	public int GetHighestDiscount(){
 
-		/*
+		
 		if(!memberID.equals("PUBLIC"))
 		{
 		//call Discount Class's highest discount, will pass member or not
-			highestDiscount = DiscountManger.getHighestDiscount("MEMBER");
+			highestDiscount = DiscountManger.getHighestDiscount(memberID);
 		}
 		else
 			highestDiscount = DiscountManger.getHighestDiscount("PUBLIC");
 		
 		System.out.println("Highest Discount = " + highestDiscount);
-		*/
+		
 		return highestDiscount;
 	}
 	
