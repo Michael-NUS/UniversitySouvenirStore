@@ -189,6 +189,15 @@ public class FileManagerUtils {
 										dataList.add(tmpMember);
 									}
 									break;
+								case "discounts":
+									if (intFileColumnCount != 6) {
+										// throw 'invalid member file
+										// format' exception
+									}else{
+										Discount tmpDiscount = new Discount(data[0], data[1], data[2], data[3], data[4], Integer.valueOf(data[5]));
+										dataList.add(tmpDiscount);
+									}
+									break;
 								default:
 									// throw 'invalid file type or file format'
 									// exception
@@ -292,6 +301,26 @@ public class FileManagerUtils {
 						        	}
 						        }
 							}
+							break;
+						case "discounts":
+							if (intFileColumnCount != 6) {
+								// throw 'invalid transaction file
+								// format' exception
+							}else{
+								// write/append to the file
+								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
+								for (int i = 0; i < arrLstData.size(); i++) 
+						        {
+						        	System.out.println(arrLstData.get(i));
+						        	if(i == 0){
+							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
+
+						        	}else{
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
+						        	}
+						        }
+							}
+							break;
 						default:
 							// throw 'invalid file type or file format'
 							// exception
