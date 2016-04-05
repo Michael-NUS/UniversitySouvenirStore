@@ -39,4 +39,14 @@ public class TransactionTest {
 		//System.out.println(String.valueOf(item1.get(0).GetProductQuantity()));			
 		assertTrue(5==item1.get(0).GetProductQuantity());		
 	}
+	
+	@Test
+	public void TestDifferentItemsAdded(){
+		transaction.AddTransactionItem("CLO/1", 1, 21.45);
+		transaction.AddTransactionItem("MUG/1", 1, 10.25);
+		item1 = transaction.GetTransactionItems();
+		assertFalse(item1.get(0).GetProductID().equals(item1.get(1).GetProductID()));
+	}
+	
+	
 }
