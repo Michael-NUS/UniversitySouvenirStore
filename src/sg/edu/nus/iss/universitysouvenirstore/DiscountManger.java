@@ -34,7 +34,7 @@ public class DiscountManger {
 		clearDiscountsMap();
 
 		// get the discounts from io
-		ArrayList<Object> objects = FileManagerUtils.readDataFromDatFile(Discount.class);
+		ArrayList<Object> objects = FileManagerUtils.ReadDataFromDatFile("discounts", "discounts");
 		for (Object one : objects) {
 			discounts.put(((Discount) one).getCode(), (Discount) one);
 		}
