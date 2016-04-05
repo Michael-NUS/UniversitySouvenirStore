@@ -165,7 +165,6 @@ public class DiscountManger {
 						}
 					}
 				}
-
 			}
 
 			// Public discounts, to exclude the member discounts from the list
@@ -193,7 +192,6 @@ public class DiscountManger {
 					}
 				}
 			}
-
 		}
 
 		return Collections.max(availableDiscountList);
