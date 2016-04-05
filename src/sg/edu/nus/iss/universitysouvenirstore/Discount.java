@@ -13,10 +13,16 @@ public class Discount {
 									 * discount
 									 */
 
-	public char discountType; // Applicable to Member (M) or All (A)
+	public String discountType; // Applicable to Member (M) or All (A)
 
-	public Discount(char discountType, String discountCode, String description, String startDate, String discountPeriod,
-			int discountPercentage) {
+	public Discount(String discountType, String discountCode, String description, String startDate,
+			String discountPeriod, int discountPercentage) {
+		// if startDate is ALWAYS, then it's only logical that this discount is
+		// ALWAYS available
+		if (startDate == "ALWAYS") {
+			discountPeriod = "ALWAYS";
+		}
+
 		this.discountType = discountType;
 		this.startDate = startDate;
 		this.discountPeriod = discountPeriod;
@@ -25,40 +31,57 @@ public class Discount {
 		this.discountPercentage = discountPercentage;
 	}
 
-	public void setDiscountCode(String newDiscountCode) {
+	public void setCode(String newDiscountCode) {
 		discountCode = newDiscountCode;
 	}
 
-	public void setDiscountDescription(String newDescription) {
+	public void setDescription(String newDescription) {
 		description = newDescription;
 	}
 
-	public void setDiscountPercentage(int newPercentage) {
+	public void setPercentage(int newPercentage) {
 		discountPercentage = newPercentage;
 	}
 
-	public void setDiscountType(char newDiscountType) {
+	public void setType(String newDiscountType) {
 		discountType = newDiscountType;
 	}
 
 	public void setStartDate(String newStartDate) {
+		if (newStartDate == "ALWAYS") {
+			// if startDate is ALWAYS, then it's only logical that this discount is
+			// ALWAYS available
+			setPeriod("ALWAYS");
+		}
 		startDate = newStartDate;
 	}
 
-	public void setDiscountPeriod(String newDiscountPeriod) {
+	public void setPeriod(String newDiscountPeriod) {
 		discountPeriod = newDiscountPeriod;
 	}
 
-	public int getDiscountPercentage() {
+	public int getPercentage() {
 		return discountPercentage;
 	}
 
-	public char getDiscountType() {
+	public String getType() {
 		return discountType;
 	}
-	
-	public String getDiscountCode() {
+
+	public String getCode() {
 		return discountCode;
+	}
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	
+	public String getPeriod() {
+		return discountPeriod;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 
 }

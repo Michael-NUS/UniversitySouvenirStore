@@ -33,7 +33,7 @@ public class MemberManager {
 		// get the members from io
 		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(Member.class);
 		for (Object one : objects) {
-			members.put(((Member) one).getMemberID(), (Member) one);
+			members.put(((Member) one).getID(), (Member) one);
 		}
 	}
 
@@ -44,13 +44,15 @@ public class MemberManager {
 	}
 
 	public static boolean checkExistOfMember(String memberID) {
-		if (members.containsKey(memberID)) {
+		if (members.containsKey(memberID.toUpperCase())) {
 			return true;
 		} else
 			return false;
 	}
 
 	public static boolean addMember(String memberName, String memberID) {
+		memberName = memberName.toUpperCase();
+		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		if (!checkExistOfMember(memberID)) {
 			Member tmpMember = new Member(memberName, memberID);
@@ -67,6 +69,7 @@ public class MemberManager {
 	}
 
 	public static boolean removeMember(String memberID) {
+		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		if (checkExistOfMember(memberID)) {
 			members.remove(memberID);
@@ -85,6 +88,7 @@ public class MemberManager {
 	}
 
 	public static Member getMember(String memberID) {
+		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		return members.get(memberID);
 	}
@@ -104,6 +108,7 @@ public class MemberManager {
 	// }
 
 	public static void updateMemberLoyaltyPoint(String memberID, int newLoyaltyPoint) {
+		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		if (checkExistOfMember(memberID)) {
 			Member tmpMember = members.get(memberID);
@@ -111,7 +116,7 @@ public class MemberManager {
 			members.replace(memberID, tmpMember);
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
-			//memberList.add(tmpMember);
+			// memberList.add(tmpMember);
 			FileManangerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
@@ -121,12 +126,10 @@ public class MemberManager {
 	}
 
 	public static int getMemberLoyaltyPoint(String memberID) {
+		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		if (checkExistOfMember(memberID)) {
-			Member tmpMember = members.get(memberID);
-			members.replace(memberID, tmpMember);
-
-			return (members.get(memberID)).getLoyaltyPoint() + clearMembersMap();
+			return getMember(memberID).getLoyaltyPoint() + clearMembersMap();
 		} else {
 			return -99 + clearMembersMap();
 		}

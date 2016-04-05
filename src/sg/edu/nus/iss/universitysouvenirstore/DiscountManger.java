@@ -1,6 +1,12 @@
 package sg.edu.nus.iss.universitysouvenirstore;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,8 +38,16 @@ public class DiscountManger {
 		// get the discounts from io
 		ArrayList<Object> objects = FileManangerUtils.readDataFromDatFile(Discount.class);
 		for (Object one : objects) {
-			discounts.put(((Discount) one).getDiscountCode(), (Discount) one);
+			discounts.put(((Discount) one).getCode(), (Discount) one);
 		}
+	}
+
+	public static Date setDays(Date date, String days) {
+		int actualDays = Integer.parseInt(days);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, actualDays);
+		return cal.getTime();
 	}
 
 	public static int clearDiscountsMap() {
@@ -42,8 +56,14 @@ public class DiscountManger {
 		return 0;
 	}
 
-	public static boolean addDiscount(char discountType, String discountCode, String description, String startDate,
+	public static boolean addDiscount(String discountType, String discountCode, String description, String startDate,
 			String discountPeriod, int discountPercentage) {
+		discountType = discountType.toUpperCase();
+		discountCode = discountCode.toUpperCase();
+		startDate = startDate.toUpperCase();
+		discountPeriod = discountPeriod.toUpperCase();
+
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (!checkExistOfDiscount(discountCode)) {
 			Discount tmpDiscount = new Discount(discountType, discountCode, description, startDate, discountPeriod,
@@ -61,6 +81,7 @@ public class DiscountManger {
 	}
 
 	public static boolean checkExistOfDiscount(String discountCode) {
+		discountCode = discountCode.toUpperCase();
 		if (discounts.containsKey(discountCode)) {
 			return true;
 		} else
@@ -68,6 +89,8 @@ public class DiscountManger {
 	}
 
 	public static boolean removeDiscount(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
 			discounts.remove(discountCode);
@@ -84,105 +107,239 @@ public class DiscountManger {
 	}
 
 	public static Discount getDiscount(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		return discounts.get(discountCode);
 	}
 
+	/* Member="MEMBER" or Non-member="PUBLIC" */
+	public static int getHighestDiscount(String customerType) {
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+
+		ArrayList<Integer> availableDiscountList = new ArrayList<Integer>();
+
+		customerType = customerType.toUpperCase();
+
+		Iterator iterator = discounts.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry discountEntry = (Map.Entry) iterator.next();
+
+			String currentDiscountType = ((Discount) discountEntry.getValue()).getType();
+
+			String tmpDiscountStartDate = ((Discount) discountEntry.getValue()).getStartDate();
+			String currentDiscountPeriod = ((Discount) discountEntry.getValue()).getPeriod();
+			Date currentDiscountStartDate = null;
+			Date currentDiscountEndDate = null;
+			Date currentDate = new Date();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			if (customerType == "MEMBER") {
+				// add discount to the list if the current date is within the
+				// discount period
+				if (tmpDiscountStartDate == "ALWAYS") {
+					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+				} else {
+
+					try {
+						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
+					} catch (ParseException e) {
+						// Invalid DiscountStartDate detected
+						e.printStackTrace();
+					}
+
+					if (currentDiscountPeriod == "ALWAYS") {
+						if (currentDate.after(currentDiscountStartDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					} else {
+						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
+						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					}
+				}
+			} else if (currentDiscountType == "A") { // exclude the member discount from the list
+				if (tmpDiscountStartDate == "ALWAYS") {
+					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+				} else {
+
+					try {
+						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
+					} catch (ParseException e) {
+						// Invalid DiscountStartDate detected
+						e.printStackTrace();
+					}
+
+					if (currentDiscountPeriod == "ALWAYS") {
+						if (currentDate.after(currentDiscountStartDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					} else {
+						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
+						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+					}
+				}
+			}
+
+		}
+
+		return Collections.max(availableDiscountList);
+
+	}
+
 	public static int getDiscountPercentage(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
 			Discount tmpDiscount = discounts.get(discountCode);
 			discounts.replace(discountCode, tmpDiscount);
 
-			return (discounts.get(discountCode)).getDiscountPercentage() + clearDiscountsMap();
+			return (discounts.get(discountCode)).getPercentage();
 		} else {
-			return -1 + clearDiscountsMap();
-		}
-	}
-	
-	
-	public static void updateDiscountDescription(String discountCode, String newDescription) {
-		readExistingDiscountsFromDB();
-		if (checkExistOfDiscount(discountCode)) {
-			Discount tmpDiscount = discounts.get(discountCode);
-			tmpDiscount.setDiscountDescription(newDescription);
-			discounts.replace(discountCode, tmpDiscount);
-
-			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			discountList.add(tmpDiscount);
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
-
-			clearDiscountsMap();
-		} else {
-			clearDiscountsMap();
+			return 0;
 		}
 	}
 
-	public static void updateDiscountStartDate(String discountCode, String newDiscountStartDate) {
+	public static String getDiscountDescription(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
-			Discount tmpDiscount = discounts.get(discountCode);
-			tmpDiscount.setDiscountDescription(newDiscountStartDate);
-			discounts.replace(discountCode, tmpDiscount);
-
-			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			discountList.add(tmpDiscount);
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
-
-			clearDiscountsMap();
+			return getDiscount(discountCode).getDescription();
 		} else {
-			clearDiscountsMap();
+			return null;
 		}
 	}
 
-	public static void updateDiscountPeriod(String discountCode, String newDiscountPeriod) {
+	public static String getDiscountType(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
-			Discount tmpDiscount = discounts.get(discountCode);
-			tmpDiscount.setDiscountPeriod(newDiscountPeriod);
-			discounts.replace(discountCode, tmpDiscount);
-
-			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			discountList.add(tmpDiscount);
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
-
-			clearDiscountsMap();
+			return getDiscount(discountCode).getType();
 		} else {
-			clearDiscountsMap();
+			return null;
 		}
 	}
 
-	public static void updateDiscountPercentage(String discountCode, int newDiscountPercentage) {
+	public static String getDiscountStartDate(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
-			Discount tmpDiscount = discounts.get(discountCode);
-			tmpDiscount.setDiscountPercentage(newDiscountPercentage);
-			discounts.replace(discountCode, tmpDiscount);
-
-			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			discountList.add(tmpDiscount);
-			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
-
-			clearDiscountsMap();
+			return getDiscount(discountCode).getStartDate();
 		} else {
-			clearDiscountsMap();
+			return null;
 		}
 	}
-	
-	public static void updateDiscountType(String discountCode, char newDiscountType) {
+
+	public static String getDiscountPeriod(String discountCode) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+		if (checkExistOfDiscount(discountCode)) {
+			return getDiscount(discountCode).getPeriod();
+		} else {
+			return null;
+		}
+	}
+
+	public static boolean updateDiscountDescription(String discountCode, String newDescription) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (checkExistOfDiscount(discountCode)) {
 			Discount tmpDiscount = discounts.get(discountCode);
-			tmpDiscount.setDiscountType(newDiscountType);
+			tmpDiscount.setDescription(newDescription);
 			discounts.replace(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
-			discountList.add(tmpDiscount);
 			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
 
-			clearDiscountsMap();
+			return true;
 		} else {
-			clearDiscountsMap();
+			return false;
+		}
+	}
+
+	public static boolean updateDiscountStartDate(String discountCode, String newDiscountStartDate) {
+		discountCode = discountCode.toUpperCase();
+		newDiscountStartDate = newDiscountStartDate.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+		if (checkExistOfDiscount(discountCode)) {
+			Discount tmpDiscount = discounts.get(discountCode);
+			tmpDiscount.setStartDate(newDiscountStartDate);
+			discounts.replace(discountCode, tmpDiscount);
+
+			ArrayList<Discount> discountList = convertToDiscountArraylist();
+			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean updateDiscountPeriod(String discountCode, String newDiscountPeriod) {
+		discountCode = discountCode.toUpperCase();
+		newDiscountPeriod = newDiscountPeriod.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+		if (checkExistOfDiscount(discountCode)) {
+			Discount tmpDiscount = discounts.get(discountCode);
+			tmpDiscount.setPeriod(newDiscountPeriod);
+			discounts.replace(discountCode, tmpDiscount);
+
+			ArrayList<Discount> discountList = convertToDiscountArraylist();
+
+			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean updateDiscountPercentage(String discountCode, int newDiscountPercentage) {
+		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+		if (checkExistOfDiscount(discountCode)) {
+			Discount tmpDiscount = discounts.get(discountCode);
+			tmpDiscount.setPercentage(newDiscountPercentage);
+			discounts.replace(discountCode, tmpDiscount);
+
+			ArrayList<Discount> discountList = convertToDiscountArraylist();
+			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean updateDiscountType(String discountCode, String newDiscountType) {
+		discountCode = discountCode.toUpperCase();
+		newDiscountType = newDiscountType.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
+		if (checkExistOfDiscount(discountCode)) {
+			Discount tmpDiscount = discounts.get(discountCode);
+			tmpDiscount.setType(newDiscountType);
+			discounts.replace(discountCode, tmpDiscount);
+
+			ArrayList<Discount> discountList = convertToDiscountArraylist();
+			FileManangerUtils.saveDataToDatFile(Discount.class, discountList);
+
+			return true;
+		} else {
+			return false;
 		}
 	}
 

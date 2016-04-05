@@ -33,7 +33,7 @@ public class Member extends Customer {
 		return loyaltyPoint;
 	}
 
-	public String getMemberName() {
+	public String getName() {
 		return memberName;
 	}
 
@@ -41,7 +41,7 @@ public class Member extends Customer {
 	// memberName = newMemberName;
 	// }
 
-	public String getMemberID() {
+	public String getID() {
 		return memberID;
 	}
 
