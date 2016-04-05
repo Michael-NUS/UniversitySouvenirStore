@@ -90,13 +90,13 @@ public class TransactionMemberDialog extends JDialog {
 		lblNewLabel.setBounds(16, 157, 167, 16);
 		contentPanel.add(lblNewLabel);
 		
-		JLabel lblDeductPoints = new JLabel("Redeemable Dollar");
+		JLabel lblDeductPoints = new JLabel("Eligible Cash Rebate");
 		lblDeductPoints.setBounds(16, 184, 167, 16);
 		contentPanel.add(lblDeductPoints);
 		
 		JCheckBox redeemCheckBox = new JCheckBox("Redeem");
 		redeemCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		redeemCheckBox.setBounds(16, 201, 78, 18);
+		redeemCheckBox.setBounds(16, 209, 78, 18);
 		contentPanel.add(redeemCheckBox);
 		
 		memberField = new JTextField();

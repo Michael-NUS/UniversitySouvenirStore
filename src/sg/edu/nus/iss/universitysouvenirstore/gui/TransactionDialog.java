@@ -160,6 +160,9 @@ public class TransactionDialog extends JFrame{
 					transactionItemDialog.EditItem(jlist.getSelectedItem());
 					//transactionItemDialog.dataInit();
 				}
+				else
+					checkOutButton.setEnabled(false);
+					
 			}
 		});
 		removeButton.setEnabled(false);
@@ -167,7 +170,7 @@ public class TransactionDialog extends JFrame{
 		removeButton.setBounds(297, 184, 127, 37);
 		contentPanel.add(removeButton);
 		
-		editBtn.setEnabled(false); //when no item in the list, Remove button is disabled
+		editBtn.setEnabled(false); //when no item in the list, Edit button is disabled
 		checkOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				transaction.CheckOut();				
@@ -182,7 +185,7 @@ public class TransactionDialog extends JFrame{
 		        dispose();
 			}
 		});
-		checkOutButton.setEnabled(true); //when no item in the list, Check Out button is disabled		
+		checkOutButton.setEnabled(false); //when no item in the list, Check Out button is disabled		
 		
 		checkOutButton.setActionCommand("Check Out");
 		panel.add(checkOutButton);
@@ -246,7 +249,7 @@ public class TransactionDialog extends JFrame{
 		lblNewLabel.setBounds(5, 267, 66, 16);
 		contentPanel.add(lblNewLabel);
 		
-		JLabel lblDeductPoints = new JLabel("Cashback:");
+		JLabel lblDeductPoints = new JLabel("Cash Rebate:");
 		lblDeductPoints.setBounds(5, 281, 97, 16);
 		contentPanel.add(lblDeductPoints);
 		
@@ -313,6 +316,11 @@ public class TransactionDialog extends JFrame{
         while (i.hasNext()) {
         	jlist.add (i.next().toString());
         }    	
+        
+        if(!items.isEmpty())
+        	checkOutButton.setEnabled(true);
+        else
+        	checkOutButton.setEnabled(false);
         
         String tempSubTotal = String.format("%.2f", transaction.GetTotalPrice());
         subTotalLbl.setText("$" + tempSubTotal);
