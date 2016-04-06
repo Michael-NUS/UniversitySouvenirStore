@@ -76,7 +76,7 @@ public class ProductUtils {
 	
 		return 0;
 	}
-	public static ArrayList<Product> readExistingProductFromDB(){
+	private static ArrayList<Product> readExistingProductFromDB(){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from the io
 		ArrayList<Object>  objects= FileManagerUtils.readDataFromDatFile(Product.class);

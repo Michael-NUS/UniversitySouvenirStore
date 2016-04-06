@@ -1,11 +1,11 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
-import sg.edu.nus.iss.universitysouvenirstore.gui.*;
-import sg.edu.nus.iss.universitysouvenirstore.Transaction;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class AddTransactionedItemDialog extends JDialog {
 
@@ -13,15 +13,13 @@ public class AddTransactionedItemDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
-	private TransactionDialog manager;
-    private JTextField quantityField;
+	private JTextField quantityField;
 
     private JTextField productIDField;
 
 
 
     public AddTransactionedItemDialog (TransactionDialog manager) {
-        this.manager = manager;
     }
 
 
@@ -39,7 +37,7 @@ public class AddTransactionedItemDialog extends JDialog {
 
     protected boolean performOkAction () {
         String productID = productIDField.getText();
-        int quantity = Integer.parseInt(quantityField.getText());
+        Integer.parseInt(quantityField.getText());
         if ((productID.length() == 0) || (quantityField.getText() == null)) {
             return false;
         }

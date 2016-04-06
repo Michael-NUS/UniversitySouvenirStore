@@ -3,10 +3,10 @@
  */
 package sg.edu.nus.iss.universitysouvenirstore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +24,8 @@ public class ProductUtilsTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		FileManagerUtils.fileDir="./data/sg/edu/nus/iss/universitysouvenirstore/unittestdata";
+		
 		products.add(new Product("ABC/1", "pen1","this is a pen1",4,10,5,"ABC",10));
 		products.add(new Product("ABC/2", "pen2","this is a pen2",4,10,5,"ABC",10));
 		products.add(new Product("ABC/3", "pen3","this is a pen3",10,10,5,"ABC",10));
@@ -71,6 +73,8 @@ public class ProductUtilsTest {
 	@Test
 	public void testProductIdGenerator() {
 		
+		String id = ProductUtils.productIdGenerator("CLO");
+		assertEquals(id,"CLO/2");
 	}
 
 
@@ -79,17 +83,10 @@ public class ProductUtilsTest {
 	 */
 	@Test
 	public void testEditProduct() {
+
 		Product product=new Product("ABC/16", "pen16","this is a pen16",11,11,6,"ABC",11);
 		ProductUtils.editProduct(products.get(0), "ABC/16", "pen16","this is a pen16",11,11.0,6,11);
 		assertEquals(product, products.get(0));
-	}
-
-	/**
-	 * Test method for {@link sg.edu.nus.iss.universitysouvenirstore.ProductUtils#readExistingProductFromDB()}.
-	 */
-	@Test
-	public void testReadExistingProductFromDB() {
-		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,6 +95,8 @@ public class ProductUtilsTest {
 	@Test
 	public void testGetAllProducts() {
 		//fail("Not yet implemented");
+		ArrayList<Product> products = ProductUtils.getAllProducts();
+		assertEquals(3,products.size());
 	}
 
 	/**
@@ -134,13 +133,7 @@ public class ProductUtilsTest {
 		assertArrayEquals(productList.toArray(),productList1.toArray());
 	}
 
-	/**
-	 * Test method for {@link sg.edu.nus.iss.universitysouvenirstore.ProductUtils#updateTransctionQuantity(java.util.ArrayList, java.util.ArrayList)}.
-	 */
-	@Test
-	public void testUpdateTransctionQuantity() {
-		//fail("Not yet implemented");
-	}
+
 
 	/**
 	 * Test method for {@link sg.edu.nus.iss.universitysouvenirstore.ProductUtils#removeProduct(java.util.ArrayList, sg.edu.nus.iss.universitysouvenirstore.Product)}.

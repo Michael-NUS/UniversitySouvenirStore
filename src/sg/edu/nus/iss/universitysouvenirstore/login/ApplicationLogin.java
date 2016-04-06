@@ -39,6 +39,10 @@ import java.util.Date;
 
 public class ApplicationLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textFieldUserName;
 	private JPasswordField passwordField;
 	
@@ -226,7 +230,11 @@ public class ApplicationLogin extends JFrame {
 
 /* Outer class */
 class ContentPanel extends JPanel {
-	  Image bgimage = null;  
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Image bgimage = null;  
 	  Image logoimage = null;
 
 	  ContentPanel() {

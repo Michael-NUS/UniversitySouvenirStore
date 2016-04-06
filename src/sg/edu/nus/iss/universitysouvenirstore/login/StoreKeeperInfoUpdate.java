@@ -33,6 +33,10 @@ import javax.swing.ButtonGroup;
 
 public class StoreKeeperInfoUpdate extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;

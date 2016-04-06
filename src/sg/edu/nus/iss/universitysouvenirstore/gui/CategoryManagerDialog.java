@@ -1,32 +1,36 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
-import sg.edu.nus.iss.universitysouvenirstore.*;
-
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import java.awt.List;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import sg.edu.nus.iss.universitysouvenirstore.Category;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryUtils;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
+import sg.edu.nus.iss.universitysouvenirstore.Vendor;
+import sg.edu.nus.iss.universitysouvenirstore.VendorUtils;
 
 public class CategoryManagerDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private CategoryInfoDialog categoryInfoDialog=new CategoryInfoDialog();
 	private VendorInfoDialog vendorInfoDialog=new VendorInfoDialog();
@@ -47,7 +51,7 @@ public class CategoryManagerDialog extends JDialog {
 	 */
 	public CategoryManagerDialog() {
 
-		JScrollPane scrollPane=new JScrollPane();
+		
 
 		//scrollPane.setViewportView(jlist);
 

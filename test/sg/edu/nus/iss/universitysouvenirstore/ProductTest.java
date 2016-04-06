@@ -3,13 +3,9 @@
  */
 package sg.edu.nus.iss.universitysouvenirstore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import sg.edu.nus.iss.universitysouvenirstore.StorekeeperTestCases.Storekeeper;
 
 /**
  * @author 2016Äê4ÔÂ3ÈÕlinwei
@@ -143,7 +139,6 @@ public class ProductTest {
 	/**
 	 * Test method for {@link sg.edu.nus.iss.universitysouvenirstore.Product#getPrice()}.
 	 */
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testGetPrice() {
 		assertEquals(10.11, product.getPrice(),0.001);

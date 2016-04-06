@@ -20,6 +20,10 @@ import sg.edu.nus.iss.universitysouvenirstore.MemberManager;
 
 public class TransactionMemberDialog extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String memberID = null;
 	private int memberPoints = 0;
 
