@@ -51,7 +51,7 @@ public class FileManagerUtils {
 				}
 				else if (type.toString().contains("Member")) {
 					Member tmpMember = (Member) one;
-					bw.write(tmpMember.getID() + "," + tmpMember.getName() + ","
+					bw.write(tmpMember.getName() + "," + tmpMember.getID() + ","
 							+ tmpMember.getLoyaltyPoint()
 							+ "\r\n");/*
 										 * Replace with text entered from
