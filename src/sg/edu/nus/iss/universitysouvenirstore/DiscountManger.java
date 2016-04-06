@@ -1,8 +1,5 @@
 package sg.edu.nus.iss.universitysouvenirstore;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -40,7 +37,7 @@ public class DiscountManger {
 		}
 	}
 
-	public static Date setDays(Date date, String days) {
+	public static Date convertToDate(Date date, String days) {
 		int actualDays = Integer.parseInt(days);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -54,8 +51,8 @@ public class DiscountManger {
 		return 0;
 	}
 
-	public static boolean addDiscount(String discountType, String discountCode, String description, String startDate,
-			String discountPeriod, int discountPercentage) {
+	public static boolean addDiscount(String discountCode, String description, String startDate, String discountPeriod,
+			int discountPercentage, String discountType) {
 		discountType = discountType.toUpperCase();
 		discountCode = discountCode.toUpperCase();
 		startDate = startDate.toUpperCase();
@@ -64,8 +61,8 @@ public class DiscountManger {
 		clearDiscountsMap();
 		readExistingDiscountsFromDB();
 		if (!checkExistOfDiscount(discountCode)) {
-			Discount tmpDiscount = new Discount(discountType, discountCode, description, startDate, discountPeriod,
-					discountPercentage);
+			Discount tmpDiscount = new Discount(discountCode, description, startDate, discountPeriod,
+					discountPercentage, discountType);
 			discounts.put(discountCode, tmpDiscount);
 
 			ArrayList<Discount> discountList = convertToDiscountArraylist();
@@ -111,6 +108,23 @@ public class DiscountManger {
 		return discounts.get(discountCode);
 	}
 
+	public static Date convertToDate(String startDate, String offset) {
+
+		String[] tmpDate = startDate.split("-");
+		int years = Integer.valueOf(tmpDate[0]);
+		int months = Integer.valueOf(tmpDate[1]) - 1;
+		int days = Integer.valueOf(tmpDate[2]);
+
+		Calendar cal = Calendar.getInstance();
+
+		cal.set(years, months, days);
+		cal.add(Calendar.DATE, Integer.valueOf(offset));
+
+		Date firstDate = cal.getTime();
+		return firstDate;
+
+	}
+
 	/* customerID="MemberID" for member or ="PUBLIC" for public customer */
 	public static int getHighestDiscount(String customerID) {
 		clearDiscountsMap();
@@ -119,81 +133,77 @@ public class DiscountManger {
 		ArrayList<Integer> availableDiscountList = new ArrayList<Integer>();
 
 		customerID = customerID.toUpperCase();
+		Date currentDate = new Date();
 
 		Iterator iterator = discounts.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry discountEntry = (Map.Entry) iterator.next();
 
-			String currentDiscountType = ((Discount) discountEntry.getValue()).getType();
-
 			String tmpDiscountStartDate = ((Discount) discountEntry.getValue()).getStartDate();
 			String currentDiscountPeriod = ((Discount) discountEntry.getValue()).getPeriod();
-			Date currentDiscountStartDate = null;
-			Date currentDiscountEndDate = null;
-			Date currentDate = new Date();
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			Date currentDiscountStartDate;
+			Date currentDiscountEndDate;
 
 			// Member discounts
 			if (customerID != "PUBLIC") {
 
-				// return 1st time discount for member's 1st purchase
-				if (MemberManager.getMemberLoyaltyPoint(customerID) == -1) {
-					return getDiscountPercentage("FIRST_TIME_DISCOUNT");
-				}
+				// add discount to list if the date checks out
+				if (!((Discount) discountEntry.getValue()).getCode().equals("MEMBER_FIRST")) {
+					if (!tmpDiscountStartDate.equals("ALWAYS") && !currentDiscountPeriod.equals("ALWAYS")) {
+						currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
+						currentDiscountEndDate = convertToDate(currentDiscountStartDate, currentDiscountPeriod);
 
-				// add discount to the list if the current date is within the
-				// discount period
-				else if (tmpDiscountStartDate == "ALWAYS") {
-					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-				} else {
-
-					try {
-						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
-					} catch (ParseException e) {
-						// Invalid DiscountStartDate detected
-						e.printStackTrace();
-					}
-
-					if (currentDiscountPeriod == "ALWAYS") {
-						if (currentDate.after(currentDiscountStartDate)) {
-							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-						}
-					} else {
-						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
 						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
 							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
 						}
+
+					} else if (!tmpDiscountStartDate.equals("ALWAYS") && currentDiscountPeriod.equals("ALWAYS")) {
+						currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
+
+						if (currentDate.after(currentDiscountStartDate)) {
+							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+						}
+
+					} else {
+						availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
 					}
 				}
+
+				// add 1st time discount to list for member's 1st purchase
+				if (MemberManager.getMemberLoyaltyPoint(customerID) == -1
+						&& ((Discount) discountEntry.getValue()).getCode().equals("MEMBER_FIRST")) {
+					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+				}
+
 			}
 
-			// Public discounts, to exclude the member discounts from the list
-			else if (currentDiscountType == "A") {
-				if (tmpDiscountStartDate == "ALWAYS") {
-					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+			// add discount to list if the date checks out
+			// exclude member discounts
+			if (customerID.equals("PUBLIC") && ((Discount) discountEntry.getValue()).getType().equals("A")) {
+
+				if (!tmpDiscountStartDate.equals("ALWAYS") && !currentDiscountPeriod.equals("ALWAYS")) {
+					currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
+					currentDiscountEndDate = convertToDate(currentDiscountStartDate, currentDiscountPeriod);
+
+					if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
+						availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+					}
+
+				} else if (!tmpDiscountStartDate.equals("ALWAYS") && currentDiscountPeriod.equals("ALWAYS")) {
+					currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
+
+					if (currentDate.after(currentDiscountStartDate)) {
+						availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
+					}
+
 				} else {
-
-					try {
-						currentDiscountStartDate = dateFormat.parse(tmpDiscountStartDate);
-					} catch (ParseException e) {
-						// Invalid DiscountStartDate detected
-						e.printStackTrace();
-					}
-
-					if (currentDiscountPeriod == "ALWAYS") {
-						if (currentDate.after(currentDiscountStartDate)) {
-							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-						}
-					} else {
-						currentDiscountEndDate = setDays(currentDiscountEndDate, currentDiscountPeriod);
-						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
-							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
-						}
-					}
+					availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
 				}
 			}
 		}
 
+		System.out.println("availableDiscountList " + availableDiscountList);
 		return Collections.max(availableDiscountList);
 
 	}
