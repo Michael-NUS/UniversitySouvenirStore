@@ -371,7 +371,7 @@ public class TransactionDialog extends JFrame{
     	}
     }
     
-    public void EditTransactionedItem(String productID, int quantity)
+    public void EditTransactionedItem(String productID, int quantity) throws CustomException
     {
     	transaction.EditTransactionItem(productID, quantity);
 		removeButton.setEnabled(false);
@@ -381,7 +381,7 @@ public class TransactionDialog extends JFrame{
     	this.refresh();    	
     }
     
-    public void RemoveTransactionedItem(String productID)
+    public void RemoveTransactionedItem(String productID) throws CustomException
     {
     	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
 

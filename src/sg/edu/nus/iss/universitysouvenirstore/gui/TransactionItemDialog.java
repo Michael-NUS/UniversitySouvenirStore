@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.CustomException;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.IntegerTextField;
@@ -159,14 +160,24 @@ public class TransactionItemDialog extends JDialog {
 					}
 					else if(isEditCase && !isDeleteCase)
 					{
-						transactionDialog.EditTransactionedItem(productName, availableQuantity);	
+						try {
+							transactionDialog.EditTransactionedItem(productName, availableQuantity);
+						} catch (CustomException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
 				        setVisible (false);
 				        dispose();
 					}
 					
 					else
 					{
-						transactionDialog.RemoveTransactionedItem(productName);	
+						try {
+							transactionDialog.RemoveTransactionedItem(productName);
+						} catch (CustomException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
 				        setVisible (false);
 				        dispose();
 					}

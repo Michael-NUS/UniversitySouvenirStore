@@ -15,10 +15,7 @@ public class Transaction {
 	private int memberPoints = 0;
 	private boolean cashBack = false;
 	private int highestDiscount = 0;
-	//private ArrayList<Product> product = new ArrayList<Product>();
-
 	private FileManagerUtils fileManager = new FileManagerUtils();
-	//private Member member = new Member();
 	
 	public Transaction(){	
 		transactionCount = GetTransactionCount() + 1;	
@@ -40,24 +37,17 @@ public class Transaction {
 		//memberPoints = 150 % 100;
 		System.out.println(memberPoints);
 		return count;
-	}
-	
-	public void GetProductList(){
-		//get from Product's method
-	}
+	}	
 	
 	public void AddTransactionItem (String productID, int quantity, double price){
-		//String productID = null;
-		//int quantity = 0;
 		
 		//take in productID and quantity
 		//check it exist
 		
-		//add the item
 		items.add(new TransactionedItem(productID, quantity, price));
 	}
 	
-	public void EditTransactionItem (String productID, int quantity)
+	public void EditTransactionItem (String productID, int quantity)throws CustomException 
 	{
 		int counter = 0;
 		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID+"|"); //debug
@@ -72,25 +62,19 @@ public class Transaction {
 				System.out.println("New quantity" + items.get(counter).GetProductQuantity());
 			}
 			else
-				System.out.println("nope");
+				throw new CustomException("Item not found");
 			
 			counter ++;		
 		}
 	}
 	
-	/*
-	public ArrayList<TransactionedItem> GetTransactionItems(){
-		return items;		
-	}
-	*/
 	public ArrayList<TransactionedItem> GetTransactionItems() {
 	    	ArrayList<TransactionedItem> result = new ArrayList<TransactionedItem>(items);
 	        //Collections.sort (result);
 	        return (result);
 	    }
 	
-	public void RemoveTransactionItem(String productID){
-		
+	public void RemoveTransactionItem(String productID) throws CustomException{		
 		
 		int counter = 0;
 		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID); //debug
@@ -103,7 +87,9 @@ public class Transaction {
 			{
 				items.remove(counter);
 			}
-			
+			else
+				throw new CustomException("Item not found");
+				
 			counter ++;		
 		}
 	}

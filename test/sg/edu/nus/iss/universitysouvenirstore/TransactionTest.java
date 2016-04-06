@@ -29,7 +29,7 @@ public class TransactionTest {
 	}
 	
 	@Test	
-	public void EditItem(){	//edit need to replace the existing value
+	public void EditItem() throws CustomException{	//edit need to replace the existing value
 		transaction.AddTransactionItem("CLO/1", 1, 21.45);
 		transaction.IncreaseTransactionItem("CLO/1", 1);
 		transaction.IncreaseTransactionItem("CLO/1", 1);
@@ -48,5 +48,15 @@ public class TransactionTest {
 		assertFalse(item1.get(0).GetProductID().equals(item1.get(1).GetProductID()));
 	}
 	
+	@Test(expected=CustomException.class)
+	public void TestRemoveNonExistence() throws CustomException{ //remove item that are not existing
+		transaction.AddTransactionItem("CLO/1", 1, 21.45);
+		transaction.RemoveTransactionItem("CLO/2");
+	}
 	
+	@Test(expected=CustomException.class)
+	public void TestEditNonExistenceItems() throws CustomException{ //remove item that are not existing
+		transaction.AddTransactionItem("CLO/1", 1, 21.45);
+		transaction.EditTransactionItem("CLO/2",5);
+	}
 }
