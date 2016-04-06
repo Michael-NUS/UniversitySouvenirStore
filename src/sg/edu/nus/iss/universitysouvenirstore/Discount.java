@@ -15,8 +15,8 @@ public class Discount {
 
 	public String discountType; // Applicable to Member (M) or All (A)
 
-	public Discount(String discountType, String discountCode, String description, String startDate,
-			String discountPeriod, int discountPercentage) {
+	public Discount(String discountCode, String description, String startDate, String discountPeriod,
+			int discountPercentage, String discountType) {
 		// if startDate is ALWAYS, then it's only logical that this discount is
 		// ALWAYS available
 		if (startDate == "ALWAYS") {
@@ -49,7 +49,8 @@ public class Discount {
 
 	public void setStartDate(String newStartDate) {
 		if (newStartDate == "ALWAYS") {
-			// if startDate is ALWAYS, then it's only logical that this discount is
+			// if startDate is ALWAYS, then it's only logical that this discount
+			// is
 			// ALWAYS available
 			setPeriod("ALWAYS");
 		}
@@ -71,15 +72,15 @@ public class Discount {
 	public String getCode() {
 		return discountCode;
 	}
-	
+
 	public String getStartDate() {
 		return startDate;
 	}
-	
+
 	public String getPeriod() {
 		return discountPeriod;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}

@@ -33,10 +33,6 @@ public class FileManagerUtils {
 		else if (type.toString().contains("Member")) {
 			filePath += "/Members.dat";
 		}
-		
-		else if (type.toString().contains("Discount")) {
-			filePath += "/Discounts.dat";
-		}
 
 		dataFile = new File(filePath);
 		BufferedWriter bw = null;
@@ -204,7 +200,7 @@ public class FileManagerUtils {
 										// throw 'invalid member file
 										// format' exception
 									}else{
-										Discount tmpDiscount = new Discount(data[0], data[1], data[2], data[3], data[5], Integer.valueOf(data[4]));
+										Discount tmpDiscount = new Discount(data[0], data[1], data[2], data[3], Integer.valueOf(data[4]), data[5]);
 										dataList.add(tmpDiscount);
 									}
 									break;
