@@ -185,6 +185,13 @@ public class TransactionDialog extends JFrame{
 				memberInfo.setVisible(false);
 				memberInfo.dispose();
 				
+		        String title = "~Transaction Completed~";
+		        String msg = "Thank you, please Come Again";
+		        
+		        int res = JOptionPane.showOptionDialog(null, msg, title, JOptionPane.DEFAULT_OPTION,
+		                JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				
+				
 		        setVisible (false);
 		        dispose();
 			}
@@ -202,6 +209,7 @@ public class TransactionDialog extends JFrame{
 		        dispose();
 			}
 		});
+		
 		button_3.setActionCommand("Cancel");
 		panel.add(button_3);
 		
@@ -394,9 +402,7 @@ public class TransactionDialog extends JFrame{
     
     public void RemoveTransactionedItem(String productID) throws CustomException
     {
-    	System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
-
-
+    	//System.out.println(productID + " <-TranscationDialog.RemoveTransactionedItem"); //debug
         String title = "Remove Product";
         String msg = "Do you want to Delete " + productID + "?";
         
@@ -409,20 +415,7 @@ public class TransactionDialog extends JFrame{
 				removeButton.setEnabled(false);
 				editBtn.setEnabled(false);
 		    	refresh();
-        	}
-        /*
-        ConfirmDialog d = new ConfirmDialog (null, title, msg) {
-
-			protected boolean performOkAction () {
-
-			}  
-        }; 
-        
-        d.pack();
-        d.setVisible(true);
-        */
-        
-        
+        	}        
     }
     
     public void SetMemberPoint(int points){
