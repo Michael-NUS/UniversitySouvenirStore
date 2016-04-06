@@ -1,13 +1,11 @@
-package sg.edu.nus.iss.universitysouvenirstore;
+// LIU YAKUN
 
-//import static java.lang.Math.*;
+package sg.edu.nus.iss.universitysouvenirstore;
 
 public class Member extends Customer {
 
 	private String memberName;
 	private String memberID;
-	// protected static final double LOYALTY_POINT_TO_AMOUNT = 0.05;
-	// protected static final double AMOUNT_TO_LOYALTY_POINT = 0.1;
 	private int loyaltyPoint;
 
 	public Member(String memberName, String memberID) {
@@ -17,7 +15,7 @@ public class Member extends Customer {
 		this.loyaltyPoint = -1;
 	}
 
-	// for manipulating existing members from member.dat
+	// for manipulating on existing members from member.dat
 	public Member(String memberName, String memberID, int loyaltyPoint) {
 		this.type = "M";
 		this.memberName = memberName;
@@ -37,16 +35,8 @@ public class Member extends Customer {
 		return memberName;
 	}
 
-	// public void setMemberName(String newMemberName) {
-	// memberName = newMemberName;
-	// }
-
 	public String getID() {
 		return memberID;
 	}
-
-	// public void setMemberID(String newMemberID) {
-	// memberID = newMemberID;
-	// }
 
 }

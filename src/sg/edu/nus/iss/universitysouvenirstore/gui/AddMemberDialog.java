@@ -1,3 +1,5 @@
+// LIU YAKUN
+
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.BorderLayout;
@@ -22,59 +24,21 @@ import sg.edu.nus.iss.universitysouvenirstore.MemberManager;
 
 public class AddMemberDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtMemberName;
 	private JTextField txtMemberID;
-	//private String title;
 
-	// private boolean isEditCase = false;
-	// private boolean isDeleteCase = false;
-
-	//private Member curMember = null;
 	private ArrayList<Member> members = null;
-	//private MemberManagerDialog memberManagerDialog;
 
 	JPanel buttonPane = new JPanel();
 	JButton cancelButton = new JButton("Cancel");
 
-	// public boolean isEditCase() {
-	// return isEditCase;
-	// }
-	//
-	// public void setEditCase(boolean isEditCase) {
-	// this.isEditCase = isEditCase;
-	// }
-	//
-	// public void setCurMember(Member curMember) {
-	// this.curMember = curMember;
-	// }
-	//
-	// public String getTitle() {
-	// return title;
-	// }
-	//
-	// public void setTitle(String title) {
-	// this.title = title;
-	// }
-
 	/**
-	 * Create the dialog.
-	 * 
-	 * @param transactionDialog
+	 * Create the dialog
 	 */
 	public AddMemberDialog() {
-		// lblNewLabel.setBounds(74, 152, 56, 16); //label debug
-		// contentPanel.add(lblNewLabel);//label debug
 
-		// lblNewLabel_1.setBounds(74, 170, 56, 16);//label debug
-		// contentPanel.add(lblNewLabel_1);//label debug
-
-		//this.memberManagerDialog = memberManagerDialog;
-		// contentPanel.setBackground(new Color(244, 164, 96));
 		setTitle("Member Registration");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -118,44 +82,40 @@ public class AddMemberDialog extends JDialog {
 				String memberName = null;
 				String memberID = null;
 				if (!(Pattern.matches("^[A-Za-z0-9]+$", txtMemberID.getText()))) {
-				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				else if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
-				    JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
-					memberName = txtMemberName.getText();
-					memberID = txtMemberID.getText();
+					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
+					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				} else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
+					memberName = txtMemberName.getText().trim();
+					memberID = txtMemberID.getText().trim();
 					MemberManager.readExistingMembersFromDB();
 					if (!MemberManager.checkExistOfMember(memberID)) {
+						// Successfully register the member
 						MemberManager.addMember(memberName, memberID);
 						members = MemberManager.convertToMemberArraylist();
-						//curMember = MemberManager.getMember(memberID);
 						FileManagerUtils.saveDataToDatFile(Member.class, members);
 						String successMsg = "Successfully Registered the New Member!\n";
-						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed",
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						// Member ID already exists!
-						String error = "Member ID already exists! Cannot register the member!\n";
-						JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
-						
-					}
+						String errorMsg = "Member ID already exists! Cannot register the member!\n";
+						JOptionPane.showMessageDialog(null, errorMsg, "Error", JOptionPane.INFORMATION_MESSAGE);
 
+					}
 				} else {
-					;
-					// throw InvalidInput("Missing Product ID and/or Quantity")
-					// lblNewLabel.setText(txtMemberName.getText()); //debug
-					// lblNewLabel_1.setText(txtMemberID.getText()); //debug
 					setVisible(false);
 					dispose();
 				}
 
 				txtMemberName.setText("");
 				txtMemberID.setText("");
-
 			}
 		});
 
+		// Save Button
 		okButton.setActionCommand("Saved");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
@@ -164,7 +124,6 @@ public class AddMemberDialog extends JDialog {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				setVisible(false);
 				dispose();
 			}

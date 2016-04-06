@@ -1,3 +1,5 @@
+// LIU YAKUN
+
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
@@ -14,9 +16,6 @@ public class DiscountManger {
 
 	public static ArrayList<Discount> convertToDiscountArraylist() {
 		ArrayList<Discount> discountList = new ArrayList<Discount>();
-
-		// Iterator avoids a ConcurrentModificationException,
-		// in case we need to remove entry
 
 		Iterator iterator = discounts.entrySet().iterator();
 		while (iterator.hasNext()) {

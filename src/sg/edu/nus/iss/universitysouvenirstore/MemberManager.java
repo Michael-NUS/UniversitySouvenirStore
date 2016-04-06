@@ -1,3 +1,5 @@
+// LIU YAKUN
+
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
@@ -11,9 +13,6 @@ public class MemberManager {
 
 	public static ArrayList<Member> convertToMemberArraylist() {
 		ArrayList<Member> memberList = new ArrayList<Member>();
-
-		// Iterator avoids a ConcurrentModificationException,
-		// in case we need to remove entry
 
 		Iterator iterator = members.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -90,20 +89,6 @@ public class MemberManager {
 		return members.get(memberID);
 	}
 
-	// public static void updateMemberName(String memberID, String
-	// newMemberName) {
-	// Member tmpMember = members.get(memberID);
-	// tmpMember.setMemberName(newMemberName);
-	// members.replace(memberID, tmpMember);
-	// }
-
-	// public static void setMemberID(String oldMemberID, String newMemberID) {
-	// Member tmpMember = members.get(oldMemberID);
-	// tmpMember.setMemberID(newMemberID);
-	// members.remove(oldMemberID);
-	// members.put(newMemberID, tmpMember);
-	// }
-
 	public static void updateMemberLoyaltyPoint(String memberID, int newLoyaltyPoint) {
 		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
@@ -113,7 +98,6 @@ public class MemberManager {
 			members.replace(memberID, tmpMember);
 
 			ArrayList<Member> memberList = convertToMemberArraylist();
-			// memberList.add(tmpMember);
 			FileManagerUtils.saveDataToDatFile(Member.class, memberList);
 
 			clearMembersMap();
@@ -131,11 +115,5 @@ public class MemberManager {
 			return -99 + clearMembersMap();
 		}
 	}
-
-	// public static void setMemberLoyaltyPoint(String memberID, int newPoint) {
-	// Member tmpMember = members.get(memberID);
-	// tmpMember.setLoyaltyPoint(newPoint);
-	// members.replace(memberID, tmpMember);
-	// }
 
 }

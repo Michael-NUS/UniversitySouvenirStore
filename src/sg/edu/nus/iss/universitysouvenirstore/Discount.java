@@ -1,3 +1,5 @@
+// LIU YAKUN
+
 package sg.edu.nus.iss.universitysouvenirstore;
 
 public class Discount {
@@ -8,7 +10,7 @@ public class Discount {
 	private String discountPeriod; // where applicable or “ALWAYS”
 
 	private int discountPercentage; /*
-									 * Percentage discount without the
+									 * Percentage of the discount without the
 									 * percentage symbol e.g. “10” for 10%
 									 * discount
 									 */
@@ -17,9 +19,9 @@ public class Discount {
 
 	public Discount(String discountCode, String description, String startDate, String discountPeriod,
 			int discountPercentage, String discountType) {
-		// if startDate is ALWAYS, then it's only logical that this discount is
+		// if startDate is ALWAYS, it's only logical that this discount is
 		// ALWAYS available
-		if (startDate == "ALWAYS") {
+		if (startDate.equalsIgnoreCase("ALWAYS")) {
 			discountPeriod = "ALWAYS";
 		}
 
@@ -48,9 +50,8 @@ public class Discount {
 	}
 
 	public void setStartDate(String newStartDate) {
-		if (newStartDate == "ALWAYS") {
-			// if startDate is ALWAYS, then it's only logical that this discount
-			// is
+		if (newStartDate.equalsIgnoreCase("ALWAYS")) {
+			// if startDate is ALWAYS, it's only logical that this discount is
 			// ALWAYS available
 			setPeriod("ALWAYS");
 		}
