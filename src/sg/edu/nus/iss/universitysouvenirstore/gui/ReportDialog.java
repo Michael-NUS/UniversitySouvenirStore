@@ -1,26 +1,38 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
+import sg.edu.nus.iss.universitysouvenirstore.*;
+import sg.edu.nus.iss.universitysouvenirstore.util.*;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-
-import sg.edu.nus.iss.universitysouvenirstore.Product;
-import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
+import java.awt.Color;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JFormattedTextField;
 
 /**
  * @author Aung Myo
@@ -28,26 +40,28 @@ import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
  */
 public class ReportDialog extends JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private Map<String, ArrayList<Product>> productList = new HashMap<String, ArrayList<Product>>();
 	private ArrayList<Product> allProducts = new ArrayList<Product>();
+	private String curCategoryType = "";
 	private DefaultListModel<String> productmodel;
 	private JTable tblList;
 	private JComboBox<String> cbbType = new JComboBox<String>();
 	private JScrollPane scrollPane = new JScrollPane();
 	private ArrayList<Product> products;
-	
+	private JLabel lblDateFrom;
+	private DateFormattedTextField dftxtFrom;
+	private JLabel lblDateTo;
+	private DateFormattedTextField frmtdtxtfldDftxtto ;
+	private JLabel lblDateFormatFrom;
+	private JLabel lblDateFromTo ;
 
 	/**
 	 * Create the dialog.
 	 */
 	public ReportDialog() {
 		setTitle("Report");
-		setBounds(100, 100, 934, 867);
+		setBounds(100, 100, 1103, 867);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,11 +69,60 @@ public class ReportDialog extends JDialog {
 		contentPanel.setLayout(null);
 		
 		JLabel lblType = new JLabel("Type:");
-		lblType.setBounds(4, 31, 73, 36);
+		lblType.setBounds(14, 31, 41, 36);
 		contentPanel.add(lblType);
 		
+		lblDateFrom = new JLabel("Date From:");
+		lblDateFrom.setBounds(362, 31, 80, 36);
+		contentPanel.add(lblDateFrom);
+		
+		dftxtFrom = new DateFormattedTextField();
+		
+		Date dateNow = new Date ();
+        SimpleDateFormat dateformatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
+        StringBuilder nowYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateNow ) );
+        System.out.println( "DEBUG: Today in yyyy-mm-dd: '" + nowYYYYMMDD + "'");
+		
+		dftxtFrom.setText(nowYYYYMMDD.toString());
+		dftxtFrom.setBounds(445, 31, 100, 36);
+		contentPanel.add(dftxtFrom);
+		
+		lblDateTo = new JLabel("Date To:");
+		lblDateTo.setBounds(693, 31, 62, 36);
+		contentPanel.add(lblDateTo);
+		
+		frmtdtxtfldDftxtto = new DateFormattedTextField();
+		frmtdtxtfldDftxtto.setText(nowYYYYMMDD.toString());
+		frmtdtxtfldDftxtto.setBounds(758, 31, 100, 36);
+		contentPanel.add(frmtdtxtfldDftxtto);
+		
+		lblDateFormatFrom = new JLabel(" (yyyy-mm-dd)");
+		lblDateFormatFrom.setBounds(545, 31, 113, 36);
+		contentPanel.add(lblDateFormatFrom);
+		
+		lblDateFromTo = new JLabel(" (yyyy-mm-dd)");
+		lblDateFromTo.setBounds(859, 31, 113, 36);
+		contentPanel.add(lblDateFromTo);
+		
+		
+		
+		cbbType.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					JComboBox<?> jcb = (JComboBox<?>) e.getSource();
+					String getSelectedItem = (String) jcb.getSelectedItem();
+					if(getSelectedItem.equals("Transactions")){
+						showHideDateFilters(true);
+					}else{
+						showHideDateFilters(false);
+					}
+					
+				}
+			}
+		});
+		
 //		JComboBox<String> cbbType = new JComboBox<String>();
-		cbbType.setBounds(51, 31, 198, 28);
+		cbbType.setBounds(58, 31, 269, 36);
 		contentPanel.add(cbbType);
 		
 		cbbType.removeAllItems();
@@ -106,7 +169,7 @@ public class ReportDialog extends JDialog {
 //
 //		});
 		
-		JButton btnShowReport = new JButton("Show Report");
+		JButton btnShowReport = new JButton("Generate Report");
 		
 		btnShowReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -114,7 +177,7 @@ public class ReportDialog extends JDialog {
 			}
 		});
 		
-		btnShowReport.setBounds(291, 31, 139, 37);
+		btnShowReport.setBounds(14, 83, 163, 37);
 		contentPanel.add(btnShowReport);
 		
 		
@@ -138,6 +201,8 @@ public class ReportDialog extends JDialog {
 				buttonPane.add(btnClose);
 			}
 		}
+		
+		
 		
 		showReport(cbbType.getSelectedItem().toString());
 		
@@ -183,6 +248,7 @@ public class ReportDialog extends JDialog {
 				data[0][0] = "";
 	        	data[0][1] = "";
 	        	data[0][2] = "";
+	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
 				break;
 			case "Products": 
 				columnNames = new String [3];
@@ -204,10 +270,13 @@ public class ReportDialog extends JDialog {
 				};
 				break;
 			case"Transactions":
-				columnNames = new String [3];
+				columnNames = new String [5];
 				columnNames[0] = "Sr.";
-				columnNames[1] = "Name";
-				columnNames[2]= "Description";
+				columnNames[1] = "Product ID";
+				columnNames[2]= "Product Name";
+				columnNames[3]= "Product Description";
+				columnNames[4]= "Transaction Date";
+				
 				
 //				dataInit(ProductUtils.getAllProducts());
 //				products = productList.get("All");
@@ -222,10 +291,13 @@ public class ReportDialog extends JDialog {
 //			        }
 //				};
 //				
-				data = new Object [1][3];
+				data = new Object [1][5];
 				data[0][0] = "";
 	        	data[0][1] = "";
 	        	data[0][2] = "";
+	        	data[0][3] = "";
+	        	data[0][4] = "";
+	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
 				break;
 			case"Members":
 				columnNames = new String [4];
@@ -252,6 +324,7 @@ public class ReportDialog extends JDialog {
 	        	data[0][1] = "";
 	        	data[0][2] = "";
 	        	data[0][3] = "";
+	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
 				break;
 			default:
 				break;
@@ -260,8 +333,19 @@ public class ReportDialog extends JDialog {
 	
 //		tblList = new JTable();
 		tblList = new JTable(data, columnNames);
-		scrollPane.setBounds(14, 87, 883, 669);
+		scrollPane.setBounds(14, 136, 1052, 620);
 		contentPanel.add(scrollPane);
 		scrollPane.setViewportView(tblList);
+		
+		
+	}
+	
+	private void showHideDateFilters(Boolean isShow){
+		lblDateFrom.setVisible(isShow);
+		dftxtFrom.setVisible(isShow);
+		lblDateTo.setVisible(isShow);
+		frmtdtxtfldDftxtto.setVisible(isShow);
+		lblDateFormatFrom.setVisible(isShow);
+		lblDateFromTo.setVisible(isShow);
 	}
 }
