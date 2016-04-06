@@ -142,8 +142,15 @@ public class TransactionItemDialog extends JDialog {
 						
 						if (individualProduct != null)
 						{
-							if(individualProduct.getAvailableQuantity() >= availableQuantity)							
-								transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+							if(individualProduct.getAvailableQuantity() >= availableQuantity)
+								try {
+									transactionDialog.AddTransactionedItem(productName, availableQuantity, individualProduct.getPrice());
+								} catch (CustomException e1) {
+									// TODO Auto-generated catch block
+									String error ="";
+									error = "Unable to add product";
+									JOptionPane.showMessageDialog(null,error, "Error!", JOptionPane.INFORMATION_MESSAGE);
+								}
 							else
 							{				        
 								String error ="";

@@ -19,7 +19,7 @@ public class TransactionTest {
 	}
 	
 	@Test
-	public void AddNewItem(){ //value should be increased, instead of replaced
+	public void AddNewItem() throws CustomException{ //value should be increased, instead of replaced
 		transaction.AddTransactionItem("CLO/1", 1, 21.45);
 		transaction.IncreaseTransactionItem("CLO/1", 1); //value should be increased, instead of replaced
 		transaction.IncreaseTransactionItem("CLO/1", 5);

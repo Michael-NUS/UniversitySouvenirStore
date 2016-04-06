@@ -106,7 +106,7 @@ public class Transaction {
 		else
 			highestDiscount = DiscountManger.getHighestDiscount("PUBLIC");
 		
-		System.out.println("Highest Discount = " + highestDiscount);
+		//System.out.println("Highest Discount = " + highestDiscount);
 		
 		return highestDiscount;
 	}
@@ -135,14 +135,14 @@ public class Transaction {
 			memberPoints = memberPoints % 100;
 			System.out.println("memberPoints before new adjustment:" + memberPoints);
 		}
-
-		amountPaid = (amountPaid - cashBackValue * (1 - (highestDiscount/100)));
+		
+		amountPaid = (((amountPaid - cashBackValue) * (100-highestDiscount))/100);
 		
 		//new Member Points
 		memberPoints = (int) (memberPoints + (amountPaid/10));
 		
 		//Yakun's point update
-		System.out.println("MemberID: " + memberID + " - Points: " + memberPoints + "\n" + "Amount Paid: " + amountPaid);
+		//System.out.println("MemberID: " + memberID + " - Points: " + memberPoints + "\n" + "Amount Paid: " + amountPaid); //debug
 		MemberManager.updateMemberLoyaltyPoint(memberID,memberPoints);
 		//end of Yakun's update
 		
@@ -152,6 +152,8 @@ public class Transaction {
 		//end of Major's update product
 		
 		ArrayList<String>writeToFile = new ArrayList<String>();
+		
+		//structuring the transaction before writing to transaction.dat file
 		String line;
 		
 		for (TransactionedItem item:items)
@@ -167,7 +169,7 @@ public class Transaction {
 		//write to Transaction.dat		
 	}
 	
-	public boolean ConflictItem(String productID)
+	public boolean ConflictItem(String productID) //check wether the same productID is already existing in the transaction list
 	{
 		boolean conflict = false;
 		
@@ -179,7 +181,7 @@ public class Transaction {
 		return conflict;
 	}
 
-	public void IncreaseTransactionItem(String productID, int quantity) {
+	public void IncreaseTransactionItem(String productID, int quantity) throws CustomException {//if the productID already existed, incraese the quantity with the new count
 		int counter = 0;
 		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID+"|"); //debug
 		
@@ -194,13 +196,13 @@ public class Transaction {
 				//System.out.println("New quantity" + items.get(counter).GetProductQuantity()); //debug
 			}
 			else
-				System.out.println("nope");
+				throw new CustomException("Item not found");
 			
 			counter ++;		
 		}
 	}
 	
-	public float GetTotalPrice(){
+	public float GetTotalPrice(){//Total price with the existing items
 		float total = 0;
 		
 		if(items != null)

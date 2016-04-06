@@ -341,8 +341,13 @@ public class TransactionDialog extends JFrame{
         	pointsLBL.setText(String.valueOf("Points available: " + memberPoint));
         else
         	pointsLBL.setText(String.valueOf(""));
+        
     	discountLbl.setText(String.valueOf(discount));
-        grandTotal = (float) ((transaction.GetTotalPrice() - memberCashback) * (1 - discount));        
+    	
+        grandTotal = (float) (((transaction.GetTotalPrice() - memberCashback) * (100 - discount)) / 100);  
+        
+        System.out.println("GrandTotal: " + grandTotal + " MemberCashBack: " + memberCashback + " transaction.GetTotalPrice: "+ transaction.GetTotalPrice());
+        
         String tempGrandtotal = String.format("%.2f", grandTotal);
         grandTotalLbl.setText("$" + tempGrandtotal);
     }    
@@ -352,7 +357,7 @@ public class TransactionDialog extends JFrame{
 	}
 	
 
-    public void AddTransactionedItem(String productID, int quantity, double price)
+    public void AddTransactionedItem(String productID, int quantity, double price) throws CustomException
     {
     	boolean conflict = false;
     	//System.out.println("Quantity @TransactionDialog: " + quantity);
