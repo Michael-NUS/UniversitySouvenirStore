@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -235,7 +236,7 @@ public class FileManagerUtils {
 	}
 	
 	/**
-	 * Write/Append data to .dat file 
+	 * Write/Append a line of data to .dat file 
 	 *
 	 */
 	public static Boolean AppendDataToFile(String strFileName, String strFileType, ArrayList<String> arrLstData){
@@ -257,7 +258,6 @@ public class FileManagerUtils {
 								// exception
 							}else{
 								// write/append to the file
-								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
 						        	System.out.println(arrLstData.get(i));
@@ -268,6 +268,7 @@ public class FileManagerUtils {
 							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
+								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
 							}
 							break;
 						case "transactions":
@@ -276,7 +277,6 @@ public class FileManagerUtils {
 								// format' exception
 							}else{
 								// write/append to the file
-								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
 						        	System.out.println(arrLstData.get(i));
@@ -284,9 +284,10 @@ public class FileManagerUtils {
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
 						        	}else{
-							        	Files.write(Paths.get(filePath),  ("\n" + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
+								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
 							}
 							break;
 						case "members":
@@ -295,7 +296,6 @@ public class FileManagerUtils {
 								// format' exception
 							}else{
 								// write/append to the file
-								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
 						        	System.out.println(arrLstData.get(i));
@@ -306,6 +306,7 @@ public class FileManagerUtils {
 							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
+								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
 							}
 							break;
 						case "discounts":
@@ -314,7 +315,6 @@ public class FileManagerUtils {
 								// format' exception
 							}else{
 								// write/append to the file
-								Files.write(Paths.get(filePath), "\n".getBytes(), StandardOpenOption.APPEND);
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
 						        	System.out.println(arrLstData.get(i));
@@ -325,6 +325,26 @@ public class FileManagerUtils {
 							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
 						        	}
 						        }
+								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
+							}
+							break;
+						case "vendors":
+							if (intFileColumnCount != 2) {
+								// throw 'invalid transaction file
+								// format' exception
+							}else{
+								// write/append to the file
+								for (int i = 0; i < arrLstData.size(); i++) 
+						        {
+						        	System.out.println(arrLstData.get(i));
+						        	if(i == 0){
+							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
+
+						        	}else{
+							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
+						        	}
+						        }
+								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
 							}
 							break;
 						default:
@@ -352,4 +372,34 @@ public class FileManagerUtils {
 		return true;
 	}
 
+	/**
+	 * Create a .dat file without data. 
+	 *
+	 */
+	public static Boolean CreateFile(String strFileName){
+		String filePath = "";
+		File dataFile = null;
+		try {
+			filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to put under config																
+			if (!strFileName.isEmpty()) {
+				filePath += strFileName + ".dat";
+				dataFile = new File(filePath);
+				if (!dataFile.exists() && !dataFile.isDirectory()) {
+					// Create file
+					PrintWriter writer = new PrintWriter(dataFile, "UTF-8");
+					writer.close();
+					} else {
+					// throw 'file already exists' exception
+				}
+			} else {
+				// throw 'Invalid file name' exception
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			// Do garbage collection
+		}
+		return true;
+	}
 }
