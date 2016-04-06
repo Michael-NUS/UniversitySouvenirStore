@@ -1,7 +1,6 @@
-MEMBER_FIRST,First purchase by member,ALWAYS,ALWAYS,20,M
+MEMBER_FIRST,First purchase by member,ALWAYS,ALWAYS,65,M
 MEMBER_SUBSEQ,Subsequent purchase by member,ALWAYS,ALWAYS,10,M
 CENTENARY,Centenary Celebration in 2016,2016-01-01,365,15,A
 PRESIDENT_BDAY,University President’s birthday,2016-02-01,7,20,A
 ORIENTATION_DAY,Orientation Day,2016-04-02,3,50,A
 TEST_DISCOUNT,For test purpose,2016-06-08,3,10,A
-FIRST_TIME_DISCOUNT,First time discount for member,ALWAYS,ALWAYS,65,M
