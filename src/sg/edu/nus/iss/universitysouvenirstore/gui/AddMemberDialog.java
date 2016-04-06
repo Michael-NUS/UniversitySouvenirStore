@@ -79,17 +79,15 @@ public class AddMemberDialog extends JDialog {
 		JButton okButton = new JButton("Save");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String memberName = null;
-				String memberID = null;
+				String memberName = txtMemberName.getText().trim();
+				String memberID = txtMemberID.getText().trim();
 				if (!(Pattern.matches("^[A-Za-z0-9]+$", txtMemberID.getText()))) {
 					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				} else if (!(Pattern.matches("^[A-Za-z0-9\t]+$", txtMemberName.getText()))) {
+				} else if (!(Pattern.matches("^[A-Za-z0-9 ]+$", txtMemberName.getText()))) {
 					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name",
 							"Error", JOptionPane.ERROR_MESSAGE);
 				} else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
-					memberName = txtMemberName.getText().trim();
-					memberID = txtMemberID.getText().trim();
 					MemberManager.readExistingMembersFromDB();
 					if (!MemberManager.checkExistOfMember(memberID)) {
 						// Successfully register the member

@@ -208,7 +208,7 @@ public class DiscountManger {
 			return 0;
 		}
 
-		System.out.println("availableDiscountList " + availableDiscountList);
+		// System.out.println("availableDiscountList " + availableDiscountList);
 		return Collections.max(availableDiscountList);
 
 	}
