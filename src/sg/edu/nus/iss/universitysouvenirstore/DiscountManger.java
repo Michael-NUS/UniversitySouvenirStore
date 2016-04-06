@@ -203,6 +203,12 @@ public class DiscountManger {
 			}
 		}
 
+		// in case no discount is available at the moment
+		// return 0% discount
+		if (availableDiscountList.size() == 0) {
+			return 0;
+		}
+
 		System.out.println("availableDiscountList " + availableDiscountList);
 		return Collections.max(availableDiscountList);
 
