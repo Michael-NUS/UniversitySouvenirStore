@@ -1,33 +1,26 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
-import sg.edu.nus.iss.universitysouvenirstore.*;
-
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.JLabel;
 import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+
+import sg.edu.nus.iss.universitysouvenirstore.Product;
+import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 
 /**
  * @author Aung Myo
@@ -35,10 +28,13 @@ import javax.swing.JScrollPane;
  */
 public class ReportDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private Map<String, ArrayList<Product>> productList = new HashMap<String, ArrayList<Product>>();
 	private ArrayList<Product> allProducts = new ArrayList<Product>();
-	private String curCategoryType = "";
 	private DefaultListModel<String> productmodel;
 	private JTable tblList;
 	private JComboBox<String> cbbType = new JComboBox<String>();

@@ -1,12 +1,8 @@
 package sg.edu.nus.iss.universitysouvenirstore;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import sg.edu.nus.iss.universitysouvenirstore.*;
-import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionDialog;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Transaction {
 	private int transactionCount = 0;
@@ -15,7 +11,7 @@ public class Transaction {
 	private int memberPoints = 0;
 	private boolean cashBack = false;
 	private int highestDiscount = 0;
-	private FileManagerUtils fileManager = new FileManagerUtils();
+	
 	
 	public Transaction(){	
 		transactionCount = GetTransactionCount() + 1;	
@@ -113,7 +109,7 @@ public class Transaction {
 	
 	public void CheckOut(){
 		float amountPaid = 0;
-		int conversionRation = 100;
+	
 		
 		//date
 		Date date = new Date();

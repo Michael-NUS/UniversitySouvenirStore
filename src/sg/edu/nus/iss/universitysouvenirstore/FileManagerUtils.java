@@ -23,16 +23,16 @@ import sg.edu.nus.iss.universitysouvenirstore.Product;
  *
  */
 public class FileManagerUtils {
-
+	public static String fileDir = "./data/sg/edu/nus/iss/universitysouvenirstore/data";
 	public static <T> boolean saveDataToDatFile(Object type, ArrayList<T> dataList) {
-		String filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data";
+		String filePath = "";
 		File dataFile = null;
 		if (type.toString().contains("Product")) {
-			filePath += "/Products.dat";
+			filePath = fileDir + "/Products.dat";
 		}
 
 		else if (type.toString().contains("Member")) {
-			filePath += "/Members.dat";
+			filePath =fileDir + "/Members.dat";
 		}
 
 		dataFile = new File(filePath);
@@ -91,16 +91,16 @@ public class FileManagerUtils {
 
 	public static ArrayList<Object> readDataFromDatFile(Object type) {
 		ArrayList<Object> dataList = new ArrayList<Object>();
-		String filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data";
+		String filePath = "";
 		File dataFile = null;
 
 		if (type.toString().contains("Product")) {
-			filePath += "/Products.dat";
+			filePath =fileDir+ "/Products.dat";
 
 		} else if (type.toString().contains("Transaction")) {
-			filePath += "/Transactions.dat";
+			filePath =fileDir+ "/Transactions.dat";
 		} else if (type.toString().contains("Member")) {
-			filePath += "/Members.dat";
+			filePath =fileDir+ "/Members.dat";
 		}
 
 		dataFile = new File(filePath);
@@ -148,12 +148,12 @@ public class FileManagerUtils {
 		String filePath = "";
 		File dataFile = null;
 		try {
-			filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to
+			//filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to
 																				// put
 																				// under
 																				// config
 			if (!strFileName.isEmpty()) {
-				filePath += strFileName + ".dat";
+				filePath =fileDir+ "/"+strFileName + ".dat";
 				dataFile = new File(filePath);
 				if (dataFile.exists() && !dataFile.isDirectory()) {
 					// read file
@@ -243,9 +243,9 @@ public class FileManagerUtils {
 		String filePath = "";
 		File dataFile = null;
 		try {
-			filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to put under config																
+			//filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to put under config																
 			if (!strFileName.isEmpty()) {
-				filePath += strFileName + ".dat";
+				filePath =fileDir+ "/"+strFileName + ".dat";
 				dataFile = new File(filePath);
 				if (dataFile.exists() && !dataFile.isDirectory()) {
 					int intFileColumnCount = 0;
@@ -380,9 +380,9 @@ public class FileManagerUtils {
 		String filePath = "";
 		File dataFile = null;
 		try {
-			filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to put under config																
+			//filePath = "./data/sg/edu/nus/iss/universitysouvenirstore/data/"; // to put under config																
 			if (!strFileName.isEmpty()) {
-				filePath += strFileName + ".dat";
+				filePath =fileDir+ "/"+strFileName + ".dat";
 				dataFile = new File(filePath);
 				if (!dataFile.exists() && !dataFile.isDirectory()) {
 					// Create file

@@ -27,6 +27,10 @@ import java.awt.event.KeyEvent;
 
 public class SelectionAlert extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
 	/**

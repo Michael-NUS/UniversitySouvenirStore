@@ -11,30 +11,34 @@
 
 package sg.edu.nus.iss.universitysouvenirstore.login;
 
+import java.awt.Color;
+import java.awt.Font;
+//import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.gui.AddMemberDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.CategoryManagerDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.DiscountDialog;
-import sg.edu.nus.iss.universitysouvenirstore.gui.MemberManagerDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.ProductManagerDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.ReportDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.TransactionDialog;
 import sg.edu.nus.iss.universitysouvenirstore.gui.UtilityManagerDialog;
-import sg.edu.nus.iss.universitysouvenirstore.gui.AddMemberDialog;
-
-import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-//import java.awt.Window;
 
 public class MainMenu extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
 	

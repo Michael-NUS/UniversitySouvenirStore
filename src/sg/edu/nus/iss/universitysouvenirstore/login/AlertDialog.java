@@ -28,6 +28,10 @@ import java.awt.event.KeyEvent;
 
 public class AlertDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
 

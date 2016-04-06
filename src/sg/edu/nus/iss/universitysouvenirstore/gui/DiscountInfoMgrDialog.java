@@ -4,22 +4,25 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Discount;
 import sg.edu.nus.iss.universitysouvenirstore.DiscountManger;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.DefaultComboBoxModel;
 
 public class DiscountInfoMgrDialog extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtDiscountCode;
 	private JTextField txtDiscountPeriod;
@@ -30,8 +33,6 @@ public class DiscountInfoMgrDialog extends JDialog {
 		setBounds(100, 100, 545, 498);
 		contentPanel.setBackground(new Color(244, 164, 96));
 		DiscountManger.readExistingDiscountsFromDB();
-		ArrayList<Discount> d=DiscountManger.convertToDiscountArraylist();
-		
 		getContentPane().setLayout(null);
 		
 		JLabel discountCode = new JLabel("Discount Code :");

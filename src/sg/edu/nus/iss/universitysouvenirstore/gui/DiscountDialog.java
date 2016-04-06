@@ -1,35 +1,35 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
-import sg.edu.nus.iss.universitysouvenirstore.*;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.Color;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import sg.edu.nus.iss.universitysouvenirstore.Discount;
+import sg.edu.nus.iss.universitysouvenirstore.DiscountManger;
 
 public class DiscountDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	JList list = new JList();
+	JList<?> list = new JList<Object>();
 	DefaultListModel<String> defList=new DefaultListModel<String>();
 	private JTable table;
 

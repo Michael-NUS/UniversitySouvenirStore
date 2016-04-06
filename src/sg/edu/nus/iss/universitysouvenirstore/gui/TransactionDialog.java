@@ -1,30 +1,36 @@
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.*;
-
-import javax.swing.*;
-
-import sg.edu.nus.iss.universitysouvenirstore.*;
-
-import java.awt.Font;
-
-import javax.swing.border.EmptyBorder;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import sg.edu.nus.iss.universitysouvenirstore.CustomException;
+import sg.edu.nus.iss.universitysouvenirstore.Transaction;
+import sg.edu.nus.iss.universitysouvenirstore.TransactionedItem;
 
 public class TransactionDialog extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TransactionItemDialog transactionItemDialog;	
 	private Transaction transaction = new Transaction();
 	private boolean cashback = false;
@@ -39,10 +45,10 @@ public class TransactionDialog extends JFrame{
 	private int memberPoint = 0;
 	
 	private int discount = 0;
-	private float total = 0;
+	
 	private final JPanel contentPanel = new JPanel();
 	int numItems = 0;
-	DefaultListModel model;
+
 	
 	JButton checkOutButton = new JButton("Check Out");	
 	JButton editBtn = new JButton("Edit Item");
@@ -364,7 +370,7 @@ public class TransactionDialog extends JFrame{
     	conflict = transaction.ConflictItem(productID);
     	if (!conflict)
     	{
-	    	price = price;	    	
+    	
 	    	transaction.AddTransactionItem(productID, quantity, price);
 	    	this.refresh();    	
     	}

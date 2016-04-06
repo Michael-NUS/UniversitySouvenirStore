@@ -235,7 +235,7 @@ public class Storekeeper extends Customer{
 		Boolean UserExistNotExist = false;
 		Boolean FileRemovalStatus = false;
 		String RemovedUser = null;
-		int listsize = listRead.size();
+
 				
 	    /* Loop the whole list and check whether userInfo is in the list.*/      
 	    for (String name : listRead) {

@@ -22,6 +22,10 @@ import sg.edu.nus.iss.universitysouvenirstore.util.IntegerTextField;
 
 public class TransactionItemDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
 	private IntegerTextField txtQuantity;
@@ -31,9 +35,6 @@ public class TransactionItemDialog extends JDialog {
 	private Product curProduct = null;
 	private JButton okButton = null;
 	private ArrayList<Product> products =null;
-	private TransactionDialog transactionDialog;
-	
-	
 	JPanel buttonPane = new JPanel();
 	JButton cancelButton = new JButton("Cancel");
 	
@@ -87,7 +88,6 @@ public class TransactionItemDialog extends JDialog {
 		//contentPanel.add(lblNewLabel_1);//label debug
 		
 		
-		this.transactionDialog = transactionDialog;
 		// contentPanel.setBackground(new Color(244, 164, 96));
 		setTitle(title);
 		setBounds(100, 100, 450, 300);

@@ -1,10 +1,9 @@
 package sg.edu.nus.iss.universitysouvenirstore;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class MemberManager {
 
