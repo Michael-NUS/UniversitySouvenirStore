@@ -230,6 +230,5 @@ public class Transaction {
 	
 	public void SetCashBack(boolean toogle){
 		cashBack = toogle;
-	}
-	
+	}	
 }
