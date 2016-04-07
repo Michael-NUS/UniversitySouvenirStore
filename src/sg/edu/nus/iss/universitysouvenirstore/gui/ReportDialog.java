@@ -6,6 +6,8 @@ import sg.edu.nus.iss.universitysouvenirstore.util.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,7 @@ import java.awt.event.ItemListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -55,6 +58,8 @@ public class ReportDialog extends JDialog {
 	private DateFormattedTextField frmtdtxtfldDftxtto ;
 	private JLabel lblDateFormatFrom;
 	private JLabel lblDateFromTo ;
+	
+	private ArrayList<String> objItems = new ArrayList<String>();
 
 	/**
 	 * Create the dialog.
@@ -81,9 +86,14 @@ public class ReportDialog extends JDialog {
 		Date dateNow = new Date ();
         SimpleDateFormat dateformatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
         StringBuilder nowYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateNow ) );
-        System.out.println( "DEBUG: Today in yyyy-mm-dd: '" + nowYYYYMMDD + "'");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -30);
+        Date dateBefore30Days = cal.getTime();
+        
+        StringBuilder oneMonthYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateBefore30Days ) );
 		
-		dftxtFrom.setText(nowYYYYMMDD.toString());
+		dftxtFrom.setText(oneMonthYYYYMMDD.toString());
 		dftxtFrom.setBounds(445, 31, 100, 36);
 		contentPanel.add(dftxtFrom);
 		
@@ -116,7 +126,7 @@ public class ReportDialog extends JDialog {
 					}else{
 						showHideDateFilters(false);
 					}
-					
+					clearReport();
 				}
 			}
 		});
@@ -131,7 +141,7 @@ public class ReportDialog extends JDialog {
 		cbbType.addItem("Transactions");
 		cbbType.addItem("Members");
 		
-		cbbType.setSelectedItem("Products");
+		cbbType.setSelectedItem("Transactions");
 		
 		dataInit(ProductUtils.getAllProducts());
 		ArrayList<Product> products = productList.get("All");
@@ -207,19 +217,7 @@ public class ReportDialog extends JDialog {
 		showReport(cbbType.getSelectedItem().toString());
 		
 	}
-	private void dataInit(ArrayList<Product> products) {
-		productList.clear();
-		productList.put("All", products);
-		allProducts = products;
-		// get the category list from category;
-		String[] category = { "CLO", "MUG", "STA" };
-		for (String one : category) {
-			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one);
-			if (!products.isEmpty()) {
-				productList.put(one, items);
-			}
-		}
-	}
+	
 	private void showReport(String strType){
 		String[] columnNames = null;
 		Object[][] data= null;
@@ -227,104 +225,113 @@ public class ReportDialog extends JDialog {
 		switch(strType){
 			case"Categories":
 				columnNames = new String [3];
-				columnNames[0] = "Sr.";
-				columnNames[1] = "Code";
-				columnNames[2]= "Name";
+				columnNames[0] = "#";
+				columnNames[1] = "Category Code";
+				columnNames[2]= "Category Name";
 				
-	//			dataInit(ProductUtils.getAllProducts());
-	//			products = productList.get("All");
+				getCategoryList();
 				
-	//			if ( products != null && !products.isEmpty()) {
-	//				data = new Object [products.size()][3];
-	//				for (int i = 0; i < products.size(); i++) 
-	//		        {
-	//		        	data[i][0] = i + 1;
-	//		        	data[i][1] = products.get(i).getProductId();
-	//		        	data[i][2] = products.get(i).getProductName();
-	//		        }
-	//			};
-	//			
-				data = new Object [1][3];
-				data[0][0] = "";
-	        	data[0][1] = "";
-	        	data[0][2] = "";
-	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				if ( objItems != null && !objItems.isEmpty()) {
+					data = new Object [objItems.size()][3];
+					for (int i = 0; i < objItems.size(); i++) { 
+						String[] strArr = objItems.get(i).toString().split(",");
+						for (int j = 0; j <= strArr.length; j++) {
+							if(j== 0){
+								data[i][j] = i + 1;
+							}else{
+								data[i][j] = strArr[j-1];
+							}
+				        }
+					}
+				
+				}else{
+					InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				}
 				break;
 			case "Products": 
-				columnNames = new String [3];
-				columnNames[0] = "Sr.";
+				columnNames = new String [9];
+				columnNames[0] = "#";
 				columnNames[1] = "ID";
 				columnNames[2]= "Name";
+				columnNames[3] = "Description";
+				columnNames[4] = "Qty Available";
+				columnNames[5]= "Price";
+				columnNames[6] = "Bar Code #";
+				columnNames[7]= "Threshold";
+				columnNames[8]= "Order Qty";
 				
-				dataInit(ProductUtils.getAllProducts());
-				products = productList.get("All");
+				getProductList();
 				
-				if ( products != null && !products.isEmpty()) {
-					data = new Object [products.size()][3];
-					for (int i = 0; i < products.size(); i++) 
-			        {
-			        	data[i][0] = i + 1;
-			        	data[i][1] = products.get(i).getProductId();
-			        	data[i][2] = products.get(i).getProductName();
-			        }
-				};
+				if ( objItems != null && !objItems.isEmpty()) {
+					data = new Object [objItems.size()][9];
+					for (int i = 0; i < objItems.size(); i++) { 
+						String[] strArr = objItems.get(i).toString().split(",");
+						for (int j = 0; j <= strArr.length; j++) {
+							if(j== 0){
+								data[i][j] = i + 1;
+							}else{
+								data[i][j] = strArr[j-1];
+							}
+				        }
+					}
+				
+				}else{
+					InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				}
 				break;
 			case"Transactions":
-				columnNames = new String [5];
-				columnNames[0] = "Sr.";
-				columnNames[1] = "Product ID";
-				columnNames[2]= "Product Name";
-				columnNames[3]= "Product Description";
-				columnNames[4]= "Transaction Date";
+				columnNames = new String [6];
+				columnNames[0] = "#";
+				columnNames[1] = "Transaction ID";
+				columnNames[2]= "Product ID";
+				columnNames[3]= "Member ID";
+				columnNames[4]= "Quantity Purchased";
+				columnNames[5]= "Transaction Date";
 				
+				getTransactionList("", "");
 				
-//				dataInit(ProductUtils.getAllProducts());
-//				products = productList.get("All");
+				if ( objItems != null && !objItems.isEmpty()) {
+					data = new Object [objItems.size()][6];
+					for (int i = 0; i < objItems.size(); i++) { 
+						String[] strArr = objItems.get(i).toString().split(",");
+						for (int j = 0; j <= strArr.length; j++) {
+							if(j== 0){
+								data[i][j] = i + 1;
+							}else{
+								data[i][j] = strArr[j-1];
+							}
+				        }
+					}
 				
-//				if ( products != null && !products.isEmpty()) {
-//					data = new Object [products.size()][3];
-//					for (int i = 0; i < products.size(); i++) 
-//			        {
-//			        	data[i][0] = i + 1;
-//			        	data[i][1] = products.get(i).getProductId();
-//			        	data[i][2] = products.get(i).getProductName();
-//			        }
-//				};
-//				
-				data = new Object [1][5];
-				data[0][0] = "";
-	        	data[0][1] = "";
-	        	data[0][2] = "";
-	        	data[0][3] = "";
-	        	data[0][4] = "";
-	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				}else{
+					InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				}
 				break;
 			case"Members":
 				columnNames = new String [4];
-				columnNames[0] = "Sr.";
+				columnNames[0] = "#";
 				columnNames[1] = "Name";
 				columnNames[2]= "Member ID";
 				columnNames[3]= "Loyalty Points";
 				
-//				dataInit(ProductUtils.getAllProducts());
-//				products = productList.get("All");
+				getMemberList();
 				
-//				if ( products != null && !products.isEmpty()) {
-//					data = new Object [products.size()][3];
-//					for (int i = 0; i < products.size(); i++) 
-//			        {
-//			        	data[i][0] = i + 1;
-//			        	data[i][1] = products.get(i).getProductId();
-//			        	data[i][2] = products.get(i).getProductName();
-//			        }
-//				};
-//				
-				data = new Object [1][4];
-				data[0][0] = "";
-	        	data[0][1] = "";
-	        	data[0][2] = "";
-	        	data[0][3] = "";
-	        	InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				if ( objItems != null && !objItems.isEmpty()) {
+					data = new Object [objItems.size()][4];
+					for (int i = 0; i < objItems.size(); i++) { 
+						String[] strArr = objItems.get(i).toString().split(",");
+						for (int j = 0; j <= strArr.length; j++) {
+							if(j== 0){
+								data[i][j] = i + 1;
+							}else{
+								data[i][j] = strArr[j-1];
+							}
+				        }
+					}
+				
+				}else{
+					InfoBox.showInfoBox(this, "No records available to be shown!", "No Records");
+				}
 				break;
 			default:
 				break;
@@ -340,6 +347,13 @@ public class ReportDialog extends JDialog {
 		
 	}
 	
+	private void clearReport(){
+		tblList = new JTable();
+		scrollPane.setBounds(14, 136, 1052, 620);
+		contentPanel.add(scrollPane);
+		scrollPane.setViewportView(tblList);
+	}
+	
 	private void showHideDateFilters(Boolean isShow){
 		lblDateFrom.setVisible(isShow);
 		dftxtFrom.setVisible(isShow);
@@ -348,4 +362,59 @@ public class ReportDialog extends JDialog {
 		lblDateFormatFrom.setVisible(isShow);
 		lblDateFromTo.setVisible(isShow);
 	}
+	
+	private void dataInit(ArrayList<Product> products) {
+		productList.clear();
+		productList.put("All", products);
+		allProducts = products;
+		// get the category list from category;
+		String[] category = { "CLO", "MUG", "STA" };
+		for (String one : category) {
+			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one);
+			if (!products.isEmpty()) {
+				productList.put(one, items);
+			}
+		}
+	}
+	
+	private void getTransactionList(String strFromDate, String strToDate) {
+		objItems.clear();
+		// get the transaction list from file;
+		objItems = FileManagerUtils.getTransactionList("", "");
+
+//		ArrayList<String> tempObjItems = objItems;
+//		String strTransactionDate = "";
+//		
+//		
+//		DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//		Date dtFromDate = dateformat.parse(strFromDate);
+//		Date dtToDate = dateformat.parse(strToDate);
+//		
+//		for(String strLine : tempObjItems){
+//			strTransactionDate = strLine.split(",")[4];
+//			Date dtTransactionDate = dateformat.parse(strTransactionDate);
+//			if(dtTransactionDate.after(dtFromDate) && dtTransactionDate.before(dtToDate)) {
+//			    // In between
+//				objItems.set(objItems.indexOf(strLine),null);
+//			}
+//			
+//		}
+//		objItems.removeAll(Collections.singleton(null));
+	}
+	
+	private void getMemberList() {
+		objItems.clear();
+		objItems = FileManagerUtils.getMemberList();
+	}
+	
+	private void getCategoryList() {
+		objItems.clear();
+		objItems = FileManagerUtils.getCategoryList();
+	}
+	
+	private void getProductList() {
+		objItems.clear();
+		objItems = FileManagerUtils.getProductList();
+	}
+	
 }

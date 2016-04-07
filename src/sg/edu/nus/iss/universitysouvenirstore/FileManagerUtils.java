@@ -416,4 +416,188 @@ public class FileManagerUtils {
 		}
 		return true;
 	}
+	/**
+	 * Read transaction list from .dat file 
+	 *
+	 */
+	public static ArrayList<String> getTransactionList(String strFromDate, String strToDate) {
+		ArrayList<String> dataList = new ArrayList<String>();
+		String filePath = "";
+		File dataFile = null;
+		try {
+			
+				filePath =fileDir+ "/"+ "Transactions" + ".dat";
+				dataFile = new File(filePath);
+				if (dataFile.exists() && !dataFile.isDirectory()) {
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if ((br.ready())) {
+						// read lines
+						while ((line = br.readLine()) != null) {
+//							String[] data = line.split(",");
+//							intFileColumnCount = data.length;
+							if (line.length() > 0) {
+								dataList.add(line);
+							} else {
+								// throw 'invalid file format' exception
+							}
+						}
+					} else {
+						// throw 'empty file' exception
+					}
+
+					br.close();
+				} else {
+					// throw 'file/directory not exist' exception
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			// Do garbage collection
+		}
+		return dataList;
+	}
+	
+	/**
+	 * Read member list from .dat file 
+	 *
+	 */
+	public static ArrayList<String> getMemberList() {
+		ArrayList<String> dataList = new ArrayList<String>();
+		String filePath = "";
+		File dataFile = null;
+		try {
+			
+				filePath =fileDir+ "/"+ "Members" + ".dat";
+				dataFile = new File(filePath);
+				if (dataFile.exists() && !dataFile.isDirectory()) {
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if ((br.ready())) {
+						// read lines
+						while ((line = br.readLine()) != null) {
+//							String[] data = line.split(",");
+//							intFileColumnCount = data.length;
+							if (line.length() > 0) {
+								dataList.add(line);
+							} else {
+								// throw 'invalid file format' exception
+							}
+						}
+					} else {
+						// throw 'empty file' exception
+					}
+
+					br.close();
+				} else {
+					// throw 'file/directory not exist' exception
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			// Do garbage collection
+		}
+		return dataList;
+	}
+	
+	/**
+	 * Read category list from .dat file 
+	 *
+	 */
+	public static ArrayList<String> getCategoryList() {
+		ArrayList<String> dataList = new ArrayList<String>();
+		String filePath = "";
+		File dataFile = null;
+		try {
+			
+				filePath =fileDir+ "/"+ "Category" + ".dat";
+				dataFile = new File(filePath);
+				if (dataFile.exists() && !dataFile.isDirectory()) {
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if ((br.ready())) {
+						// read lines
+						while ((line = br.readLine()) != null) {
+//							String[] data = line.split(",");
+//							intFileColumnCount = data.length;
+							if (line.length() > 0) {
+								dataList.add(line);
+							} else {
+								// throw 'invalid file format' exception
+							}
+						}
+					} else {
+						// throw 'empty file' exception
+					}
+
+					br.close();
+				} else {
+					// throw 'file/directory not exist' exception
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			// Do garbage collection
+		}
+		return dataList;
+	}
+	
+	/**
+	 * Read product list from .dat file 
+	 *
+	 */
+	public static ArrayList<String> getProductList() {
+		ArrayList<String> dataList = new ArrayList<String>();
+		String filePath = "";
+		File dataFile = null;
+		try {
+			
+				filePath =fileDir+ "/"+ "Products" + ".dat";
+				dataFile = new File(filePath);
+				if (dataFile.exists() && !dataFile.isDirectory()) {
+					// read file
+					String line = "";
+					int intFileColumnCount = 0;
+					BufferedReader br = new BufferedReader(new FileReader(dataFile.toString()));
+					if ((br.ready())) {
+						// read lines
+						while ((line = br.readLine()) != null) {
+//							String[] data = line.split(",");
+//							intFileColumnCount = data.length;
+							if (line.length() > 0) {
+								dataList.add(line);
+							} else {
+								// throw 'invalid file format' exception
+							}
+						}
+					} else {
+						// throw 'empty file' exception
+					}
+
+					br.close();
+				} else {
+					// throw 'file/directory not exist' exception
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			// Do garbage collection
+		}
+		return dataList;
+	}
 }
+
