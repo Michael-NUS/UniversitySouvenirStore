@@ -4,14 +4,7 @@ import java.util.ArrayList;
 
 public class CategoryVendorMgr {
 	//Dump Data
-	public ArrayList<Category> dumbData(){
-		ArrayList<Category> c=new ArrayList<Category>();
-		c.add(new Category("CLO","Clothing"));
-		c.add(new Category("MUG","Mugs"));
-		c.add(new Category("STA","Stationary"));
-		c.add(new Category("DIA","Diary"));
-		return c;
-	}
+	public ArrayList<Category> categoryList=new ArrayList<Category>();
 	// Dump Vendor Data
 	public ArrayList<Vendor> dumbVendor(String categoryId){
 		ArrayList<Vendor> c=new ArrayList<Vendor>();
@@ -41,16 +34,18 @@ public class CategoryVendorMgr {
 		
 	}
 	// Read Category
-	public CategoryUtils getCategoryUtil(){
+	public CategoryUtils getCategoryUtil() throws CustomException{
 		//return new CategoryUtils();
-		CategoryUtils c=new CategoryUtils();
-		for(Category category:this.dumbData()){
-			c.addCategory(category.getCategoryId(), category.getCategoryDescription());
+		CategoryUtils cUtils=new CategoryUtils();
+		ArrayList<Object> dbData=FileManagerUtils.readDataFromDatFile(Category.class);
+		for (Object cItem : dbData) {
+			Category c=(Category) cItem;
+			cUtils.addCategory(c.getCategoryId(), c.getCategoryDescription());
 		}
-		return c;
+		return cUtils;
 	}
 	// Write Category
-	public void setCategoryUtils(){
-		
+	public void setCategoryUtils(ArrayList<Category> cList){
+		FileManagerUtils.saveDataToDatFile(Category.class,cList);
 	}
 }

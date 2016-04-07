@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class CategoryUtils {
 	private ArrayList<Category> categoryList;
-
+	private CategoryVendorMgr cvMgr=new CategoryVendorMgr();
 	public CategoryUtils(){
 		this.categoryList=new ArrayList<Category>();
 	}
@@ -32,19 +32,31 @@ public class CategoryUtils {
 		}
 		return -1;
 	}
-	public Category addCategory(String id,String description){
+	public Category addCategory(String id,String description) throws CustomException{
+		if(!id.matches("[A-Z]{3}")){
+			throw new CustomException("Category_Code_Error");
+		}
+		if(getCategoryPosition(id)!=-1){
+			throw new CustomException("Already_Exist_Error");
+		}
 		Category category=new Category(id,description);
 		this.categoryList.add(category);
+		cvMgr.setCategoryUtils(this.categoryList);
 		return category;
 	}
-	public void replaceCategory(int position,Category c){
+	public void replaceCategory(int position,Category c) throws CustomException{
+		if(getCategoryPosition(c.getCategoryId())!=-1){
+			throw new CustomException("Already_Exist_Error");
+		}
 		this.categoryList.set(position, c);
+		cvMgr.setCategoryUtils(this.categoryList);
 	}
 	public ArrayList<Category> removeCategory(String categoryId){
 		Category c=this.getCategory(categoryId);
 		if(c!=null){
 			this.categoryList.remove(c);
 		}
+		cvMgr.setCategoryUtils(this.categoryList);
 		return this.categoryList;
 	}
 

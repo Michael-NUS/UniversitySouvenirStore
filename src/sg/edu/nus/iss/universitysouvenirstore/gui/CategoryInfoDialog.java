@@ -7,9 +7,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import sg.edu.nus.iss.universitysouvenirstore.CustomException;
 
 public class CategoryInfoDialog extends JDialog{
 	/**
@@ -38,7 +41,12 @@ public class CategoryInfoDialog extends JDialog{
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				saveDialog();
+				if(getTitle().equals("Add New Category")){
+					saveDialog("AddCategory");
+				}else if(getTitle().equals("Edit Category")){
+					saveDialog("EditCategory");
+				}
+				
 			}
 		});
 		btnOk.setBounds(246, 243, 117, 29);
@@ -68,9 +76,18 @@ public class CategoryInfoDialog extends JDialog{
 	public void setCategoryMgr(CategoryManagerDialog categoryMgr){
 		this.categoryManager=categoryMgr;
 	}
-	public void saveDialog(){
-		this.categoryManager.updateManager(this.txtCategoryId.getText(), this.txtDescription.getText(),position);
-		closeDialog();
+	public void saveDialog(String dialogType){
+		try{
+			this.categoryManager.updateManager(this.txtCategoryId.getText(), this.txtDescription.getText(),position);
+			closeDialog();
+		}catch(CustomException e){
+			if(e.getMessage().equals("Category_Code_Error")){
+				JOptionPane.showMessageDialog(null, "Please enter 3 uppercase letters for Category Code","Error",JOptionPane.ERROR_MESSAGE);	
+			}else if(e.getMessage().equals("Already_Exist_Error")){
+				JOptionPane.showMessageDialog(null, "Please choose other category code as current code already used!","Error",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	
 	}
 	public void closeDialog(){
 		clearEditData();
