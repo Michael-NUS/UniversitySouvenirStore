@@ -33,6 +33,8 @@ public class FileManagerUtils {
 
 		else if (type.toString().contains("Member")) {
 			filePath =fileDir + "/Members.dat";
+		}else if(type.toString().contains("Discount")){
+			filePath=fileDir+"/Discounts.dat";
 		}
 
 		dataFile = new File(filePath);
