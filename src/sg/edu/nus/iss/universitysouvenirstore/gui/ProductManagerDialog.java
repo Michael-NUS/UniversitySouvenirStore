@@ -26,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.Category;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
 import sg.edu.nus.iss.universitysouvenirstore.FileManagerUtils;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
@@ -214,20 +216,28 @@ public class ProductManagerDialog extends JDialog {
 		// ArrayList<Product> products =
 
 	}
-
+	/**
+	 * data initialization
+	 * @param products
+	 */
 	private void dataInit(ArrayList<Product> products) {
 		productList.clear();
 		productList.put("All", products);
 		allProducts = products;
 		// get the category list from category;
-		String[] category = { "CLO", "MUG", "STA" };
-		for (String one : category) {
-			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one);
+		CategoryVendorMgr categoryVendorMgr = new CategoryVendorMgr();
+		ArrayList <Category> categeoryList = categoryVendorMgr.getCategoryUtil().getCategoryList();
+
+		for (Category one : categeoryList) {
+			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one.getCategoryId());
 			if (!products.isEmpty()) {
-				productList.put(one, items);
+				productList.put(one.getCategoryId(), items);
 			}
 		}
 	}
+	/**
+	 * update the arrayList
+	 */
 	public void updateItSelf(){
 		dataInit(allProducts);
 		ArrayList<Product> products = productList.get(curCategoryType);
