@@ -23,7 +23,7 @@ public class MemberManager {
 		return memberList;
 	}
 
-	public static void readExistingMembersFromDB() {
+	public static boolean readExistingMembersFromDB() {
 		clearMembersMap();
 
 		// get the members from io
@@ -31,12 +31,14 @@ public class MemberManager {
 		for (Object one : objects) {
 			members.put(((Member) one).getID(), (Member) one);
 		}
+		
+		return (!members.isEmpty());
 	}
 
 	public static int clearMembersMap() {
 		// clear the members map
 		members.clear();
-		return 0;
+		return members.size();
 	}
 
 	public static boolean checkExistOfMember(String memberID) {
@@ -78,6 +80,7 @@ public class MemberManager {
 			clearMembersMap();
 			return true;
 		} else {
+			// the member does not exist
 			clearMembersMap();
 			return false;
 		}

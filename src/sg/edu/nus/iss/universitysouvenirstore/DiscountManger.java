@@ -26,7 +26,7 @@ public class DiscountManger {
 		return discountList;
 	}
 
-	public static void readExistingDiscountsFromDB() {
+	public static boolean readExistingDiscountsFromDB() {
 		clearDiscountsMap();
 
 		// get the discounts from io
@@ -34,20 +34,14 @@ public class DiscountManger {
 		for (Object one : objects) {
 			discounts.put(((Discount) one).getCode(), (Discount) one);
 		}
-	}
-
-	public static Date convertToDate(Date date, String days) {
-		int actualDays = Integer.parseInt(days);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.add(Calendar.DATE, actualDays);
-		return cal.getTime();
+		
+		return (!discounts.isEmpty());
 	}
 
 	public static int clearDiscountsMap() {
 		// clear the discounts map
 		discounts.clear();
-		return 0;
+		return discounts.size();
 	}
 
 	public static boolean addDiscount(String discountCode, String description, String startDate, String discountPeriod,
@@ -76,6 +70,8 @@ public class DiscountManger {
 
 	public static boolean checkExistOfDiscount(String discountCode) {
 		discountCode = discountCode.toUpperCase();
+		clearDiscountsMap();
+		readExistingDiscountsFromDB();
 		if (discounts.containsKey(discountCode)) {
 			return true;
 		} else
@@ -95,6 +91,8 @@ public class DiscountManger {
 			clearDiscountsMap();
 			return true;
 		} else {
+			
+			// the discount doesn't exist!
 			clearDiscountsMap();
 			return false;
 		}
@@ -151,7 +149,7 @@ public class DiscountManger {
 				if (!((Discount) discountEntry.getValue()).getCode().equals("MEMBER_FIRST")) {
 					if (!tmpDiscountStartDate.equals("ALWAYS") && !currentDiscountPeriod.equals("ALWAYS")) {
 						currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
-						currentDiscountEndDate = convertToDate(currentDiscountStartDate, currentDiscountPeriod);
+						currentDiscountEndDate = convertToDate(tmpDiscountStartDate, currentDiscountPeriod);
 
 						if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
 							availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
@@ -183,7 +181,7 @@ public class DiscountManger {
 
 				if (!tmpDiscountStartDate.equals("ALWAYS") && !currentDiscountPeriod.equals("ALWAYS")) {
 					currentDiscountStartDate = convertToDate(tmpDiscountStartDate, "0");
-					currentDiscountEndDate = convertToDate(currentDiscountStartDate, currentDiscountPeriod);
+					currentDiscountEndDate = convertToDate(tmpDiscountStartDate, currentDiscountPeriod);
 
 					if (currentDate.after(currentDiscountStartDate) && currentDate.before(currentDiscountEndDate)) {
 						availableDiscountList.add(((Discount) discountEntry.getValue()).getPercentage());
@@ -208,7 +206,8 @@ public class DiscountManger {
 			return 0;
 		}
 
-		// System.out.println("availableDiscountList " + availableDiscountList);
+		//System.out.println("availableDiscountList " + availableDiscountList);
+		//System.out.println("max of availableDiscountList " + Collections.max(availableDiscountList));
 		return Collections.max(availableDiscountList);
 
 	}
