@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.Category;
 import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
+import sg.edu.nus.iss.universitysouvenirstore.CustomException;
 import sg.edu.nus.iss.universitysouvenirstore.FileManagerUtils;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
@@ -226,7 +227,13 @@ public class ProductManagerDialog extends JDialog {
 		allProducts = products;
 		// get the category list from category;
 		CategoryVendorMgr categoryVendorMgr = new CategoryVendorMgr();
-		ArrayList <Category> categeoryList = categoryVendorMgr.getCategoryUtil().getCategoryList();
+		ArrayList<Category> categeoryList=new ArrayList<Category>();
+		try {
+			categeoryList = categoryVendorMgr.getCategoryUtil().getCategoryList();
+		} catch (CustomException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for (Category one : categeoryList) {
 			ArrayList<Product> items = ProductUtils.getProductsForCategory( allProducts,one.getCategoryId());

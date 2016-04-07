@@ -38,10 +38,12 @@ public class CategoryVendorMgr {
 		//return new CategoryUtils();
 		CategoryUtils cUtils=new CategoryUtils();
 		ArrayList<Object> dbData=FileManagerUtils.readDataFromDatFile(Category.class);
+		ArrayList<Category> cArrayList=new ArrayList<Category>();
 		for (Object cItem : dbData) {
 			Category c=(Category) cItem;
-			cUtils.addCategory(c.getCategoryId(), c.getCategoryDescription());
+			cArrayList.add(new Category(c.getCategoryId(),c.getCategoryDescription()));		
 		}
+		cUtils.setCategoryList(cArrayList);
 		return cUtils;
 	}
 	// Write Category

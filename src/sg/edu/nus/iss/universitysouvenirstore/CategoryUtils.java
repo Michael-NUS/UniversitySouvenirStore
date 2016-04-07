@@ -32,6 +32,9 @@ public class CategoryUtils {
 		}
 		return -1;
 	}
+	public void setCategoryList(ArrayList<Category> clist){
+		this.categoryList=clist;
+	}
 	public Category addCategory(String id,String description) throws CustomException{
 		if(!id.matches("[A-Z]{3}")){
 			throw new CustomException("Category_Code_Error");
