@@ -106,6 +106,9 @@ public class ProductReorderDialog extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
 	}
+	/**
+	 * initialize data 
+	 */
 	public void dataInit(){
 		productmodel.removeAllElements();
 		if(reorderProductList.size()>0){
@@ -117,11 +120,13 @@ public class ProductReorderDialog extends JDialog {
 		}
 	}
 
-
+	/**
+	 * get all products that need to be reordered
+	 * @return
+	 */
 	public ArrayList<Product> getReorderProductList() {
 		return reorderProductList;
 	}
-
 
 	public void setReorderProductList(ArrayList<Product> reorderProductList) {
 		this.reorderProductList = reorderProductList;

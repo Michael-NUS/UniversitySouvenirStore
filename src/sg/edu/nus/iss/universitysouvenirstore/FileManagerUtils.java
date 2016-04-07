@@ -35,6 +35,8 @@ public class FileManagerUtils {
 			filePath =fileDir + "/Members.dat";
 		}else if(type.toString().contains("Discount")){
 			filePath=fileDir+"/Discounts.dat";
+		}else if(type.toString().contains("Category")){
+			filePath=fileDir+"/Category.dat";
 		}
 
 		dataFile = new File(filePath);
@@ -67,6 +69,9 @@ public class FileManagerUtils {
 							+ tmpDiscount.getStartDate() + "," + tmpDiscount.getPeriod() + ","
 							+ tmpDiscount.getPercentage() + "," + tmpDiscount.getType() + "\r\n");
 										
+				}else if(type.toString().contains("Category")){
+					Category tmpCategory=(Category) one;
+					bw.write(tmpCategory.getCategoryId()+","+tmpCategory.getCategoryDescription()+"\r\n");
 				}
 			}
 			bw.flush();
@@ -103,6 +108,8 @@ public class FileManagerUtils {
 			filePath =fileDir+ "/Transactions.dat";
 		} else if (type.toString().contains("Member")) {
 			filePath =fileDir+ "/Members.dat";
+		}else if(type.toString().contains("Category")){
+			filePath=fileDir+"/Category.dat";
 		}
 
 		dataFile = new File(filePath);
@@ -128,6 +135,11 @@ public class FileManagerUtils {
 					if (data.length == 3) {
 						Member tmpMember = new Member(data[0], data[1], Integer.valueOf(data[2]));
 						dataList.add(tmpMember);
+					}
+				}else if(type.toString().contains("Category")){
+					if(data.length==2){
+						Category tmpCategory=new Category(data[0],data[1]);
+						dataList.add(tmpCategory);
 					}
 				}
 			}

@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -22,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import sg.edu.nus.iss.universitysouvenirstore.Category;
 import sg.edu.nus.iss.universitysouvenirstore.CategoryUtils;
 import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
+import sg.edu.nus.iss.universitysouvenirstore.CustomException;
 import sg.edu.nus.iss.universitysouvenirstore.Vendor;
 import sg.edu.nus.iss.universitysouvenirstore.VendorUtils;
 
@@ -35,7 +37,7 @@ public class CategoryManagerDialog extends JDialog {
 	private CategoryInfoDialog categoryInfoDialog=new CategoryInfoDialog();
 	private VendorInfoDialog vendorInfoDialog=new VendorInfoDialog();
 	private CategoryVendorMgr categoryVendorMgr=new CategoryVendorMgr();
-	private CategoryUtils categoryUtils=categoryVendorMgr.getCategoryUtil();
+	private CategoryUtils categoryUtils;
 	private VendorUtils vendorUtils;
 	private DefaultListModel<String> categoryListModel=new DefaultListModel<String>();
 	JList<String> jlist = new JList<String>();
@@ -55,7 +57,11 @@ public class CategoryManagerDialog extends JDialog {
 
 		//scrollPane.setViewportView(jlist);
 
-		categoryUtils=categoryVendorMgr.getCategoryUtil();
+		try {
+			categoryUtils=categoryVendorMgr.getCategoryUtil();
+		} catch (CustomException e1) {
+			JOptionPane.showMessageDialog(null, "Loading Data get Errors","Error",JOptionPane.ERROR_MESSAGE);
+		}
 		setTitle("Category manager");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -79,7 +85,7 @@ public class CategoryManagerDialog extends JDialog {
 		vendorInfoDialog.setCategoryManager(this);
 		btnAddNewCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				categoryInfoDialog.setTitle("New Category");
+				categoryInfoDialog.setTitle("Add New Category");
 				categoryInfoDialog.clearEditData();
 				categoryInfoDialog.showDialog();
 			}
@@ -138,7 +144,7 @@ public class CategoryManagerDialog extends JDialog {
 
 		btnAddVendor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vendorInfoDialog.setTitle("New Vendor");
+				vendorInfoDialog.setTitle("Add New Vendor");
 				vendorInfoDialog.categoryId=comboBox.getSelectedItem().toString();
 				vendorInfoDialog.clearEditData();
 				vendorInfoDialog.showDialog();
@@ -202,12 +208,16 @@ public class CategoryManagerDialog extends JDialog {
 			 btnRemoveVendor.setEnabled(true);
 		 }
 	}
-	public void updateManager(String name,String description,int position){
+	public void updateManager(String name,String description,int position) throws CustomException{
 		System.out.println(name+' '+description+" position: "+position);
 		if(position!=-1){
 			categoryUtils.replaceCategory(position, new Category(name, description));
 		}else{
+			try{
 			categoryUtils.addCategory(name, description);
+			}catch(CustomException e){
+				throw e;
+			}
 		}
 		loadCategoryData();
 	}
