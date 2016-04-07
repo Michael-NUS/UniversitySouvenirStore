@@ -25,7 +25,10 @@ public class Transaction {
 		//System.out.println("HERE" + test.size());
 		count = readTransact.size();
 		
-		transactionCount = Integer.parseInt(readTransact.get(count-1).toString());
+		if(count >0)
+			transactionCount = Integer.parseInt(readTransact.get(count-1).toString());
+		else
+			transactionCount = 0;
 		//System.out.println(test.get(count-1).toString());
 		//get latest transaction number by checking the last trasaction.dat's number/count?	
 			  

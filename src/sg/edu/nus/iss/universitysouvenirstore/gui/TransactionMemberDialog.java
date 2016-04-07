@@ -29,14 +29,14 @@ public class TransactionMemberDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField memberField;
-	TransactionDialog transactionDialog;
+	private TransactionDialog transactionDialog;
 
-	JButton btnRetrieveMember = new JButton("Retrieve Member");
-	JLabel memberPoints_lbl = new JLabel("");
-	JLabel cashback_Lbl = new JLabel("");
-	JButton btnDone = new JButton("Done");
-	JLabel lblMemberId = new JLabel("Member ID");
-	//public TransactionMemberDialog(Member member) {		
+	private JButton btnRetrieveMember = new JButton("Retrieve Member");
+	private JLabel memberPoints_lbl = new JLabel("");
+	private JLabel cashback_Lbl = new JLabel("");
+	private JButton btnDone = new JButton("Done");
+	private JLabel lblMemberId = new JLabel("Member ID");
+
 	public TransactionMemberDialog(TransactionDialog transactionDialog) {	
 		this.transactionDialog = transactionDialog;
 		
@@ -83,8 +83,6 @@ public class TransactionMemberDialog extends JDialog {
 			}
 		});
 		//}
-		
-
 
 		btnRetrieveMember.setBounds(220, 101, 143, 20);
 		contentPanel.add(btnRetrieveMember);
@@ -146,6 +144,7 @@ public class TransactionMemberDialog extends JDialog {
 		JButton button_1 = new JButton("Cancel");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				transactionDialog.refresh();
 				dispose();
 			}
 		});
