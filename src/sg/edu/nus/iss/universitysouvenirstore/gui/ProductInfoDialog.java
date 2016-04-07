@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sg.edu.nus.iss.universitysouvenirstore.Category;
+import sg.edu.nus.iss.universitysouvenirstore.CategoryVendorMgr;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 import sg.edu.nus.iss.universitysouvenirstore.ProductUtils;
 import sg.edu.nus.iss.universitysouvenirstore.util.DoubleTextField;
@@ -48,20 +50,32 @@ public class ProductInfoDialog extends JDialog {
 	private ProductManagerDialog productManagerDialog = null;
 	private IntegerTextField txtReorderQuantity;
 
-
-
+	/**
+	 * get the  ProductManagerDialog
+	 * @return productManagerDialog
+	 */
 	public ProductManagerDialog getProductManagerDialog() {
 		return productManagerDialog;
 	}
-
+	/**
+	 * setProductManagerDialog
+	 * @param productManagerDialog
+	 */
 	public void setProductManagerDialog(ProductManagerDialog productManagerDialog) {
 		this.productManagerDialog = productManagerDialog;
 	}
 
+	/**
+	 * get current product
+	 * @return product
+	 */
 	public Product getCurProduct() {
 		return curProduct;
 	}
-
+	/**
+	 * get all products
+	 * @return arrayList<Product>
+	 */
 	public ArrayList<Product> getProducts() {
 		return products;
 	}
@@ -69,7 +83,10 @@ public class ProductInfoDialog extends JDialog {
 	public void setProducts(ArrayList<Product> products) {
 		this.products = products;
 	}
-
+	/**
+	 * flag to show it is in edit product mode or add new product mode
+	 * @return boolean
+	 */
 	public boolean isEditCase() {
 		return isEditCase;
 	}
@@ -260,13 +277,17 @@ public class ProductInfoDialog extends JDialog {
 		}
 
 	}
-
+	/**
+	 * data initialization 
+	 */
 	public void dataInit() {
 		// data init
-		String[] categeoryList = { "CLO", "MUG", "STA" };
+		
+		CategoryVendorMgr categoryVendorMgr = new CategoryVendorMgr();
+		ArrayList <Category> categeoryList = categoryVendorMgr.getCategoryUtil().getCategoryList();
 		comboBoxCategory.removeAllItems();
-		for (String one : categeoryList) {
-			comboBoxCategory.addItem(one);
+		for (Category one : categeoryList) {
+			comboBoxCategory.addItem(one.getCategoryId());
 		}
 
 		if (curProduct != null) {

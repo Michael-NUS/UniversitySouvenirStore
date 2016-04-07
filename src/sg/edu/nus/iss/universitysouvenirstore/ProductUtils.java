@@ -11,7 +11,18 @@ import sg.edu.nus.iss.universitysouvenirstore.gui.ProductReorderDialog;
 
 public class ProductUtils {
 	
-
+	/**
+	 * add new product to the arraylist
+	 * @param products  : the list of product 
+	 * @param productId
+	 * @param productName
+	 * @param briefDesc
+	 * @param availableQuantity
+	 * @param price
+	 * @param reorderQuantity
+	 * @param reorderLevel
+	 * @return integer : -1 : same id, -2: same product name
+	 */
 	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price,  int reorderQuantity, int reorderLevel ){
 		String []temp = productId.split("/");
 		Product product = new Product(productId,productName,  briefDesc,  availableQuantity,  price,  reorderLevel, temp[0],reorderQuantity) ;
@@ -21,6 +32,12 @@ public class ProductUtils {
 		}
 		return status;
 	}
+	/**
+	 * check the product is existed or not , check the id and productname
+	 * @param products
+	 * @param checkProduct
+	 * @return
+	 */
 	public static int checkExistOfProduct(ArrayList<Product> products, Product checkProduct){
 		int status =0;
 	
@@ -39,16 +56,29 @@ public class ProductUtils {
 		return status;
 	}
 
+	/**
+	 * gereate the product id by category 
+	 * @param categoryId
+	 * @return product id 
+	 */
 	public static String productIdGenerator(String categoryId){
 		CategoryUtils  utils = new CategoryUtils();
 		int largest = utils.getLargestNumByCategory(categoryId);
 		return categoryId + "/" + largest;
 	}
 
-	public static String barCodeGenerator(String categoryId){
-		return categoryId + "/" + "12";
-	}
-		
+	/** 
+	 * edit the product 
+	 * @param original
+	 * @param productId
+	 * @param productName
+	 * @param briefDescription
+	 * @param availableQuantity
+	 * @param price
+	 * @param reorderLevel
+	 * @param reorderQuantity
+	 * @return
+	 */
 	public static int editProduct(Product original,String productId, String productName, String briefDescription, Integer availableQuantity, Double price, Integer reorderLevel, Integer reorderQuantity){
 		
 		if(productId!=null){
@@ -76,6 +106,10 @@ public class ProductUtils {
 	
 		return 0;
 	}
+	/**
+	 * read existing product form the product.dat file 
+	 * @return
+	 */
 	private static ArrayList<Product> readExistingProductFromDB(){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from the io
@@ -86,9 +120,19 @@ public class ProductUtils {
 
 		return products;
 	}
+	/**
+	 * get all products
+	 * @return
+	 */
 	public static ArrayList<Product> getAllProducts(){
 		return readExistingProductFromDB();
 	}
+	/**
+	 * getProducts for Category
+	 * @param allProducts
+	 * @param categoryId
+	 * @return arraylast<Product>
+	 */
 	public static ArrayList<Product> getProductsForCategory(ArrayList<Product> allProducts,String categoryId){
 		ArrayList<Product>  products= new ArrayList<Product>();
 		//get the products from categoryu
@@ -100,7 +144,12 @@ public class ProductUtils {
 		return products;
 		
 	}
-
+	/**
+	 * get product by id 
+	 * @param products
+	 * @param productId
+	 * @return product
+	 */
 	public static Product getProductById(ArrayList<Product> products, String productId){
 		Product product = null;
 		for(Product one : products){
@@ -113,7 +162,11 @@ public class ProductUtils {
 		return product;
 	}
 
-	
+	/**
+	 * get products that need to be reorder 
+	 * @param products
+	 * @return ArrayList<Product> 
+	 */
 	public static ArrayList<Product> getReorderProductList(ArrayList<Product> products){
 		ArrayList<Product> reorderlist = new ArrayList<Product>();
 		for(Product product: products ){
@@ -123,6 +176,12 @@ public class ProductUtils {
 		}
 		return reorderlist;
 	}
+	/**
+	 * updateTransctionQuantity
+	 * @param products
+	 * @param items
+	 * @return
+	 */
 	public static boolean  updateTransctionQuantity(ArrayList<Product> products,ArrayList<TransactionedItem> items){
 		ArrayList<Product> reOrderProducts= new ArrayList<Product>();
 		for(Product product: products ){
@@ -154,6 +213,12 @@ public class ProductUtils {
 		return false ;
 	}
 
+	/**
+	 * delete the product from the product list 
+	 * @param products
+	 * @param productId
+	 * @return
+	 */
 	public static boolean removeProduct(ArrayList<Product> products, String productId){
 		boolean status = false;
 		for(Product one : products){
