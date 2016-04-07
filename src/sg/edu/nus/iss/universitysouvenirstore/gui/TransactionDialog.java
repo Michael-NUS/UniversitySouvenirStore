@@ -26,10 +26,6 @@ import sg.edu.nus.iss.universitysouvenirstore.Transaction;
 import sg.edu.nus.iss.universitysouvenirstore.TransactionedItem;
 
 public class TransactionDialog extends JFrame{
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private TransactionItemDialog transactionItemDialog;	
 	private Transaction transaction = new Transaction();
@@ -49,6 +45,7 @@ public class TransactionDialog extends JFrame{
 	private final JPanel contentPanel = new JPanel();
 	int numItems = 0;
 
+	private java.awt.List jlist;
 	
 	JButton checkOutButton = new JButton("Check Out");	
 	JButton editBtn = new JButton("Edit Item");
@@ -60,12 +57,8 @@ public class TransactionDialog extends JFrame{
 	JLabel grandTotalLbl = new JLabel("");	
 	JLabel lblPublic = new JLabel("PUBLIC");
 	JLabel pointsLBL = new JLabel("");
-	//private TransactionPanel transactionPanel = new TransactionPanel (this);
-	//Member Checkbox
-	JCheckBox memberCheckBox = new JCheckBox("Member");
-	//JList<String> jlist = new JList<String>();
-	
-	private java.awt.List jlist;
+	JCheckBox memberCheckBox = new JCheckBox("Member");	
+
 	
 	public TransactionDialog() {	
 		
