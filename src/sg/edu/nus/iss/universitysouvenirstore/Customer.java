@@ -16,11 +16,20 @@ public class Customer {
 	
 	protected String type;/* Member="M" or Non-member="PUBLIC" */
 	
+	/**
+	 *  Constructor for Customer and set as "PUBLIC" by default.
+	 *  Member customer can override this for setting it as "Member".
+	 */
 	public Customer(){
 		
 		this.type = "PUBLIC";		
 	}
-
+	
+	/**
+	 * 
+	 * @return   Return type of customer (PUBLIC or Member).
+	 */
+	
 	public String getCustomerType(){
 				
 		return this.type;

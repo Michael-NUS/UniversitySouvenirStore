@@ -29,7 +29,10 @@ public class Storekeeper extends Customer{
 	
 	private File dir = new File("./data/sg/edu/nus/iss/universitysouvenirstore/data");/* Instantiation of directory object*/
 	private File filePath = new File(dir ,"Storekeepers.dat");/* Instantiation of file object*/
-	
+
+	/**
+	 *  Constructor for Storekeeper class
+	 */	
 	public Storekeeper(){
 		
 		this.name = null;
@@ -37,32 +40,59 @@ public class Storekeeper extends Customer{
 		this.right = null;
 	}
 	
+	/**
+	 * Set user's right for instance of Storekeeper.
+	 * @param right Storekeeper's access right
+	 *  
+	 */
 	public void setRightForStorekeeper(Boolean right){
 		
 		this.right = right;
 	}
 	
+	/**
+	 * Get and return user's right of instance of Storekeeper.
+	 * @return  Return user's right.
+	 */
 	public Boolean getRightForStorekeeper(){
 			
 		return this.right;
 	}
 	
+	/**
+	 * Set user name and password for instance of Storekeeper.
+	 *  @param name  Set user name
+	 *  @param password  Set password
+	 */
 	public void setUsernameAndPassword(String name ,String password){
 		
 		this.name =name;
 		this.password = password;		
 	}
 	
+	/**
+	 * Get and return name of instance of Storekeeper.
+	 * @return  Return name
+	 */
 	public String getName(){
 		
 		return this.name;
 	}
 	
+	/**
+	 * Get and return password of instance of Storekeeper.
+	 * @return  Return password
+	 */
 	public String getPassword(){
 		
 		return this.password;
 	}
 	
+	/**
+	 * Check whether data file already exists or not , and 
+	 * update Storekeeper.dat file at specified location and return write status.
+	 * @return  Return file write status.
+	 */
 	public Boolean updateStoreKeeperInfo(){
 		 
 	      try {
@@ -116,7 +146,11 @@ public class Storekeeper extends Customer{
 		
 	}
 	
-	/* Input parameter as file path */
+	/** 
+	 * Input parameter as file path. 
+	 * @param file  File path for writing.
+	 * @return  Return file write status.
+	 */
 	public Boolean FileWrite(File file){
 		
 		 BufferedWriter bw = null;
@@ -149,6 +183,13 @@ public class Storekeeper extends Customer{
 	    } 
 	}
 	
+	/**
+	 * Read data file from specified path and return as ArrayList.
+	 * (filePath as parameter)
+	 * @param filePath  File path for reading
+	 * @return   Return file read data as ArrayList.
+	 * @throws java.io.IOException  Throw IO exception.
+	 */
 	public ArrayList<String> FileRead(File filePath)throws IOException{
 		
 		String line = new String();
@@ -174,8 +215,12 @@ public class Storekeeper extends Customer{
 		return list;
 	}
 	
+	/**
+	 * Read data file from specified path and return as ArrayList.
+	 * @return  Read Storekeeper's file read data as ArrayList.
+	 * @throws java.io.IOException  Throw IO exception.
+	 */
 	public ArrayList<String> readStorekeepersFile() throws IOException{	
-		
 		String line = new String();
 		ArrayList<String>list =new ArrayList<String> ();
 			
@@ -198,9 +243,16 @@ public class Storekeeper extends Customer{
 		return list;
 	}
 	
-	public Boolean checkUserInfo(String usrname,String pw) throws IOException{
-		
-		String userInfo = usrname + "," + pw;/* Combined both textFields and add "," in between.*/
+	/**
+	 *  Check Storekeeper's information from the data file.
+	 *  @param usrname  Name to be checked.
+	 *  @param pw       Password to be checked.
+	 *  @return         Return status in checking whether it is correct user or not.
+	 *  @throws java.io.IOException   Throw IO exception.
+	 */
+	public Boolean checkUserInfo(String usrname,String pw) throws IOException
+	{		
+		String userInfo = usrname + "," + pw;/* Combine both textFields and add "," in between.*/
 		
 		ArrayList<String> listRead = readStorekeepersFile();
 		
@@ -216,6 +268,11 @@ public class Storekeeper extends Customer{
 			
 	}
 	
+	/**
+	 * Remove Storekeeper from the data file.
+	 * @param usrname  Name to be removed.
+	 *  @return        Return file removal status.
+	 */
 	public Boolean removeStoreKeeper(String usrname){
 		
 		String userInfo = usrname;
