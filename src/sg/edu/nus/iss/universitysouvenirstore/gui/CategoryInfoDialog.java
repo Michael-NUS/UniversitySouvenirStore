@@ -19,9 +19,6 @@ import javax.swing.border.EmptyBorder;
 import sg.edu.nus.iss.universitysouvenirstore.CustomException;
 
 public class CategoryInfoDialog extends JDialog{
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCategoryId;
@@ -80,9 +77,19 @@ public class CategoryInfoDialog extends JDialog{
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 	}
+	
+	/**
+	 * Setter for Parent Dialog
+	 * @param categoryMgr CategoryManagerDialog
+	 */
 	public void setCategoryMgr(CategoryManagerDialog categoryMgr){
 		this.categoryManager=categoryMgr;
 	}
+	
+	/**
+	 * Create / Update Category 
+	 * @param dialogType Create / Update
+	 */
 	public void saveDialog(String dialogType){
 		try{
 			if(txtCategoryId.getText().isEmpty()||txtDescription.getText().isEmpty()){
@@ -110,11 +117,19 @@ public class CategoryInfoDialog extends JDialog{
 		}
 
 	}
+	
+	/**
+	 * Close Category Dialog
+	 */
 	public void closeDialog(){
 		clearEditData();
 		this.setVisible(false);
 		this.dispose();
 	}
+	
+	/**
+	 * Show Category Add / Edit Dialog
+	 */
 	public void showDialog(){
 		if(this.getTitle().equals("Edit Category")){
 			this.txtCategoryId.setEditable(false);
@@ -123,11 +138,20 @@ public class CategoryInfoDialog extends JDialog{
 		}
 		this.setVisible(true);
 	}
+	
+	/**
+	 * Remove all the text from Text Boxes
+	 */
 	public void clearEditData(){
 		this.txtCategoryId.setText("");
 		this.txtDescription.setText("");
 		this.txtCategoryId.setEditable(true);
 	}
+	/**
+	 * Prepare Data to Edit
+	 * @param categoryId Category Code
+	 * @param description Category Description
+	 */
 	public void setEditData(String categoryId,String description){
 		this.txtCategoryId.setText(categoryId);
 		this.txtDescription.setText(description);

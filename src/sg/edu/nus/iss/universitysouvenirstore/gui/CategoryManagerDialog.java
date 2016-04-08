@@ -33,9 +33,6 @@ import sg.edu.nus.iss.universitysouvenirstore.VendorUtils;
 
 public class CategoryManagerDialog extends JDialog {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private CategoryInfoDialog categoryInfoDialog=new CategoryInfoDialog();
@@ -53,6 +50,7 @@ public class CategoryManagerDialog extends JDialog {
 	JButton btnAddVendor = new JButton("Add Vendor");
 	JButton btnRemoveVendor = new JButton("Remove Vendor");
 	JLabel lblCategoryDescription = new JLabel("");
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -192,6 +190,10 @@ public class CategoryManagerDialog extends JDialog {
 		lblCategoryDescription.setBounds(129, 40, 150, 16);
 		contentPanel.add(lblCategoryDescription);
 	}
+	
+	/**
+	 * Load Category List
+	 */
 	public void loadCategoryData(){
 		comboBox.removeAllItems();
 		ArrayList<Category> clist=new ArrayList<Category>();
@@ -212,6 +214,11 @@ public class CategoryManagerDialog extends JDialog {
 			btnRemoveCategory.setEnabled(true);
 		}
 	}
+	
+	/**
+	 * Load Vendor List based on Selected Category Code
+	 * @param categoryId Selected Category Code
+	 */
 	public void loadVendorData(String categoryId){
 		categoryListModel.clear();
 		 vendorUtils=categoryVendorMgr.getVendorByCategory(categoryId);
@@ -232,6 +239,14 @@ public class CategoryManagerDialog extends JDialog {
 		}
 
 	}
+	
+	/**
+	 * Create / Update Category List
+	 * @param name Category Code
+	 * @param description Category Description
+	 * @param position if update then position in the list, otherwise -1
+	 * @throws CustomException Category_Code_Error, Already_Exist_Error
+	 */
 	public void updateManager(String name,String description,int position) throws CustomException{
 		System.out.println(name+' '+description+" position: "+position);
 		if(position!=-1){
@@ -245,6 +260,15 @@ public class CategoryManagerDialog extends JDialog {
 		}
 		loadCategoryData();
 	}
+	
+	/**
+	 * Create/ Update Vendor related Category Code
+	 * @param name Vendor Name
+	 * @param description Vendor Description
+	 * @param position Vendor position in the list
+	 * @param categoryId Category Code
+	 * @throws CustomException Already_Exist_Error
+	 */
 	public void updateVendorManager(String name,String description,int position,String categoryId) throws CustomException{
 		System.out.println(name+' '+description+" position: "+position+"  -categoryid = "+categoryId);
 		if(position!=-1){

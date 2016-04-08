@@ -8,26 +8,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CategoryVendorMgr {
-	//Dump Data
 	public ArrayList<Category> categoryList=new ArrayList<Category>();
 	public HashMap<String,ArrayList<Vendor>> vendorByCategoryList=new HashMap<String,ArrayList<Vendor>>();
-	// Dump Vendor Data
-	public ArrayList<Vendor> dumbVendor(String categoryId){
-		ArrayList<Vendor> c=new ArrayList<Vendor>();
-		if(categoryId.equals("CLO")){
-			c.add(new Vendor("Nancy","Nancy's Design"));
-			c.add(new Vendor("Marcy","Marcy's Design"));
-			c.add(new Vendor("Union","Union Selection Group"));
-			return c;
-		}else if(categoryId.equals("MUG")){
-			c.add(new Vendor("Muggy","Muggy Mugs"));
-			c.add(new Vendor("Naggy","Naggy Nags"));
-			c.add(new Vendor("Vaggy","Vaggy Vags"));
-			return c;
-		}
-		return c;
-	}
-	// Read & Return Vendor List Specify By Category
+
+	/**
+	 * Read Vendor List related to Category Code
+	 * @param categoryId Category Code
+	 * @return 	 {@link VendorUtils}
+	 */
 	public VendorUtils getVendorByCategory(String categoryId){
 		VendorUtils vUtils=new VendorUtils();
 		ArrayList<Object> dbData=FileManagerUtils.ReadDataFromDatFile("Vendors"+categoryId, "vendors");
@@ -40,11 +28,12 @@ public class CategoryVendorMgr {
 		this.vendorByCategoryList.put(categoryId, vUtils.getVendorList(categoryId));
 		return vUtils;
 	}
-	// Write Vendor List By Category
-	public void setVendorByCategory(String categoryId,VendorUtils vendorUtils){
 
-	}
-	// Read Category
+	/**
+	 * Read Category List
+	 * @return Category Array List
+	 * @throws CustomException 
+	 */
 	public CategoryUtils getCategoryUtil() throws CustomException{
 		//return new CategoryUtils();
 		CategoryUtils cUtils=new CategoryUtils();
@@ -57,10 +46,20 @@ public class CategoryVendorMgr {
 		cUtils.setCategoryList(cArrayList);
 		return cUtils;
 	}
-	// Write Category
+	
+	/**
+	 * Save Category List to File or other data sources
+	 * @param cList Category List
+	 */
 	public void setCategoryUtils(ArrayList<Category> cList){
 		FileManagerUtils.saveDataToDatFile(Category.class,cList);
 	}
+	
+	/**
+	 * Save Vendor List related to provided Category Code
+	 * @param categoryId Category Code
+	 * @param vList Vendor List
+	 */
 	public void setVendorByCategoryUtils(String categoryId,ArrayList<Vendor> vList){
 		ArrayList<String> stringList=new ArrayList<String>();
 		for(Vendor v:vList){
@@ -68,6 +67,11 @@ public class CategoryVendorMgr {
 		}
 		FileManagerUtils.AppendDataToFile("Vendors"+categoryId, "vendors", stringList);
 	}
+	
+	/**
+	 * Create Vendor File by calling {@link FileManagerUtils}
+	 * @param fileName Name of Vendor File
+	 */
 	public void createNewVendorFile(String fileName){
 		FileManagerUtils.CreateFile(fileName);
 	}

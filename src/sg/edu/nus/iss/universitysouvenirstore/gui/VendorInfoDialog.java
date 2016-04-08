@@ -17,9 +17,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 public class VendorInfoDialog extends JDialog {
-	/**
-	 *
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTextField txtVendorName;
 	private JTextField txtVendorDescription;
@@ -69,10 +67,17 @@ public class VendorInfoDialog extends JDialog {
 
 	}
 
+	/**
+	 * Setter for parent Dialog
+	 * @param catMgr
+	 */
 	public void setCategoryManager(CategoryManagerDialog catMgr) {
 		this.categoryManager = catMgr;
 	}
 
+	/**
+	 * Create / Update Vendor List
+	 */
 	public void saveDialog() {
 		try{
 			if(txtVendorName.getText().isEmpty()||txtVendorDescription.getText().isEmpty()){
@@ -94,21 +99,35 @@ public class VendorInfoDialog extends JDialog {
 		}
 	}
 
+	/**
+	 * Close Vendor Info Dialog
+	 */
 	public void closeDialog() {
 		clearEditData();
 		this.setVisible(false);
 		this.dispose();
 	}
 
+	/**
+	 * Show Vendor Info Dialog
+	 */
 	public void showDialog() {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Clear data from Text Fields
+	 */
 	public void clearEditData() {
 		this.txtVendorName.setText("");
 		this.txtVendorDescription.setText("");
 	}
 
+	/**
+	 * Prepare data to edit
+	 * @param vendorName Vendor Name
+	 * @param vendorDescription Vendor Description
+	 */
 	public void setEditData(String vendorName, String vendorDescription) {
 		this.txtVendorName.setText(vendorName);
 		this.txtVendorDescription.setText(vendorDescription);

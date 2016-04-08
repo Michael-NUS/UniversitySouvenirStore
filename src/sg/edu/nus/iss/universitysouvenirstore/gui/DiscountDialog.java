@@ -28,9 +28,6 @@ import sg.edu.nus.iss.universitysouvenirstore.DiscountManger;
 
 public class DiscountDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	JList<?> list = new JList<Object>();
@@ -65,8 +62,6 @@ public class DiscountDialog extends JDialog {
 		list.setBounds(39, 192, 362, -172);
 		table = new JTable();
 		
-		
-	
 		defaultTable.addColumn("Discount Code");
 		defaultTable.addColumn("Description");
 		defaultTable.addColumn("Period");
@@ -170,6 +165,11 @@ public class DiscountDialog extends JDialog {
 		btnRemoveDiscount.setEnabled(false);
 	
 	}
+	
+	/**
+	 * Add new Discount Row into Table
+	 * @param d Discount Object
+	 */
 	public void addDiscountToTable(Discount d){
 		if(DiscountManger.addDiscount(d.getCode(), d.getDescription(), d.getStartDate(), d.getPeriod(), d.getPercentage(), d.getType())){
 			List<String> slist = new ArrayList<String>();
@@ -182,6 +182,10 @@ public class DiscountDialog extends JDialog {
 			defaultTable.addRow(slist.toArray());
 		}
 	}
+	
+	/**
+	 * Update Discount Table
+	 */
 	public void updateDiscountTableData(){
 		DiscountManger.readExistingDiscountsFromDB();
 		ArrayList<Discount> d=DiscountManger.convertToDiscountArraylist();
@@ -214,6 +218,11 @@ public class DiscountDialog extends JDialog {
 			}
 	    });
 	}
+	
+	/**
+	 * Update Table after Discount object Edited
+	 * @param d Discount Object
+	 */
 	public void editDiscount(Discount d){
 		
 		defaultTable.fireTableDataChanged();
@@ -222,6 +231,10 @@ public class DiscountDialog extends JDialog {
 		updateDiscountTableData();
 		clearTableData();
 	}
+	
+	/**
+	 * Clear Table 
+	 */
 	public void clearTableData(){
 		btnEditDiscount.setEnabled(false);
 		btnRemoveDiscount.setEnabled(false);
