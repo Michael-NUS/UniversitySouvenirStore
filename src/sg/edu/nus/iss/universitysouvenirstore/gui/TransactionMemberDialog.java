@@ -26,11 +26,9 @@ public class TransactionMemberDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private String memberID = null;
 	private int memberPoints = 0;
-
 	private final JPanel contentPanel = new JPanel();
 	private JTextField memberField;
 	private TransactionDialog transactionDialog;
-
 	private JButton btnRetrieveMember = new JButton("Retrieve Member");
 	private JLabel memberPoints_lbl = new JLabel("");
 	private JLabel cashback_Lbl = new JLabel("");
@@ -140,8 +138,7 @@ public class TransactionMemberDialog extends JDialog {
 					
 			}
 		});		
-		btnDone.setEnabled(false); //default grey out
-		
+		btnDone.setEnabled(false); //default grey out		
 		btnDone.setActionCommand("Check Out");
 		panel.add(btnDone);
 		
@@ -157,33 +154,13 @@ public class TransactionMemberDialog extends JDialog {
 		
 
 		lblMemberId.setBounds(16, 85, 117, 16);
-		contentPanel.add(lblMemberId);
-		
+		contentPanel.add(lblMemberId);		
 
 		memberPoints_lbl.setBounds(220, 157, 56, 16);
-		contentPanel.add(memberPoints_lbl);
-		
+		contentPanel.add(memberPoints_lbl);		
 
 		cashback_Lbl.setBounds(220, 184, 56, 16);
 		contentPanel.add(cashback_Lbl);
-		
-		redeemCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//on check, need to prompt Transaction Member screen
-				
-				if(redeemCheckBox.isSelected())
-				{
-					//prompt 2nd screen that allow the store keeper to add the Memebr ID
-					//in the 2nd screen once the Member ID is added, show the member's information
-					//the member can select if they wanted to use the Points to deduct
-					//lblPublic.setText("memberID");
-				}
-				else;
-					//lblPublic.setText("PUBLIC");
-			}
-		});
-		
-
 	}
 	
 	/**
