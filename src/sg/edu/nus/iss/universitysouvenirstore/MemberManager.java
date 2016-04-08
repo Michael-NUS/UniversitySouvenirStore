@@ -79,7 +79,6 @@ public class MemberManager {
 	 * @return boolean : true if added, false if the given memberID already exists
 	 */	
 	public static boolean addMember(String memberName, String memberID) {
-		memberName = memberName.toUpperCase();
 		memberID = memberID.toUpperCase();
 		readExistingMembersFromDB();
 		if (!checkExistOfMember(memberID)) {

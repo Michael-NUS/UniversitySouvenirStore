@@ -153,14 +153,14 @@ public class DiscountManagerTest {
 	 */
 	@Test
 	public void testUpdateDiscountPeriod() {
-		String testString1 = "ALWAYS";
-		String testString2 = "180";
+		String testString1 = "180";
+		String testString2 = "ALWAYS";
 
-		DiscountManger.updateDiscountPeriod("TEST_D3", "ALWAYS");
-		assertEquals(testString1, DiscountManger.getDiscountPeriod("TEST_D1"));
+		DiscountManger.updateDiscountPeriod("TEST_D2", testString1);
+		assertEquals(testString1, DiscountManger.getDiscountPeriod("TEST_D2"));
 		
-		DiscountManger.updateDiscountPeriod("TEST_D4", "180");
-		assertEquals(testString2, DiscountManger.getDiscountPeriod("TEST_D1"));
+		DiscountManger.updateDiscountPeriod("TEST_D3", testString2);
+		assertEquals(testString2, DiscountManger.getDiscountPeriod("TEST_D3"));
 	}
 	
 	
@@ -277,6 +277,6 @@ public class DiscountManagerTest {
 		boolean testStatus1 = DiscountManger.removeDiscount("TEST_D1");
 		boolean testStatus2 = DiscountManger.removeDiscount("TEST_D99");
 		assertTrue(testStatus1);
-		assertTrue(testStatus2);
+		assertFalse(testStatus2);
 	}
 }
