@@ -6,6 +6,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author LIU YAKUN
+ * Unit test for Discount Class
+ */
+
 public class DiscountTest {
 
 	private Discount testDiscount = new Discount("TDD_DISCOUNT", "for unit test", "2016-03-03", "55",
