@@ -29,7 +29,7 @@ public class TransactionItemDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtProductName;
 	private IntegerTextField txtQuantity;
-	private String title;
+	private String title = "Transaction Item";
 	private boolean isEditCase = false;
 	private boolean isDeleteCase = false;
 	private Product curProduct = null;
@@ -53,14 +53,6 @@ public class TransactionItemDialog extends JDialog {
 	public void setCurProduct(Product curProduct) {
 		this.curProduct = curProduct;
 	}
-
-
-	/**
-	 * Set the title for this screen
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	
 	/**
 	 * Create the dialog.
@@ -68,7 +60,7 @@ public class TransactionItemDialog extends JDialog {
 	 */
 	public TransactionItemDialog(TransactionDialog transactionDialog) {		
 		// contentPanel.setBackground(new Color(244, 164, 96));
-		setTitle("Transaction Item");
+		setTitle(title);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(244, 164, 96));
@@ -112,7 +104,6 @@ public class TransactionItemDialog extends JDialog {
 					
 					if(!isEditCase && !isDeleteCase)//Add new item case
 					{				
-						setTitle("Add Item");
 						Product individualProduct = ProductUtils.getProductById(products, productName); //ProductUtils class;
 						
 						if (individualProduct != null) //make sure the item is existing
@@ -198,6 +189,8 @@ public class TransactionItemDialog extends JDialog {
 	 */
 	public void Refresh()
 	{		
+		//System.out.println(title);
+		setTitle(title);
 		if(isEditCase == true){
 			okButton.setText("Save");
 		}

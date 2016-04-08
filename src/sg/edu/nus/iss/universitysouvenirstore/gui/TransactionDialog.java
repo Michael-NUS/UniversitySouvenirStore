@@ -418,7 +418,7 @@ public class TransactionDialog extends JFrame{
         String title = "Remove Product";
         String msg = "Do you want to Delete " + productID + "?";
         
-        int res = JOptionPane.showOptionDialog(null, title, msg, JOptionPane.DEFAULT_OPTION,
+        int res = JOptionPane.showOptionDialog(null, msg, title, JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null, null, null);
         	if (res == 0)
         	{

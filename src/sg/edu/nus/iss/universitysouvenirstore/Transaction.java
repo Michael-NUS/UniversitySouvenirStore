@@ -70,7 +70,7 @@ public class Transaction {
 	{
 		int counter = 0; //counter to trap the address for the ArrayList
 		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID+"|"); //debug
-		
+		boolean isFound = false;
 		while (counter < items.size())
 		{
 			//System.out.println("items.get(counter).GetProductID()" + items.get(counter).GetProductID()+" compare " + productID ); //debug
@@ -78,12 +78,13 @@ public class Transaction {
 			{
 				items.get(counter).UpdateQuantity(quantity); //update the productID's quantity with the new quantity
 				//System.out.println("New quantity" + items.get(counter).GetProductQuantity()); //debug
-			}
-			else
-				throw new CustomException("Item not found"); //throw exception if the item to edit is not exist anymore
-			
+				isFound = true;
+			}			
 			counter ++;		
 		}
+		
+		if (!isFound)
+			throw new CustomException("Item not found"); //throw exception if the item to edit is not exist anymore
 	}
 	
 	/**
@@ -104,19 +105,20 @@ public class Transaction {
 		
 		int counter = 0;
 		//System.out.println("Transaction.EditTransactionItem.ProductID " + productID); //debug
-		
+		boolean isFound = false;
 		while (counter < items.size()) //loop thru the ArrayList to look for the Product ID
 		{
 			//System.out.println("items.get(counter).GetProductID()" + items.get(counter).GetProductID()+" compare " + productID ); //debug
 			if(items.get(counter).GetProductID().equalsIgnoreCase(productID))//Product ID found
 			{
 				items.remove(counter); //Remove that entry from the ArrayList
-			}
-			else //Product ID not found
-				throw new CustomException("Item not found");
-				
+				isFound = true;
+			}				
 			counter ++;		
 		}
+		
+		if(!isFound) //Product ID not found
+			throw new CustomException("Item not found");
 	}
 
 	/**
