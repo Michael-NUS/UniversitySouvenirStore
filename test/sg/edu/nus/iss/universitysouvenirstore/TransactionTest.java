@@ -30,18 +30,16 @@ public class TransactionTest {
 	 * @throws java.lang.Exception
 	 */
 	@After
-	public void tearDown() throws Exception {	
-		
+	public void tearDown() throws Exception {		
 		in = new FileInputStream(new File("./data/sg/edu/nus/iss/universitysouvenirstore/unittestdata/TransactionsBackup.dat"));
 		OutputStream out = new FileOutputStream(new File("./data/sg/edu/nus/iss/universitysouvenirstore/unittestdata/Transactions.dat"));
-			      byte[] buffer = new byte[1024];
-			      int length;
-			      while ((length = in.read(buffer)) > 0) {
-			         out.write(buffer, 0, length);
-			      }
-			      in.close();
-			      out.close();
-			     
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+		in.close();
+		out.close();			     
 	}
 	
 	/**
