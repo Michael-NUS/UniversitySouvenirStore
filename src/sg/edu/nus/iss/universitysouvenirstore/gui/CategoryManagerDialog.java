@@ -42,17 +42,17 @@ public class CategoryManagerDialog extends JDialog {
 	private CategoryUtils categoryUtils;
 	private VendorUtils vendorUtils;
 	private DefaultListModel<String> categoryListModel=new DefaultListModel<String>();
-	JList<String> jlist = new JList<String>();
-	JComboBox<String> comboBox = new JComboBox<String>();
-	JButton btnAddNewCategory = new JButton("Add New Category");
-	JButton btnEditCategory = new JButton("Edit Category");
-	JButton btnRemoveCategory = new JButton("Remove Category");
-	JButton btnEditVendor = new JButton("Edit Vendor");
-	JButton btnAddVendor = new JButton("Add Vendor");
-	JButton btnRemoveVendor = new JButton("Remove Vendor");
-	JLabel lblCategoryDescription = new JLabel("");
-	JScrollPane jscrollPane=new JScrollPane();
-	
+	private JList<String> jlist = new JList<String>();
+	private JComboBox<String> comboBox = new JComboBox<String>();
+	private JButton btnAddNewCategory = new JButton("Add New Category");
+	private JButton btnEditCategory = new JButton("Edit Category");
+	private JButton btnRemoveCategory = new JButton("Remove Category");
+	private JButton btnEditVendor = new JButton("Edit Vendor");
+	private JButton btnAddVendor = new JButton("Add Vendor");
+	private JButton btnRemoveVendor = new JButton("Remove Vendor");
+	private JLabel lblCategoryDescription = new JLabel("");
+	private JScrollPane jscrollPane=new JScrollPane();
+
 	/**
 	 * Create the dialog.
 	 */
@@ -194,7 +194,7 @@ public class CategoryManagerDialog extends JDialog {
 		lblCategoryDescription.setBounds(129, 40, 150, 16);
 		contentPanel.add(lblCategoryDescription);
 	}
-	
+
 	/**
 	 * Load Category List
 	 */
@@ -218,7 +218,7 @@ public class CategoryManagerDialog extends JDialog {
 			btnRemoveCategory.setEnabled(true);
 		}
 	}
-	
+
 	/**
 	 * Load Vendor List based on Selected Category Code
 	 * @param categoryId Selected Category Code
@@ -243,7 +243,7 @@ public class CategoryManagerDialog extends JDialog {
 		}
 
 	}
-	
+
 	/**
 	 * Create / Update Category List
 	 * @param name Category Code
@@ -252,7 +252,6 @@ public class CategoryManagerDialog extends JDialog {
 	 * @throws CustomException Category_Code_Error, Already_Exist_Error
 	 */
 	public void updateManager(String name,String description,int position) throws CustomException{
-		System.out.println(name+' '+description+" position: "+position);
 		if(position!=-1){
 			categoryUtils.replaceCategory(position, new Category(name, description));
 		}else{
@@ -264,7 +263,7 @@ public class CategoryManagerDialog extends JDialog {
 		}
 		loadCategoryData();
 	}
-	
+
 	/**
 	 * Create/ Update Vendor related Category Code
 	 * @param name Vendor Name
@@ -274,7 +273,6 @@ public class CategoryManagerDialog extends JDialog {
 	 * @throws CustomException Already_Exist_Error
 	 */
 	public void updateVendorManager(String name,String description,int position,String categoryId) throws CustomException{
-		System.out.println(name+' '+description+" position: "+position+"  -categoryid = "+categoryId);
 		if(position!=-1){
 			vendorUtils.replaceVendor(position, new Vendor(name,description), categoryId);
 			loadVendorData(categoryId);

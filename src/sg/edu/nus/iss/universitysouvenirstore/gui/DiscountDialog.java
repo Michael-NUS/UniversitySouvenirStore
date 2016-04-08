@@ -30,28 +30,28 @@ public class DiscountDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	JList<?> list = new JList<Object>();
-	DefaultListModel<String> defList=new DefaultListModel<String>();
+	private JList<?> list = new JList<Object>();
+	private DefaultListModel<String> defList=new DefaultListModel<String>();
 	private JTable table;
 	private DiscountInfoMgrDialog discountInfoMgrDialog=new DiscountInfoMgrDialog();
 	private Discount selectedDiscount;
 	private DefaultTableModel defaultTable=new DefaultTableModel(0,0);
-	private 		JButton btnAddNewDiscount = new JButton("Add New Discount");
-	JLabel discountCode = new JLabel("Discount Code :");
-	JLabel discountDescription = new JLabel("Discount Description :");
-	JLabel discountPeriod = new JLabel("Discount Period :");
-	JLabel discountStartDate = new JLabel("Discount Start Date :");
-	JLabel discountType = new JLabel("Discount Type :");
-	JButton btnEditDiscount = new JButton("Edit Discount");
-	JButton btnRemoveDiscount = new JButton("Remove Discount");
-	JLabel lblDiscountType = new JLabel("");
-	JLabel lblDescription = new JLabel("");
-	JLabel lblCode = new JLabel("");
-	JLabel lblPeriod = new JLabel("");
-	JLabel lblStartDate = new JLabel("");
-	JLabel lblDiscountPercentageLabel = new JLabel("Discount Percentage :");
-	JLabel lblDiscountPercentage = new JLabel("");
-	JScrollPane jscrollPane=new JScrollPane();
+	private JButton btnAddNewDiscount = new JButton("Add New Discount");
+	private JLabel discountCode = new JLabel("Discount Code :");
+	private JLabel discountDescription = new JLabel("Discount Description :");
+	private JLabel discountPeriod = new JLabel("Discount Period :");
+	private JLabel discountStartDate = new JLabel("Discount Start Date :");
+	private JLabel discountType = new JLabel("Discount Type :");
+	private JButton btnEditDiscount = new JButton("Edit Discount");
+	private JButton btnRemoveDiscount = new JButton("Remove Discount");
+	private JLabel lblDiscountType = new JLabel("");
+	private JLabel lblDescription = new JLabel("");
+	private JLabel lblCode = new JLabel("");
+	private JLabel lblPeriod = new JLabel("");
+	private JLabel lblStartDate = new JLabel("");
+	private JLabel lblDiscountPercentageLabel = new JLabel("Discount Percentage :");
+	private JLabel lblDiscountPercentage = new JLabel("");
+	private JScrollPane jscrollPane=new JScrollPane();
 	/**
 	 * Create the dialog.
 	 */
