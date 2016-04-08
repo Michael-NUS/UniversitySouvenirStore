@@ -36,6 +36,7 @@ public class MemberManagerTest {
 	}
 
 	/**
+	 * keep the test data for DiscountManagerTest.java
 	 * @throws java.lang.Exception
 	 */
 	@After
