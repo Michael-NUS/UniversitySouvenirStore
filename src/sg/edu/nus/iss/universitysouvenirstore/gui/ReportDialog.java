@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -55,12 +56,14 @@ public class ReportDialog extends JDialog {
 	private JLabel lblDateFrom;
 	private DateFormattedTextField dftxtFrom;
 	private JLabel lblDateTo;
-	private DateFormattedTextField frmtdtxtfldDftxtto ;
+	private DateFormattedTextField dftxtTo ;
 	private JLabel lblDateFormatFrom;
 	private JLabel lblDateFromTo ;
 	
 	private ArrayList<String> objItems = new ArrayList<String>();
-
+	private StringBuilder fromYYYYMMDD;
+	private StringBuilder toYYYYMMDD;
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -85,15 +88,15 @@ public class ReportDialog extends JDialog {
 		
 		Date dateNow = new Date ();
         SimpleDateFormat dateformatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
-        StringBuilder nowYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateNow ) );
+        toYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateNow ) );
         
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -30);
         Date dateBefore30Days = cal.getTime();
         
-        StringBuilder oneMonthYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateBefore30Days ) );
+        fromYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateBefore30Days ) );
 		
-		dftxtFrom.setText(oneMonthYYYYMMDD.toString());
+		dftxtFrom.setText(fromYYYYMMDD.toString());
 		dftxtFrom.setBounds(445, 31, 100, 36);
 		contentPanel.add(dftxtFrom);
 		
@@ -101,10 +104,10 @@ public class ReportDialog extends JDialog {
 		lblDateTo.setBounds(693, 31, 62, 36);
 		contentPanel.add(lblDateTo);
 		
-		frmtdtxtfldDftxtto = new DateFormattedTextField();
-		frmtdtxtfldDftxtto.setText(nowYYYYMMDD.toString());
-		frmtdtxtfldDftxtto.setBounds(758, 31, 100, 36);
-		contentPanel.add(frmtdtxtfldDftxtto);
+		dftxtTo = new DateFormattedTextField();
+		dftxtTo.setText(toYYYYMMDD.toString());
+		dftxtTo.setBounds(758, 31, 100, 36);
+		contentPanel.add(dftxtTo);
 		
 		lblDateFormatFrom = new JLabel(" (yyyy-mm-dd)");
 		lblDateFormatFrom.setBounds(545, 31, 113, 36);
@@ -288,7 +291,7 @@ public class ReportDialog extends JDialog {
 				columnNames[4]= "Quantity Purchased";
 				columnNames[5]= "Transaction Date";
 				
-				getTransactionList("", "");
+				getTransactionList(dftxtFrom.getText(), dftxtTo.getText());
 				
 				if ( objItems != null && !objItems.isEmpty()) {
 					data = new Object [objItems.size()][6];
@@ -338,8 +341,13 @@ public class ReportDialog extends JDialog {
 					
 		}
 	
-//		tblList = new JTable();
-		tblList = new JTable(data, columnNames);
+
+		if(data == null){
+			tblList = new JTable();
+		}else{
+			tblList = new JTable(data, columnNames);
+		}
+		
 		scrollPane.setBounds(14, 136, 1052, 620);
 		contentPanel.add(scrollPane);
 		scrollPane.setViewportView(tblList);
@@ -358,7 +366,7 @@ public class ReportDialog extends JDialog {
 		lblDateFrom.setVisible(isShow);
 		dftxtFrom.setVisible(isShow);
 		lblDateTo.setVisible(isShow);
-		frmtdtxtfldDftxtto.setVisible(isShow);
+		dftxtTo.setVisible(isShow);
 		lblDateFormatFrom.setVisible(isShow);
 		lblDateFromTo.setVisible(isShow);
 	}
@@ -378,28 +386,48 @@ public class ReportDialog extends JDialog {
 	}
 	
 	private void getTransactionList(String strFromDate, String strToDate) {
-		objItems.clear();
-		// get the transaction list from file;
-		objItems = FileManagerUtils.getTransactionList("", "");
-
-//		ArrayList<String> tempObjItems = objItems;
-//		String strTransactionDate = "";
-//		
-//		
-//		DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-//		Date dtFromDate = dateformat.parse(strFromDate);
-//		Date dtToDate = dateformat.parse(strToDate);
-//		
-//		for(String strLine : tempObjItems){
-//			strTransactionDate = strLine.split(",")[4];
-//			Date dtTransactionDate = dateformat.parse(strTransactionDate);
-//			if(dtTransactionDate.after(dtFromDate) && dtTransactionDate.before(dtToDate)) {
-//			    // In between
-//				objItems.set(objItems.indexOf(strLine),null);
-//			}
-//			
-//		}
-//		objItems.removeAll(Collections.singleton(null));
+		if((strFromDate == null || strFromDate.isEmpty() || strFromDate.contains("_")) ||
+				(strToDate == null || strToDate.isEmpty() || strFromDate.contains("_"))){
+			objItems.clear();
+		} else {
+			objItems.clear();
+			// get the transaction list from file;
+			objItems = FileManagerUtils.getTransactionList("", "");
+	
+			ArrayList<String> tempObjItems = (ArrayList<String>) objItems.clone();
+			String strTransactionDate = "";
+			
+			
+			DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+			Date dtFromDate=null;
+			Date dtToDate=null;
+			try {
+				dtFromDate = dateformat.parse(strFromDate);
+				dtToDate = dateformat.parse(strToDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try{
+				for(String strLine : tempObjItems){
+					strTransactionDate = strLine.split(",")[4];
+					Date dtTransactionDate = dateformat.parse(strTransactionDate);
+					if(dtTransactionDate.after(dtFromDate) && dtTransactionDate.before(dtToDate)) {
+					    // In between
+						
+					}else{
+						objItems.set(objItems.indexOf(strLine),null);
+					}
+					
+				}
+				objItems.removeAll(Collections.singleton(null));
+			}catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	private void getMemberList() {
