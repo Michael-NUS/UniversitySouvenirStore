@@ -1,4 +1,4 @@
-rem  Author :Aung Myo
+rem  Author: Aung Myo
 rem  setenv.bat file
 
 @ECHO off

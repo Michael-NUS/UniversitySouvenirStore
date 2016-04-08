@@ -1,4 +1,4 @@
-rem  Author :Aung Myo
+rem  Author: Aung Myo
 rem  compile.bat file
 
 @ECHO Off
