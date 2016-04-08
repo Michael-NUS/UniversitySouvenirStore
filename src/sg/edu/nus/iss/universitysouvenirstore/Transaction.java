@@ -22,14 +22,16 @@ public class Transaction {
 	 * Constructor for Transaction will initiate the Transaction ID
 	 */
 	public Transaction(){	
-		transactionCount = GetTransactionCount() + 1;	
+		transactionCount = GetLastTransactionID() + 1;	
+		//System.out.println("new TransactionID: " + transactionCount);
 	}
 	
+
 	/**
 	 * get the latest Transaction ID, will return the last transaction ID as an Int to the Constructor
 	 * @return
 	 */
-	public int GetTransactionCount(){
+	public int GetLastTransactionID(){
 		int count = 0;
 		
 		ArrayList<Object> readTransact = FileManagerUtils.readDataFromDatFile(Transaction.class);
@@ -178,7 +180,7 @@ public class Transaction {
 		for (TransactionedItem item:items) //structure the transaction information for each item in the transaction list
 		{
 			line = String.valueOf(transactionCount) + "," + item.GetProductID() + "," + memberID + "," + String.valueOf(item.GetProductQuantity() + "," + stringDate);
-			System.out.println(line);
+			//System.out.println(line);
 			writeToFile.add(line);
 		}		
 		
@@ -274,5 +276,13 @@ public class Transaction {
 	 */
 	public void SetCashBack(boolean toogle){
 		cashBack = toogle;
-	}	
+	}
+	
+	/**
+	 * Return current Transaction ID
+	 * @return
+	 */
+	public int GetTransactionID(){
+		return transactionCount;
+	}
 }

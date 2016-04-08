@@ -60,14 +60,12 @@ public class TransactionMemberDialog extends JDialog {
 						System.out.println("member points: " + memberPoints);
 						btnDone.setEnabled(true); //turn on Done button						
 						Refresh(); //redraw this screen				
-					}
-
-					
+					}					
 					else //Member ID not found
 					{
 						String error ="";
 						error = "Member ID not found";
-						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);	
 						
 						memberID = "PUBLIC";
 						memberPoints = 0;
@@ -87,55 +85,43 @@ public class TransactionMemberDialog extends JDialog {
 		//}
 
 		btnRetrieveMember.setBounds(220, 101, 143, 20);
-		contentPanel.add(btnRetrieveMember);
-		
+		contentPanel.add(btnRetrieveMember);		
 		//label for static text display		
 		JLabel lblNewLabel = new JLabel("Current Loyalty Points");
 		lblNewLabel.setBounds(16, 157, 167, 16);
-		contentPanel.add(lblNewLabel);
-		
+		contentPanel.add(lblNewLabel);		
 		JLabel lblDeductPoints = new JLabel("Eligible Cash Rebate");
 		lblDeductPoints.setBounds(16, 184, 167, 16);
-		contentPanel.add(lblDeductPoints);
-		
+		contentPanel.add(lblDeductPoints);		
 		JCheckBox redeemCheckBox = new JCheckBox("Redeem");
 		redeemCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		redeemCheckBox.setBounds(16, 209, 78, 18);
-		contentPanel.add(redeemCheckBox);
-		
+		contentPanel.add(redeemCheckBox);		
 		memberField = new JTextField();
 		memberField.setBounds(16, 101, 167, 20);
 		contentPanel.add(memberField);
-		memberField.setColumns(10);
-		
+		memberField.setColumns(10);		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 353, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
-
 		btnDone.addActionListener(new ActionListener() {//Complete the member information gathering
 			public void actionPerformed(ActionEvent e) {
 					transactionDialog.SetMemberPoint(Integer.parseInt(memberPoints_lbl.getText())); //capture MemberPoints
-					transactionDialog.SetMemberID(memberID);//capture MemebrID
-					
+					transactionDialog.SetMemberID(memberID);//capture MemebrID					
 					if(redeemCheckBox.isSelected()){
 						transactionDialog.OptCashBack(true);//opted in for cashback
 					}
 					else
-						transactionDialog.OptCashBack(false);//opted out for cashback
-					
-					transactionDialog.refresh();//redraw the Transaction main Screen
-					
+						transactionDialog.OptCashBack(false);//opted out for cashback					
+					transactionDialog.refresh();//redraw the Transaction main Screen					
 					redeemCheckBox.setSelected(false);;
 					memberID = "PUBLIC";
 					memberPoints = 0;
 					btnDone.setEnabled(false); //disable Done button
 					memberField.setText("");
 					Refresh();
-					dispose();
-					
-					
+					dispose();					
 			}
 		});		
 		btnDone.setEnabled(false); //default grey out		
@@ -150,15 +136,12 @@ public class TransactionMemberDialog extends JDialog {
 			}
 		});
 		button_1.setActionCommand("Cancel");
-		panel.add(button_1);
-		
+		panel.add(button_1);		
 
 		lblMemberId.setBounds(16, 85, 117, 16);
-		contentPanel.add(lblMemberId);		
-
+		contentPanel.add(lblMemberId);
 		memberPoints_lbl.setBounds(220, 157, 56, 16);
-		contentPanel.add(memberPoints_lbl);		
-
+		contentPanel.add(memberPoints_lbl);	
 		cashback_Lbl.setBounds(220, 184, 56, 16);
 		contentPanel.add(cashback_Lbl);
 	}
