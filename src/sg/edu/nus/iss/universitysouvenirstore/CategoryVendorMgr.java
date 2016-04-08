@@ -1,10 +1,16 @@
+/**
+ * @author nyinyizin
+ * @version 0.1
+ */
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CategoryVendorMgr {
 	//Dump Data
 	public ArrayList<Category> categoryList=new ArrayList<Category>();
+	public HashMap<String,ArrayList<Vendor>> vendorByCategoryList=new HashMap<String,ArrayList<Vendor>>();
 	// Dump Vendor Data
 	public ArrayList<Vendor> dumbVendor(String categoryId){
 		ArrayList<Vendor> c=new ArrayList<Vendor>();
@@ -23,15 +29,20 @@ public class CategoryVendorMgr {
 	}
 	// Read & Return Vendor List Specify By Category
 	public VendorUtils getVendorByCategory(String categoryId){
-		VendorUtils v=new VendorUtils();
-		for(Vendor vendor:this.dumbVendor(categoryId)){
-			v.addVendor(vendor.getVendorName(), vendor.getVendorDecription());
+		VendorUtils vUtils=new VendorUtils();
+		ArrayList<Object> dbData=FileManagerUtils.ReadDataFromDatFile("Vendors"+categoryId, "vendors");
+		ArrayList<Vendor> vArrayList=new ArrayList<Vendor>();
+		for(Object vendor:dbData){
+			Vendor v=(Vendor) vendor;
+			vArrayList.add(new Vendor(v.getVendorName(), v.getVendorDecription()));
 		}
-		return v;
+		vUtils.setVendorList(vArrayList,categoryId);
+		this.vendorByCategoryList.put(categoryId, vUtils.getVendorList(categoryId));
+		return vUtils;
 	}
 	// Write Vendor List By Category
 	public void setVendorByCategory(String categoryId,VendorUtils vendorUtils){
-		
+
 	}
 	// Read Category
 	public CategoryUtils getCategoryUtil() throws CustomException{
@@ -41,7 +52,7 @@ public class CategoryVendorMgr {
 		ArrayList<Category> cArrayList=new ArrayList<Category>();
 		for (Object cItem : dbData) {
 			Category c=(Category) cItem;
-			cArrayList.add(new Category(c.getCategoryId(),c.getCategoryDescription()));		
+			cArrayList.add(new Category(c.getCategoryId(),c.getCategoryDescription()));
 		}
 		cUtils.setCategoryList(cArrayList);
 		return cUtils;
@@ -49,5 +60,15 @@ public class CategoryVendorMgr {
 	// Write Category
 	public void setCategoryUtils(ArrayList<Category> cList){
 		FileManagerUtils.saveDataToDatFile(Category.class,cList);
+	}
+	public void setVendorByCategoryUtils(String categoryId,ArrayList<Vendor> vList){
+		ArrayList<String> stringList=new ArrayList<String>();
+		for(Vendor v:vList){
+			stringList.add(v.toString());
+		}
+		FileManagerUtils.AppendDataToFile("Vendors"+categoryId, "vendors", stringList);
+	}
+	public void createNewVendorFile(String fileName){
+		FileManagerUtils.CreateFile(fileName);
 	}
 }

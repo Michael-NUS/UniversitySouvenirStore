@@ -1,3 +1,7 @@
+/**
+ * @author nyinyizin
+ * @version 1.0
+ */
 package sg.edu.nus.iss.universitysouvenirstore;
 
 public class Vendor {

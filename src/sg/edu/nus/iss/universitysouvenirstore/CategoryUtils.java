@@ -1,3 +1,7 @@
+/**
+ * @author Nyi Nyi Zin
+ * @version 1.0
+ */
 package sg.edu.nus.iss.universitysouvenirstore;
 
 import java.util.ArrayList;
@@ -45,10 +49,11 @@ public class CategoryUtils {
 		Category category=new Category(id,description);
 		this.categoryList.add(category);
 		cvMgr.setCategoryUtils(this.categoryList);
+		cvMgr.createNewVendorFile("Vendors"+category.getCategoryId());
 		return category;
 	}
 	public void replaceCategory(int position,Category c) throws CustomException{
-		if(getCategoryPosition(c.getCategoryId())!=-1){
+		if(getCategoryPosition(c.getCategoryId())!=-1 && getCategoryPosition(c.getCategoryId())!=position){
 			throw new CustomException("Already_Exist_Error");
 		}
 		this.categoryList.set(position, c);
