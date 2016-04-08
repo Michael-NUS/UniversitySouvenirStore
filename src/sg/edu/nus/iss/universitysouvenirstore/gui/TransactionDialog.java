@@ -27,7 +27,7 @@ import sg.edu.nus.iss.universitysouvenirstore.TransactionedItem;
 
 /**
  * 
- * @author Michael
+ * @author Lim Hean Soon
  * Transaction/Checkout screen
  */
 public class TransactionDialog extends JFrame{

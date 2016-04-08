@@ -18,11 +18,11 @@ import javax.swing.border.EmptyBorder;
 
 import sg.edu.nus.iss.universitysouvenirstore.MemberManager;
 
-public class TransactionMemberDialog extends JDialog {
-	
-	/**
-	 * 
-	 */
+/**
+ * @author Lim Hean Soon
+ * Transaction Member's info retrieving screen
+ */
+public class TransactionMemberDialog extends JDialog {	
 	private static final long serialVersionUID = 1L;
 	private String memberID = null;
 	private int memberPoints = 0;
@@ -37,9 +37,13 @@ public class TransactionMemberDialog extends JDialog {
 	private JButton btnDone = new JButton("Done");
 	private JLabel lblMemberId = new JLabel("Member ID");
 
+	/**
+	 * Constructor that take in TransactionDialog's object
+	 * the TransactionDialog will allow this screen to call the method and make changes to the internal parameters
+	 * @param transactionDialog
+	 */
 	public TransactionMemberDialog(TransactionDialog transactionDialog) {	
-		this.transactionDialog = transactionDialog;
-		
+		this.transactionDialog = transactionDialog;		
 		setTitle("Member Info");
 		setBounds(100, 100, 450, 427);
 		getContentPane().setLayout(new BorderLayout());
@@ -48,21 +52,21 @@ public class TransactionMemberDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);		
 
-		btnRetrieveMember.addActionListener(new ActionListener() {
+		btnRetrieveMember.addActionListener(new ActionListener() {//Retrieve member's information thru Member ID
 			public void actionPerformed(ActionEvent arg0) {
 				if(!memberField.getText().equals("")){
-					if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){						//call MemberUtils to get the loyalty point
+					if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){	//call MemberUtils to get the loyalty point
 						memberPoints = MemberManager.getMemberLoyaltyPoint(memberField.getText());
 						memberID = memberField.getText();
 
 						System.out.println("member points: " + memberPoints);
-						btnDone.setEnabled(true); //turn on Done button
-						
+						btnDone.setEnabled(true); //turn on Done button						
 						Refresh(); //redraw this screen				
 					}
 
 					
-					else{
+					else //Member ID not found
+					{
 						String error ="";
 						error = "Member ID not found";
 						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -112,7 +116,7 @@ public class TransactionMemberDialog extends JDialog {
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 
-		btnDone.addActionListener(new ActionListener() {
+		btnDone.addActionListener(new ActionListener() {//Complete the member information gathering
 			public void actionPerformed(ActionEvent e) {
 					transactionDialog.SetMemberPoint(Integer.parseInt(memberPoints_lbl.getText())); //capture MemberPoints
 					transactionDialog.SetMemberID(memberID);//capture MemebrID
@@ -182,11 +186,18 @@ public class TransactionMemberDialog extends JDialog {
 
 	}
 	
+	/**
+	 * Return this Member's ID
+	 * @return
+	 */
 	public String GetMemberID ()
 	{
 		return memberID;
 	}
 	
+	/**
+	 * Redraw of the screen
+	 */
 	public void Refresh(){
 		memberPoints_lbl.setText(String.valueOf(memberPoints));
 		cashback_Lbl.setText("$" + memberPoints/100);
