@@ -9,6 +9,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 
+ * @author LIU YAKUN
+ * Unit test for MemberManager Class
+ */
+
 public class MemberManagerTest {
 
 	private ArrayList<Member> memberList = new ArrayList<Member>();

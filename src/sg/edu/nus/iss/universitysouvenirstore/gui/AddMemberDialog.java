@@ -120,7 +120,7 @@ public class AddMemberDialog extends JDialog {
 					 */
 					else {
 						String errorMsg = "Member ID already exists! Cannot register the member!\n";
-						JOptionPane.showMessageDialog(null, errorMsg, "Error", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, errorMsg, "Error", JOptionPane.ERROR_MESSAGE);
 
 					}
 				} else {

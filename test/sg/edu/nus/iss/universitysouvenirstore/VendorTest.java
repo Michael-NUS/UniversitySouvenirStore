@@ -30,17 +30,26 @@ public class VendorTest {
 
 	}
 	
+	/**
+	 * Get Vendor List Test
+	 */
 	@Test
 	public void testGetVendorList(){
 		assertTrue(vUtils.getVendorList("DIA").size()==2);
 	}
 	
+	/**
+	 * Get Vendor Object Test
+	 */
 	@Test
 	public void testGetVendor(){
 		assertTrue(vUtils.getVendor("Mommy", "CTO")==null);
 		assertTrue(vUtils.getVendor("Nancy", "CTO").getVendorName().equals("Nancy"));
 	}
 	
+	/**
+	 * Setting Vendor List Test
+	 */
 	@Test
 	public void testSetVendorList(){
 		ArrayList<Vendor> vlist=new ArrayList<Vendor>();
@@ -52,6 +61,10 @@ public class VendorTest {
 		assertTrue(vUtils.getVendor("Owe", "FOT").getVendorName().equals("Owe"));
 	}
 	
+	/**
+	 * Create New Vendor Test
+	 * @throws CustomException
+	 */
 	@Test
 	public void testAddVendorList() throws CustomException{
 		vUtils.addVendor("Motto", "Motto Candy", "DIA");
@@ -59,11 +72,18 @@ public class VendorTest {
 		assertTrue(vUtils.getVendorPosition("Motto", "DIA")!=-1);
 	}
 	
+	/**
+	 * Get Vendor Position Test
+	 */
 	@Test
 	public void testGetVendorPosition(){
 		assertTrue(vUtils.getVendorPosition("Nancy", "CTO")!=-1);
 	}
 	
+	/**
+	 * Vendor Update Test
+	 * @throws CustomException
+	 */
 	@Test
 	public void testReplaceVendor() throws CustomException{
 		Vendor v=new Vendor("One","One and only");
@@ -73,6 +93,10 @@ public class VendorTest {
 		assertTrue(vUtils.getVendorPosition("Onne", "DIA")==originalPosition);
 	}
 	
+	/**
+	 * Vendor Remove Test Test
+	 * @throws CustomException
+	 */
 	@Test
 	public void testRemoveVendor() throws CustomException{
 		Vendor v=new Vendor("Two","Two in one");

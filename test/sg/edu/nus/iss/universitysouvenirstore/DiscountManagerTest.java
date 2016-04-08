@@ -12,6 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 
+ * @author LIU YAKUN
+ * Unit test for DiscountManager Class
+ */
+
 public class DiscountManagerTest {
 
 	private ArrayList<Discount> discountList = new ArrayList<Discount>();

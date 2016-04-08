@@ -6,6 +6,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author LIU YAKUN
+ * Unit test for Member Class
+ */
+
 public class MemberTest {
 	
 	private Member testMember1 = new Member("Member 1", "MXXXX1");
