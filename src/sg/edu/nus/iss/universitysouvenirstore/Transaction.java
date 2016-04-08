@@ -44,7 +44,7 @@ public class Transaction {
 			//get latest transaction number by checking the last trasaction.dat's transaction ID
 			  
 		//System.out.println("TransactionID " + count); //debug
-		return count;
+		return transactionCount;
 	}	
 	
 	/**

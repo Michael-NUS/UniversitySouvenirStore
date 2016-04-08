@@ -5,13 +5,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 /**
  * 
- * @author Michael
+ * @author Lim Hean Soon
  * Unit test for Transaction Class
  */
 public class TransactionTest {
+	@Before
+	public void setUp() throws Exception {
+		FileManagerUtils.fileDir="./data/sg/edu/nus/iss/universitysouvenirstore/unittestdata";
+	}
 	
 	private Transaction transaction = new Transaction();
 	private ArrayList<TransactionedItem> item1;
@@ -20,7 +25,7 @@ public class TransactionTest {
 	 * Each transaction starts with $0
 	 */
 	@Test
-	public void NewTransaction() { //tranasction should always starts with $0
+	public void NewTransaction() { //transaction should always starts with $0
 		assertTrue(0 == transaction.GetTotalPrice());
 	}
 	
@@ -102,5 +107,19 @@ public class TransactionTest {
 		transaction.EditTransactionItem("CLO/2",5);
 	}
 	
+	/**
+	 * Attempt to read from test/Transaction.dat to get the last Transaction ID
+	 */
+	@Test
+	public void TestReadLatestTranasctionID(){	
+		System.out.println(transaction.GetTransactionCount());
+		assertTrue(6==transaction.GetTransactionCount());
+
+	}
 	
+	@Test
+	public void WriteTransactionFile(){
+		//transaction.AddTransactionItem("CLO/1", 1, 21.45);
+		//transaction.CheckOut();		
+	}
 }
