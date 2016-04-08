@@ -24,27 +24,49 @@ public class CategoryTest {
 	public void tearDown() throws Exception{
 
 	}
+	
+	/**
+	 * Get Category List
+	 */
 	@Test
 	public void testGetCategoryList(){
 		assertTrue(categoryList.size()==cUtils.getCategoryList().size());
 	}
+	
+	/**
+	 * Create New Category Test
+	 * @throws CustomException
+	 */
 	@Test
 	public void testAddCategory() throws CustomException{
 		cUtils.addCategory("CTT", "Testing Category");
 		assertTrue(cUtils.getCategoryList().size()==5);
 		
 	}
+	
+	/**
+	 * Category Update Test
+	 * @throws CustomException
+	 */
 	@Test
 	public void testReplaceCategory() throws CustomException{
 		Category c=new Category("CLO","Cooling");
 		cUtils.replaceCategory(0, c);
 		assertTrue(cUtils.getCategoryList().get(0).getCategoryDescription().equals("Cooling"));
 	}
+	
+	/**
+	 * Delete Category Test
+	 */
 	@Test
 	public void testRemoveCategory(){
 		cUtils.removeCategory("CLO");
 		assertTrue(cUtils.getCategoryPosition("CLO")==-1);
 	}
+	
+	/**
+	 * Get Position of Category Test
+	 */
 	@Test
 	public void testGetPosition(){
 		assertTrue(cUtils.getCategoryPosition("CLO")==0);
