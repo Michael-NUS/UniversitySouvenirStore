@@ -58,7 +58,7 @@ public class DiscountDialog extends JDialog {
 	public DiscountDialog() {
 		setTitle("Discount manager");
 		setBounds(100, 100, 632, 634);
-		contentPanel.setBackground(new Color(244, 164, 96));
+		getContentPane().setBackground(new Color(244, 164, 96));
 		list.setBounds(39, 192, 362, -172);
 		table = new JTable();
 		

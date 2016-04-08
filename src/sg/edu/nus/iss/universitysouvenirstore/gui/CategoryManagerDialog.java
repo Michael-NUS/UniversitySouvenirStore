@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -50,6 +51,7 @@ public class CategoryManagerDialog extends JDialog {
 	JButton btnAddVendor = new JButton("Add Vendor");
 	JButton btnRemoveVendor = new JButton("Remove Vendor");
 	JLabel lblCategoryDescription = new JLabel("");
+	JScrollPane jscrollPane=new JScrollPane();
 	
 	/**
 	 * Create the dialog.
@@ -82,7 +84,9 @@ public class CategoryManagerDialog extends JDialog {
 				}
 			});
 			jlist.setBounds(5, 87, 282, 162);
-			contentPanel.add(jlist);
+			jscrollPane.setBounds(5, 87, 282, 162);
+			jscrollPane.setViewportView(jlist);
+			contentPanel.add(jscrollPane);
 		}
 		categoryInfoDialog.setCategoryMgr(this);
 		vendorInfoDialog.setCategoryManager(this);

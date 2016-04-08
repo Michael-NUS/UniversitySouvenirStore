@@ -48,7 +48,7 @@ public class DiscountInfoMgrDialog extends JDialog {
 	public DiscountInfoMgrDialog() {
 		setTitle("Discount Information Manger");
 		setBounds(100, 100, 662, 552);
-		contentPanel.setBackground(new Color(244, 164, 96));
+		getContentPane().setBackground(new Color(244, 164, 96));
 		DiscountManger.readExistingDiscountsFromDB();
 		getContentPane().setLayout(null);
 		
