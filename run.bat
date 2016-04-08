@@ -1,4 +1,4 @@
-rem  Author :NayLA
+rem  Author :Aung Myo
 rem  run.bat file for starting University Souvenir Store Application
 
 @ECHO Off

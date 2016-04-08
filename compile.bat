@@ -1,4 +1,4 @@
-rem  Author :NayLA
+rem  Author :Aung Myo
 rem  compile.bat file
 
 @ECHO Off
