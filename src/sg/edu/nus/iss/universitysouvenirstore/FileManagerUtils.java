@@ -96,6 +96,10 @@ public class FileManagerUtils {
 		return false;
 	}
 
+	/**
+	 * Read data from .dat file 
+	 *
+	 */
 	public static ArrayList<Object> readDataFromDatFile(Object type) {
 		ArrayList<Object> dataList = new ArrayList<Object>();
 		String filePath = "";

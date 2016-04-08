@@ -134,7 +134,6 @@ public class ReportDialog extends JDialog {
 			}
 		});
 		
-//		JComboBox<String> cbbType = new JComboBox<String>();
 		cbbType.setBounds(58, 31, 269, 36);
 		contentPanel.add(cbbType);
 		
@@ -158,30 +157,6 @@ public class ReportDialog extends JDialog {
 			}
 		}
 		
-//		curCategoryType = "Products";
-
-//		cbbType.addItemListener(new ItemListener() {
-//
-//			@Override
-//			public void itemStateChanged(ItemEvent e) {
-//				// TODO Auto-generated method stub
-//				if (e.getStateChange() == ItemEvent.SELECTED) {
-//					JComboBox<?> jcb = (JComboBox<?>) e.getSource();
-//					curCategoryType = (String) jcb.getSelectedItem();
-//					ArrayList<Product> products = productList.get(curCategoryType);
-//					productmodel.removeAllElements();
-//					if (!products.isEmpty()) {
-//						for (Product one : products) {
-//							if(one.getAvailableQuantity()>-1){
-//								productmodel.addElement(one.getProductId() + "-" + one.getProductName());
-//							}
-//						}
-//					}
-//				}
-//			}
-//
-//		});
-		
 		JButton btnShowReport = new JButton("Generate Report");
 		
 		btnShowReport.addActionListener(new ActionListener() {
@@ -192,11 +167,6 @@ public class ReportDialog extends JDialog {
 		
 		btnShowReport.setBounds(14, 83, 163, 37);
 		contentPanel.add(btnShowReport);
-		
-		
-		
-		
-
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -215,12 +185,12 @@ public class ReportDialog extends JDialog {
 			}
 		}
 		
-		
-		
 		showReport(cbbType.getSelectedItem().toString());
-		
 	}
 	
+	/**
+	 * Show/Refresh report table.
+	 */
 	private void showReport(String strType){
 		String[] columnNames = null;
 		Object[][] data= null;
@@ -283,18 +253,20 @@ public class ReportDialog extends JDialog {
 				}
 				break;
 			case"Transactions":
-				columnNames = new String [6];
+				columnNames = new String [8];
 				columnNames[0] = "#";
 				columnNames[1] = "Transaction ID";
 				columnNames[2]= "Product ID";
 				columnNames[3]= "Member ID";
 				columnNames[4]= "Quantity Purchased";
 				columnNames[5]= "Transaction Date";
+				columnNames[6]= "Product Name";
+				columnNames[7]= "Product Description";
 				
 				getTransactionList(dftxtFrom.getText(), dftxtTo.getText());
 				
 				if ( objItems != null && !objItems.isEmpty()) {
-					data = new Object [objItems.size()][6];
+					data = new Object [objItems.size()][8];
 					for (int i = 0; i < objItems.size(); i++) { 
 						String[] strArr = objItems.get(i).toString().split(",");
 						for (int j = 0; j <= strArr.length; j++) {
@@ -341,7 +313,6 @@ public class ReportDialog extends JDialog {
 					
 		}
 	
-
 		if(data == null){
 			tblList = new JTable();
 		}else{
@@ -352,9 +323,11 @@ public class ReportDialog extends JDialog {
 		contentPanel.add(scrollPane);
 		scrollPane.setViewportView(tblList);
 		
-		
 	}
 	
+	/**
+	 * Clear report table.
+	 */
 	private void clearReport(){
 		tblList = new JTable();
 		scrollPane.setBounds(14, 136, 1052, 620);
@@ -362,6 +335,9 @@ public class ReportDialog extends JDialog {
 		scrollPane.setViewportView(tblList);
 	}
 	
+	/**
+	 * Show / Hide date filter controls
+	 */
 	private void showHideDateFilters(Boolean isShow){
 		lblDateFrom.setVisible(isShow);
 		dftxtFrom.setVisible(isShow);
@@ -371,6 +347,9 @@ public class ReportDialog extends JDialog {
 		lblDateFromTo.setVisible(isShow);
 	}
 	
+	/**
+	 * Initiate product data
+	 */
 	private void dataInit(ArrayList<Product> products) {
 		productList.clear();
 		productList.put("All", products);
@@ -385,6 +364,9 @@ public class ReportDialog extends JDialog {
 		}
 	}
 	
+	/**
+	 * Get transaction list.
+	 */
 	private void getTransactionList(String strFromDate, String strToDate) {
 		if((strFromDate == null || strFromDate.isEmpty() || strFromDate.contains("_")) ||
 				(strToDate == null || strToDate.isEmpty() || strFromDate.contains("_"))){
@@ -419,30 +401,55 @@ public class ReportDialog extends JDialog {
 					}else{
 						objItems.set(objItems.indexOf(strLine),null);
 					}
-					
 				}
 				objItems.removeAll(Collections.singleton(null));
 			}catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			// Get product name and description for each transaction
+			String  strProductID= "";
+			String strTempTransaction = "";
+			tempObjItems = FileManagerUtils.getProductList();
+			try{
+				for (int i = 0; i < objItems.size(); i++) { 
+					strTempTransaction = objItems.get(i);
+					strProductID = strTempTransaction.split(",")[1];
+					for(String strProduct : tempObjItems){
+						if(strProduct.contains(strProductID)){
+							strTempTransaction += ("," + strProduct.split(",")[1] + "," + strProduct.split(",")[2]).toString();
+							objItems.set(i, strTempTransaction);
+						}
+					}
+				}
+			}catch (Exception e) {
+				// TODO Auto-geneerated catch block
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
+	/**
+	 * Get member list.
+	 */
 	private void getMemberList() {
 		objItems.clear();
 		objItems = FileManagerUtils.getMemberList();
 	}
 	
+	/**
+	 * Get category list.
+	 */
 	private void getCategoryList() {
 		objItems.clear();
 		objItems = FileManagerUtils.getCategoryList();
 	}
 	
+	/**
+	 * Get product list.
+	 */
 	private void getProductList() {
 		objItems.clear();
 		objItems = FileManagerUtils.getProductList();
 	}
-	
 }

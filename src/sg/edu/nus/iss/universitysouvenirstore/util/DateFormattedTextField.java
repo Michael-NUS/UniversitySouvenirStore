@@ -50,10 +50,16 @@ public class DateFormattedTextField extends JFormattedTextField {
 	      });
 	   }
 	  
+		/**
+		 * Set date.
+		 */
 	   public void setValue(Date date) {
 	      super.setValue(toString(date));
 	   }
 	  
+		/**
+		 * Convert string to date.
+		 */
 	   private Date toDate(String sDate) {
 	      Date date = null;
 	      if (sDate == null) return null;
@@ -67,6 +73,9 @@ public class DateFormattedTextField extends JFormattedTextField {
 	      return date;
 	   }
 	  
+		/**
+		 * Convert date to string.s
+		 */
 	   private String toString(Date date) {
 	      try {
 	         return format.format(date);
