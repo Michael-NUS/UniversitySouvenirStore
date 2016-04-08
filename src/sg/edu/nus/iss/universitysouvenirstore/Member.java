@@ -1,4 +1,6 @@
-// LIU YAKUN
+/**
+ * @author LIU YAKUN
+ */
 
 package sg.edu.nus.iss.universitysouvenirstore;
 

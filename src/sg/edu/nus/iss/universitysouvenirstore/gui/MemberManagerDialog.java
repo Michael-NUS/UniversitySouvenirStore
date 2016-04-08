@@ -1,3 +1,7 @@
+/**
+ * @author LIU YAKUN
+ */
+
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.BorderLayout;
