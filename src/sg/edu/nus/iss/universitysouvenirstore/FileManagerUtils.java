@@ -219,6 +219,14 @@ public class FileManagerUtils {
 										dataList.add(tmpDiscount);
 									}
 									break;
+								case "vendors":
+									if(intFileColumnCount!=2){
+										
+									}else{
+									Vendor tmpVendor=new Vendor(data[0],data[1]);
+									dataList.add(tmpVendor);
+									}
+									break;
 								default:
 									// throw 'invalid file type or file format'
 									// exception
@@ -343,23 +351,12 @@ public class FileManagerUtils {
 							}
 							break;
 						case "vendors":
-							if (intFileColumnCount != 2) {
-								// throw 'invalid transaction file
-								// format' exception
-							}else{
 								// write/append to the file
-								for (int i = 0; i < arrLstData.size(); i++) 
-						        {
-						        	System.out.println(arrLstData.get(i));
-						        	if(i == 0){
-							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
-
-						        	}else{
-							        	Files.write(Paths.get(filePath),  ("," + arrLstData.get(i)).getBytes(), StandardOpenOption.APPEND);
-						        	}
-						        }
-								Files.write(Paths.get(filePath), "\r\n".getBytes(), StandardOpenOption.APPEND);
+							BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile, false));
+							for(String s:arrLstData){
+								bw.write(s+"\r\n");
 							}
+							bw.flush();
 							break;
 						default:
 							// throw 'invalid file type or file format'

@@ -34,6 +34,17 @@ public class MemberManagerTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		MemberManager.removeMember("F42563743156");
+		MemberManager.removeMember("X437F356");
+		MemberManager.removeMember("R64565FG4");
+		
+		MemberManager.addMember("Yan Martel", "F42563743156");
+		MemberManager.addMember("Suraj Sharma", "X437F356");
+		MemberManager.addMember("Ang Lee", "R64565FG4");
+		
+		MemberManager.updateMemberLoyaltyPoint("F42563743156", 150);
+		MemberManager.updateMemberLoyaltyPoint("X437F356", 250);
+		MemberManager.updateMemberLoyaltyPoint("R64565FG4", -1);
 	}
 
 	/**

@@ -1,3 +1,7 @@
+/**
+ * @author nyinyizin
+ * @version 1.0
+ */
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.Color;
@@ -169,9 +173,19 @@ public class DiscountInfoMgrDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
 	}
+	
+	/**
+	 * Setter for DiscountDialog
+	 * @param discountDialog DiscountDialog
+	 */
 	public void setDiscountDialog(DiscountDialog discountDialog){
 		this.discountDialog=discountDialog;
 	}
+	
+	/**
+	 * Enable Text Fields and Buttons based on Discount Type
+	 * @param discountType Discount Type
+	 */
 	public void enableFields(String discountType){
 		if(discountType.equals("Members")){
 			lblStartDateDescription.setText("");
@@ -187,6 +201,11 @@ public class DiscountInfoMgrDialog extends JDialog {
 			txtDiscountPeriod.setEditable(true);
 		}
 	}
+	
+	/**
+	 * Set Data for Discount Edit
+	 * @param d Discount Object
+	 */
 	public void setData(Discount d){
 		txtDiscountCode.setText(d.getCode());
 		txtDiscountDescription.setText(d.getDescription());
@@ -202,6 +221,10 @@ public class DiscountInfoMgrDialog extends JDialog {
 			txtDiscountPeriod.setText(d.getPeriod());
 		}
 	}
+	
+	/**
+	 * Clear data to Create Discount
+	 */
 	public void clearData(){
 		txtDiscountCode.setText("");
 		txtDiscountDescription.setText("");

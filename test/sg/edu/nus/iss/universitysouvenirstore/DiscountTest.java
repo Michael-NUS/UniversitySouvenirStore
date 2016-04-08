@@ -61,7 +61,7 @@ public class DiscountTest {
 	@Test
 	public void testSetPeriod() {
 		testDiscount.setPeriod("22");
-		assertEquals("22", testDiscount.getStartDate());
+		assertEquals("22", testDiscount.getPeriod());
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class DiscountTest {
 	 */
 	@Test
 	public void testgetStartDate() {
-		assertEquals("ABC", testDiscount.getStartDate());
+		assertEquals("2016-03-03", testDiscount.getStartDate());
 	}
 
 	/**

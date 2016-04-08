@@ -1,4 +1,6 @@
-// LIU YAKUN
+/**
+ * @author LIU YAKUN
+ */
 
 package sg.edu.nus.iss.universitysouvenirstore;
 
@@ -14,6 +16,11 @@ public class DiscountManger {
 
 	private static HashMap<String, Discount> discounts = new HashMap<String, Discount>();
 
+	
+	/**
+	 * convert the HashMap discounts to an ArrayList discountList
+	 * @return the discountList
+	 */	
 	public static ArrayList<Discount> convertToDiscountArraylist() {
 		ArrayList<Discount> discountList = new ArrayList<Discount>();
 
@@ -26,6 +33,11 @@ public class DiscountManger {
 		return discountList;
 	}
 
+	
+	/**
+	 * fetch the existing discounts from discounts.dat to the HashMap discounts
+	 * @return false if the HashMap discounts is empty, true if not
+	 */	
 	public static boolean readExistingDiscountsFromDB() {
 		clearDiscountsMap();
 
@@ -38,12 +50,26 @@ public class DiscountManger {
 		return (!discounts.isEmpty());
 	}
 
+	/**
+	 * clear the HashMap discounts
+	 * @return the size of the HashMap discounts
+	 */	
 	public static int clearDiscountsMap() {
 		// clear the discounts map
 		discounts.clear();
 		return discounts.size();
 	}
 
+	/**
+	 * add new discount to the discounts.dat
+	 * @param discountCode
+	 * @param description
+	 * @param startDate
+	 * @param discountPeriod
+	 * @param discountPercentage
+	 * @param discountType
+	 * @return boolean : true if added, false if the given discountCode already exists
+	 */	
 	public static boolean addDiscount(String discountCode, String description, String startDate, String discountPeriod,
 			int discountPercentage, String discountType) {
 		discountType = discountType.toUpperCase();
@@ -68,6 +94,12 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/**
+	 * check whether the discount already exists, by the discountCode
+	 * @param discountCode
+	 * @return boolean : true if it already exists, false if not
+	 */
 	public static boolean checkExistOfDiscount(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -78,6 +110,11 @@ public class DiscountManger {
 			return false;
 	}
 
+	/**
+	 * delete the discount from discounts.dat 
+	 * @param discountCode
+	 * @return boolean : true if it is deleted, false if it doesn't exist
+	 */
 	public static boolean removeDiscount(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -92,37 +129,61 @@ public class DiscountManger {
 			return true;
 		} else {
 			
-			// the discount doesn't exist!
 			clearDiscountsMap();
 			return false;
 		}
 	}
 
+	
+	/**
+	 * get discount by discountCode 
+	 * @param discountCode
+	 * @return Discount : the discount object if it exists, null if not
+	 */
 	public static Discount getDiscount(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
 		readExistingDiscountsFromDB();
-		return discounts.get(discountCode);
+		if (checkExistOfDiscount(discountCode)) {
+			return discounts.get(discountCode);
+		} else {
+			return null;
+			}
 	}
 
+	
+	/**
+	 * convert the Strings of a start date and an offset into a Date object
+	 * @param startDate
+	 * @param offset
+	 * @return Date of the startDate plus the offset 
+	 */
 	public static Date convertToDate(String startDate, String offset) {
 
 		String[] tmpDate = startDate.split("-");
 		int years = Integer.valueOf(tmpDate[0]);
 		int months = Integer.valueOf(tmpDate[1]) - 1;
 		int days = Integer.valueOf(tmpDate[2]);
+		int offsetDays = Integer.valueOf(offset);
 
 		Calendar cal = Calendar.getInstance();
 
 		cal.set(years, months, days);
-		cal.add(Calendar.DATE, Integer.valueOf(offset));
+		cal.add(Calendar.DATE, offsetDays);
 
 		Date firstDate = cal.getTime();
 		return firstDate;
-
 	}
-
-	/* customerID="MemberID" for member or ="PUBLIC" for public customer */
+	
+	
+	/**
+	 * get the highest discount percentage given the customer ID at the moment of transaction
+	 * customerID= memberID for member; customerID ="PUBLIC" for public customer
+	 * 
+	 * @param customerID
+	 * @return the highest discount percentage if there are available discounts
+	 * at the moment of transaction, 0 if no discounts available
+	 */	
 	public static int getHighestDiscount(String customerID) {
 		clearDiscountsMap();
 		readExistingDiscountsFromDB();
@@ -206,12 +267,17 @@ public class DiscountManger {
 			return 0;
 		}
 
-		//System.out.println("availableDiscountList " + availableDiscountList);
-		//System.out.println("max of availableDiscountList " + Collections.max(availableDiscountList));
+		// System.out.println("availableDiscountList " + availableDiscountList);
+		// System.out.println("max of availableDiscountList " + Collections.max(availableDiscountList));
 		return Collections.max(availableDiscountList);
 
 	}
 
+	/**
+	 * get discount percentage by discountCode 
+	 * @param discountCode
+	 * @return discount percentage if the discount exists, 0 if not
+	 */	
 	public static int getDiscountPercentage(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -226,6 +292,12 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/**
+	 * get discount description by discountCode 
+	 * @param discountCode
+	 * @return discount description if the discount exists, null if not
+	 */	
 	public static String getDiscountDescription(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -237,6 +309,12 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/**
+	 * get discount type by discountCode 
+	 * @param discountCode
+	 * @return discount type if the discount exists, null if not
+	 */	
 	public static String getDiscountType(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -248,6 +326,12 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/**
+	 * get discount start date by discountCode 
+	 * @param discountCode
+	 * @return discount start date if the discount exists, null if not
+	 */	
 	public static String getDiscountStartDate(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -259,6 +343,12 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/**
+	 * get discount period by discountCode 
+	 * @param discountCode
+	 * @return discount period if the discount exists, null if not
+	 */	
 	public static String getDiscountPeriod(String discountCode) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -270,6 +360,13 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/** 
+	 * update the discount description by discountCode
+	 * @param discountCode
+	 * @param newDescription
+	 * @return boolean : true if updated, false if the discount doesn't exist
+	 */
 	public static boolean updateDiscountDescription(String discountCode, String newDescription) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -288,6 +385,13 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/** 
+	 * update the discount star date by discountCode
+	 * @param discountCode
+	 * @param newDiscountStartDate
+	 * @return boolean : true if updated, false if the discount doesn't exist
+	 */
 	public static boolean updateDiscountStartDate(String discountCode, String newDiscountStartDate) {
 		discountCode = discountCode.toUpperCase();
 		newDiscountStartDate = newDiscountStartDate.toUpperCase();
@@ -307,6 +411,13 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/** 
+	 * update the discount period by discountCode
+	 * @param discountCode
+	 * @param newDiscountPeriod
+	 * @return boolean : true if updated, false if the discount doesn't exist
+	 */
 	public static boolean updateDiscountPeriod(String discountCode, String newDiscountPeriod) {
 		discountCode = discountCode.toUpperCase();
 		newDiscountPeriod = newDiscountPeriod.toUpperCase();
@@ -327,6 +438,13 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/** 
+	 * update the discount percentage by discountCode
+	 * @param discountCode
+	 * @param newDiscountPercentage
+	 * @return boolean : true if updated, false if the discount doesn't exist
+	 */
 	public static boolean updateDiscountPercentage(String discountCode, int newDiscountPercentage) {
 		discountCode = discountCode.toUpperCase();
 		clearDiscountsMap();
@@ -345,6 +463,13 @@ public class DiscountManger {
 		}
 	}
 
+	
+	/** 
+	 * update the discount type by discountCode
+	 * @param discountCode
+	 * @param newDiscountType
+	 * @return boolean : true if updated, false if the discount doesn't exist
+	 */
 	public static boolean updateDiscountType(String discountCode, String newDiscountType) {
 		discountCode = discountCode.toUpperCase();
 		newDiscountType = newDiscountType.toUpperCase();

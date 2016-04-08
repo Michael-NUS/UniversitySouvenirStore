@@ -1,3 +1,7 @@
+/**
+ * @author nyinyizin
+ * @version 1.0
+ */
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
 import java.awt.BorderLayout;
@@ -29,9 +33,6 @@ import sg.edu.nus.iss.universitysouvenirstore.VendorUtils;
 
 public class CategoryManagerDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private CategoryInfoDialog categoryInfoDialog=new CategoryInfoDialog();
@@ -48,12 +49,14 @@ public class CategoryManagerDialog extends JDialog {
 	JButton btnEditVendor = new JButton("Edit Vendor");
 	JButton btnAddVendor = new JButton("Add Vendor");
 	JButton btnRemoveVendor = new JButton("Remove Vendor");
+	JLabel lblCategoryDescription = new JLabel("");
+	
 	/**
 	 * Create the dialog.
 	 */
 	public CategoryManagerDialog() {
 
-		
+
 
 		//scrollPane.setViewportView(jlist);
 
@@ -125,6 +128,8 @@ public class CategoryManagerDialog extends JDialog {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange()==1){
 					loadVendorData(e.getItem().toString());
+					Category c=categoryUtils.getCategory(e.getItem().toString());
+					lblCategoryDescription.setText(c.getCategoryDescription());
 				}
 
 			}
@@ -156,7 +161,10 @@ public class CategoryManagerDialog extends JDialog {
 
 		btnRemoveVendor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String[] vendor=jlist.getSelectedValue().split(",");
+				String categoryId=comboBox.getSelectedItem().toString();
+				vendorUtils.removeVendor(vendor[0], comboBox.getSelectedItem().toString());
+				loadVendorData(comboBox.getSelectedItem().toString());
 			}
 		});
 		btnRemoveVendor.setBounds(264, 249, 141, 29);
@@ -169,18 +177,32 @@ public class CategoryManagerDialog extends JDialog {
 				vendorInfoDialog.categoryId=comboBox.getSelectedItem().toString();
 				String[] vendor=jlist.getSelectedValue().split(",");
 				String selectedVendor=vendor[0];
-				Vendor v=vendorUtils.getVendor(selectedVendor);
-				vendorInfoDialog.position=vendorUtils.getVendorPosition(v.getVendorName());
+				Vendor v=vendorUtils.getVendor(selectedVendor,vendorInfoDialog.categoryId);
+				vendorInfoDialog.position=vendorUtils.getVendorPosition(v.getVendorName(),vendorInfoDialog.categoryId);
 				vendorInfoDialog.setEditData(v.getVendorName(), v.getVendorDecription());
 				vendorInfoDialog.showDialog();
 			}
 		});
 		btnEditVendor.setBounds(135, 249, 117, 29);
 		contentPanel.add(btnEditVendor);
+
+
+		lblCategoryDescription.setBounds(129, 40, 150, 16);
+		contentPanel.add(lblCategoryDescription);
 	}
+	
+	/**
+	 * Load Category List
+	 */
 	public void loadCategoryData(){
 		comboBox.removeAllItems();
-		ArrayList<Category> clist=categoryUtils.getCategoryList();
+		ArrayList<Category> clist=new ArrayList<Category>();
+		try {
+			clist = categoryVendorMgr.getCategoryUtil().getCategoryList();
+		} catch (CustomException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(int i=0;i<clist.size();i++){
 			comboBox.addItem(clist.get(i).getCategoryId());
 		}
@@ -192,22 +214,39 @@ public class CategoryManagerDialog extends JDialog {
 			btnRemoveCategory.setEnabled(true);
 		}
 	}
+	
+	/**
+	 * Load Vendor List based on Selected Category Code
+	 * @param categoryId Selected Category Code
+	 */
 	public void loadVendorData(String categoryId){
 		categoryListModel.clear();
 		 vendorUtils=categoryVendorMgr.getVendorByCategory(categoryId);
-		 ArrayList<Vendor> vList=vendorUtils.getVendorList();
-		 for(Vendor v:vList){
-			categoryListModel.addElement(v.toString());
-			jlist.setModel(categoryListModel);
-		 }
-		 if(vList.size()==0 || jlist.isSelectionEmpty()){
-			 btnEditVendor.setEnabled(false);
-			 btnRemoveVendor.setEnabled(false);
-		 }else{
-			 btnEditVendor.setEnabled(true);
-			 btnRemoveVendor.setEnabled(true);
-		 }
+		 ArrayList<Vendor> vList=vendorUtils.getVendorList(categoryId);
+		if(vList!=null){
+			for(Vendor v:vList){
+				categoryListModel.addElement(v.toString());
+				jlist.setModel(categoryListModel);
+			 }
+			if(vList.size()==0 || jlist.isSelectionEmpty()){
+				 btnEditVendor.setEnabled(false);
+				 btnRemoveVendor.setEnabled(false);
+			 }else{
+
+				 btnEditVendor.setEnabled(true);
+				 btnRemoveVendor.setEnabled(true);
+			 }
+		}
+
 	}
+	
+	/**
+	 * Create / Update Category List
+	 * @param name Category Code
+	 * @param description Category Description
+	 * @param position if update then position in the list, otherwise -1
+	 * @throws CustomException Category_Code_Error, Already_Exist_Error
+	 */
 	public void updateManager(String name,String description,int position) throws CustomException{
 		System.out.println(name+' '+description+" position: "+position);
 		if(position!=-1){
@@ -221,12 +260,27 @@ public class CategoryManagerDialog extends JDialog {
 		}
 		loadCategoryData();
 	}
-	public void updateVendorManager(String name,String description,int position,String categoryId){
+	
+	/**
+	 * Create/ Update Vendor related Category Code
+	 * @param name Vendor Name
+	 * @param description Vendor Description
+	 * @param position Vendor position in the list
+	 * @param categoryId Category Code
+	 * @throws CustomException Already_Exist_Error
+	 */
+	public void updateVendorManager(String name,String description,int position,String categoryId) throws CustomException{
 		System.out.println(name+' '+description+" position: "+position+"  -categoryid = "+categoryId);
 		if(position!=-1){
-
+			vendorUtils.replaceVendor(position, new Vendor(name,description), categoryId);
+			loadVendorData(categoryId);
 		}else{
-
+			try{
+				vendorUtils.addVendor(name, description, categoryId);
+				loadVendorData(categoryId);
+			}catch(CustomException e){
+				throw e;
+			}
 		}
 	}
 }

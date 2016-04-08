@@ -1,4 +1,6 @@
-// LIU YAKUN
+/**
+ * @author LIU YAKUN
+ */
 
 package sg.edu.nus.iss.universitysouvenirstore.gui;
 
@@ -76,19 +78,33 @@ public class AddMemberDialog extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-		JButton okButton = new JButton("Save");
-		okButton.addActionListener(new ActionListener() {
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String memberName = txtMemberName.getText().trim();
 				String memberID = txtMemberID.getText().trim();
-				if (!(Pattern.matches("^[A-Za-z0-9]+$", txtMemberID.getText()))) {
+								
+				/**
+				 * check the input for memberID
+				 */
+				if (!(Pattern.matches("^[A-Za-z0-9]+$", memberID))) {
 					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and numbers for member ID", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				} else if (!(Pattern.matches("^[A-Za-z0-9 ]+$", txtMemberName.getText()))) {
+				}
+				
+				/**
+				 * check the input for memberName
+				 */
+				else if (!(Pattern.matches("^[A-Za-z0-9 ]+$", memberName))) {
 					JOptionPane.showMessageDialog(null, "Please enter ONLY letters and whitespaces for member Name",
 							"Error", JOptionPane.ERROR_MESSAGE);
-				} else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
+				}				
+
+				else if (txtMemberName.getText() != null && txtMemberID.getText() != null) {
 					MemberManager.readExistingMembersFromDB();
+					/**
+					 * Register the member if it's a new Member ID 
+					 */
 					if (!MemberManager.checkExistOfMember(memberID)) {
 						// Successfully register the member
 						MemberManager.addMember(memberName, memberID);
@@ -97,8 +113,12 @@ public class AddMemberDialog extends JDialog {
 						String successMsg = "Successfully Registered the New Member!\n";
 						JOptionPane.showMessageDialog(null, successMsg, "Registrion Completed",
 								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						// Member ID already exists!
+					} 
+					
+					/**
+					 * Member ID already exists! 
+					 */
+					else {
 						String errorMsg = "Member ID already exists! Cannot register the member!\n";
 						JOptionPane.showMessageDialog(null, errorMsg, "Error", JOptionPane.INFORMATION_MESSAGE);
 
@@ -113,12 +133,16 @@ public class AddMemberDialog extends JDialog {
 			}
 		});
 
-		// Save Button
-		okButton.setActionCommand("Saved");
-		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
+		/**
+		 * Save Button
+		 */
+		saveButton.setActionCommand("Saved");
+		buttonPane.add(saveButton);
+		getRootPane().setDefaultButton(saveButton);
 
-		// Cancel Button
+		/**
+		 * Cancel Button
+		 */
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
