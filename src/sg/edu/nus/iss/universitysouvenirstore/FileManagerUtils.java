@@ -286,7 +286,6 @@ public class FileManagerUtils {
 								// write/append to the file
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
@@ -305,7 +304,6 @@ public class FileManagerUtils {
 								// write/append to the file
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
@@ -324,7 +322,6 @@ public class FileManagerUtils {
 								// write/append to the file
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
@@ -343,7 +340,6 @@ public class FileManagerUtils {
 								// write/append to the file
 								for (int i = 0; i < arrLstData.size(); i++) 
 						        {
-						        	System.out.println(arrLstData.get(i));
 						        	if(i == 0){
 							        	Files.write(Paths.get(filePath),  arrLstData.get(i).getBytes(), StandardOpenOption.APPEND);
 
