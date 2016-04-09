@@ -50,7 +50,11 @@ public class VendorInfoDialog extends JDialog {
 		JButton btnOK = new JButton("Ok");
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				saveDialog();
+				if(getTitle().equals("Add New Vendor")){
+					saveDialog("AddVendor");
+				}else if(getTitle().equals("Edit Vendor")){
+					saveDialog("EditVendor");
+				}
 			}
 		});
 		btnOK.setBounds(176, 148, 117, 29);
@@ -78,15 +82,20 @@ public class VendorInfoDialog extends JDialog {
 	/**
 	 * Create / Update Vendor List
 	 */
-	public void saveDialog() {
+	public void saveDialog(String dialogType) {
 		try{
 			if(txtVendorName.getText().isEmpty()||txtVendorDescription.getText().isEmpty()){
 				throw new CustomException("Empty_Data");
 			}else if(txtVendorName.getText().contains(",")||txtVendorDescription.getText().contains(",")){
 				throw new CustomException("Comma_in_descritpion");
 			}
-			this.categoryManager.updateVendorManager(this.txtVendorName.getText(), this.txtVendorDescription.getText(),
-				position, this.categoryId);
+			if(dialogType.equals("AddVendor")){
+				this.categoryManager.updateVendorManager(this.txtVendorName.getText(), this.txtVendorDescription.getText(),-1, this.categoryId);
+			}else{
+				this.categoryManager.updateVendorManager(this.txtVendorName.getText(), this.txtVendorDescription.getText(),
+						position, this.categoryId);
+			}
+			
 		closeDialog();
 		}catch(CustomException e){
 			if(e.getMessage().equals("Empty_Data")){

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -92,6 +93,8 @@ public class DiscountInfoMgrDialog extends JDialog {
 						discountDialog.addDiscountToTable(new Discount(dCode, dDescription, dStartDate, dPeriod, dPercentage, dType));
 						clearData();
 						setVisible(false);
+					}else{
+						JOptionPane.showMessageDialog(null, " Discount Code already exists!","Error",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
