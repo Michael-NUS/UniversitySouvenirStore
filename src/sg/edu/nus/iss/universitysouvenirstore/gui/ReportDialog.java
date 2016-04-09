@@ -376,6 +376,7 @@ public class ReportDialog extends JDialog {
 			// get the transaction list from file;
 			objItems = FileManagerUtils.getTransactionList("", "");
 	
+			@SuppressWarnings("unchecked")
 			ArrayList<String> tempObjItems = (ArrayList<String>) objItems.clone();
 			String strTransactionDate = "";
 			
