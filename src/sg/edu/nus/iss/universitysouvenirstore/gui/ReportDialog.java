@@ -91,7 +91,7 @@ public class ReportDialog extends JDialog {
         toYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateNow ) );
         
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -30);
+        cal.add(Calendar.DATE, -365);
         Date dateBefore30Days = cal.getTime();
         
         fromYYYYMMDD = new StringBuilder( dateformatYYYYMMDD.format( dateBefore30Days ) );
