@@ -8,12 +8,12 @@ public class Discount {
 
 	private String discountCode;
 	private String description;
-	private String startDate; // where applicable or “ALWAYS”
-	private String discountPeriod; // where applicable or “ALWAYS”
+	private String startDate; // where applicable or 
+	private String discountPeriod; // where applicable or 
 
 	private int discountPercentage; /*
 									 * Percentage of the discount without the
-									 * percentage symbol e.g. “10” for 10%
+									 * percentage symbol
 									 * discount
 									 */
 
