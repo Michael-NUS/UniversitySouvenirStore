@@ -147,11 +147,11 @@ public class DiscountInfoMgrDialog extends JDialog {
 		txtDiscountDescription.setColumns(10);
 		
 	
-		lblPeriodDesciption.setBounds(505, 198, 106, 20);
+		lblPeriodDesciption.setBounds(486, 201, 151, 20);
 		getContentPane().add(lblPeriodDesciption);
 		
 		
-		lblStartDateDescription.setBounds(505, 258, 106, 20);
+		lblStartDateDescription.setBounds(486, 261, 106, 20);
 		getContentPane().add(lblStartDateDescription);
 		
 		JLabel lblDiscountPercentage = new JLabel("Discount Percentage :");
@@ -198,6 +198,7 @@ public class DiscountInfoMgrDialog extends JDialog {
 			txtDiscountPeriod.setEditable(false);
 		}else{
 			lblStartDateDescription.setText("(yyyy-mm-dd)");
+			lblPeriodDesciption.setText("ALWAYS or number only");
 			txtDiscountStartDate.setText("");
 			txtDiscountStartDate.setEditable(true);
 			txtDiscountPeriod.setText("");
