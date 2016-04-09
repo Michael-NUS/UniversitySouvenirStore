@@ -386,6 +386,15 @@ public class ReportDialog extends JDialog {
 			try {
 				dtFromDate = dateformat.parse(strFromDate);
 				dtToDate = dateformat.parse(strToDate);
+				Calendar c = Calendar.getInstance();
+				c.setTime(dtFromDate);
+				c.add(Calendar.DATE, -1);
+				dtFromDate= c.getTime();
+				
+				c.setTime(dtToDate);
+				c.add(Calendar.DATE, 1);
+				dtToDate= c.getTime();
+				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

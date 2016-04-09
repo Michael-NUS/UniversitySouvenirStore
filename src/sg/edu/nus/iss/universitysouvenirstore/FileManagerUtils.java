@@ -19,7 +19,7 @@ import sg.edu.nus.iss.universitysouvenirstore.Member;
 import sg.edu.nus.iss.universitysouvenirstore.Product;
 
 /**
- * @author 
+ * @author Aung Myo, Lin Wei
  *
  */
 public class FileManagerUtils {
