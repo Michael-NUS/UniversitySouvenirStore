@@ -34,7 +34,9 @@ public class TransactionMemberDialog extends JDialog {
 	private JLabel cashback_Lbl = new JLabel("");
 	private JButton btnDone = new JButton("Done");
 	private JLabel lblMemberId = new JLabel("Member ID");
-
+	private JLabel lblNewLabel = new JLabel("Current Loyalty Points");
+	private JLabel lblDeductPoints = new JLabel("Eligible Cash Rebate");
+	private JCheckBox redeemCheckBox = new JCheckBox("Redeem");
 	/**
 	 * Constructor that take in TransactionDialog's object
 	 * the TransactionDialog will allow this screen to call the method and make changes to the internal parameters
@@ -56,8 +58,8 @@ public class TransactionMemberDialog extends JDialog {
 					if(MemberManager.getMemberLoyaltyPoint(memberField.getText()) != -99){	//call MemberUtils to get the loyalty point
 						memberPoints = MemberManager.getMemberLoyaltyPoint(memberField.getText());
 						memberID = memberField.getText();
-
-						System.out.println("member points: " + memberPoints);
+						redeemCheckBox.setEnabled(true);//enable the Redeem checkbox
+						//System.out.println("member points: " + memberPoints);
 						btnDone.setEnabled(true); //turn on Done button						
 						Refresh(); //redraw this screen				
 					}					
@@ -66,7 +68,7 @@ public class TransactionMemberDialog extends JDialog {
 						String error ="";
 						error = "Member ID not found";
 						JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.INFORMATION_MESSAGE);	
-						
+						redeemCheckBox.setEnabled(false);//grey out the Redeem checkbox
 						memberID = "PUBLIC";
 						memberPoints = 0;
 						btnDone.setEnabled(false); //disable Done button
@@ -87,22 +89,23 @@ public class TransactionMemberDialog extends JDialog {
 		btnRetrieveMember.setBounds(220, 101, 143, 20);
 		contentPanel.add(btnRetrieveMember);		
 		//label for static text display		
-		JLabel lblNewLabel = new JLabel("Current Loyalty Points");
+
 		lblNewLabel.setBounds(16, 157, 167, 16);
 		contentPanel.add(lblNewLabel);		
-		JLabel lblDeductPoints = new JLabel("Eligible Cash Rebate");
+
 		lblDeductPoints.setBounds(16, 184, 167, 16);
 		contentPanel.add(lblDeductPoints);		
-		JCheckBox redeemCheckBox = new JCheckBox("Redeem");
+
 		redeemCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		redeemCheckBox.setBounds(16, 209, 78, 18);
+		redeemCheckBox.setEnabled(false);
 		contentPanel.add(redeemCheckBox);		
 		memberField = new JTextField();
 		memberField.setBounds(16, 101, 167, 20);
 		contentPanel.add(memberField);
 		memberField.setColumns(10);		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 353, 434, 35);
+		panel.setBounds(1, 344, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		btnDone.addActionListener(new ActionListener() {//Complete the member information gathering
