@@ -68,7 +68,7 @@ public class TransactionItemDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JLabel lblProductName = new JLabel("Product Name:");
+		JLabel lblProductName = new JLabel("Product ID:");
 		lblProductName.setBounds(10, 54, 88, 27);
 		contentPanel.add(lblProductName);
 

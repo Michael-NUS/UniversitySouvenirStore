@@ -139,7 +139,7 @@ public class TransactionDialog extends JFrame{
 		contentPanel.add(editButton);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 336, 434, 35);
+		panel.setBounds(1, 344, 434, 35);
 		contentPanel.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));		
 		
