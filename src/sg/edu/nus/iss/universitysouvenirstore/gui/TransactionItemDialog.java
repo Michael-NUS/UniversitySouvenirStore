@@ -114,8 +114,8 @@ public class TransactionItemDialog extends JDialog {
 								} catch (CustomException e1) { //catch if there's any issue
 									// TODO Auto-generated catch block
 									String error ="";
-									error = "Unable to add product";
-									JOptionPane.showMessageDialog(null,error, "Error!", JOptionPane.INFORMATION_MESSAGE);
+									error = "Insufficient Quantity, current available quantity: " + individualProduct.getAvailableQuantity();
+									JOptionPane.showMessageDialog(null,error, "Insufficient ProductID", JOptionPane.INFORMATION_MESSAGE);
 								}
 							else //in case of the existing item is insufficient, show the error message with the current available unit
 							{				        
