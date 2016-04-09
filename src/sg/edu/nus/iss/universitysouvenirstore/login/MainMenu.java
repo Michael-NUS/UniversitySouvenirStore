@@ -105,7 +105,7 @@ public class MainMenu extends JFrame {
 		setTitle("Main menu");										      					
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 495, 459);
+		setBounds(100, 100, 495, 412);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(244, 164, 96));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -205,7 +205,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		btnLogout.setToolTipText("Press here to log out!");
-		btnLogout.setBounds(145, 354, 195, 51);
+		btnLogout.setBounds(25, 280, 195, 51);
 		contentPane.add(btnLogout);
 		
 		JButton btnAddRemoveProduct = new JButton("Add/Remove product");
@@ -433,43 +433,6 @@ public class MainMenu extends JFrame {
 		});
 		btnAddRemoveMember.setBounds(265, 36, 188, 51);
 		contentPane.add(btnAddRemoveMember);
-		
-		JButton btnUtility = new JButton("Utility");
-		btnUtility.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					
-					utilitydialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					utilitydialog.setEnabled(true);
-					utilitydialog.setVisible(true);
-				} catch (Exception Utile) {
-					Utile.printStackTrace();
-				}
-			}
-		});
-		
-		btnUtility.addKeyListener(new MyKeyListener(){
-			
-			/* Override keyPressed() method of MyKeyListener class .*/
-			public void keyPressed(KeyEvent evt)
-			{
-				if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-					
-					try {
-						
-						utilitydialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						utilitydialog.setEnabled(true);
-						utilitydialog.setVisible(true);
-					} catch (Exception Utile) {
-						Utile.printStackTrace();
-					}
-					
-				}
-			}
-		});
-		btnUtility.setBounds(25, 280, 195, 51);
-		contentPane.add(btnUtility);
 		
 		JLabel lblNewLabel = new JLabel("Functions");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
