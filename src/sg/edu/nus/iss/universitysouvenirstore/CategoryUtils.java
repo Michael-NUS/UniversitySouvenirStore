@@ -21,7 +21,7 @@ public class CategoryUtils {
 
 	/**
 	 * Getting Category List
-	 * @return Category List : ArrayList<Category>
+	 * @return Category List
 	 */
 	public ArrayList<Category> getCategoryList(){
 		return this.categoryList;

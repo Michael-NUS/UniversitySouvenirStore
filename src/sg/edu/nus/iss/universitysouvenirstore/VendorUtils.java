@@ -29,7 +29,7 @@ public class VendorUtils {
 	}
 	
 	/**
-	 * Search Vendor by Vendor Name & Category Code
+	 * Search Vendor by Vendor Name and Category Code
 	 * @param vendorName Vendor Name
 	 * @param categoryId Category Code
 	 * @return {@link Vendor} or null if not found

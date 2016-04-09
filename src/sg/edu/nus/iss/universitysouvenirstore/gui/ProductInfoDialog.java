@@ -75,7 +75,7 @@ public class ProductInfoDialog extends JDialog {
 	}
 	/**
 	 * get all products
-	 * @return arrayList<Product>
+	 * @return arrayList of product
 	 */
 	public ArrayList<Product> getProducts() {
 		return products;

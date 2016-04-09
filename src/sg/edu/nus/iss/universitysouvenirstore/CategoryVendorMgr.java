@@ -32,7 +32,7 @@ public class CategoryVendorMgr {
 	/**
 	 * Read Category List
 	 * @return Category Array List
-	 * @throws CustomException 
+	 * @throws CustomException Category_Code_Error, Already_Exist_Error
 	 */
 	public CategoryUtils getCategoryUtil() throws CustomException{
 		//return new CategoryUtils();

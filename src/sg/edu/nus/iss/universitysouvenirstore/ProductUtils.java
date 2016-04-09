@@ -14,13 +14,13 @@ public class ProductUtils {
 	/**
 	 * add new product to the arraylist
 	 * @param products  : the list of product 
-	 * @param productId
-	 * @param productName
-	 * @param briefDesc
-	 * @param availableQuantity
-	 * @param price
-	 * @param reorderQuantity
-	 * @param reorderLevel
+	 * @param productId : productId 
+	 * @param productName: productName
+	 * @param briefDesc: briefDesc
+	 * @param availableQuantity:availableQuantity
+	 * @param price:price
+	 * @param reorderQuantity: reorderQuantity
+	 * @param reorderLevel:reorderLevel 
 	 * @return integer : -1 : same id, -2: same product name
 	 */
 	public static int addNewProduct(ArrayList<Product> products, String productId, String productName, String briefDesc, int availableQuantity, double price,  int reorderQuantity, int reorderLevel ){
@@ -131,7 +131,7 @@ public class ProductUtils {
 	 * getProducts for Category
 	 * @param allProducts
 	 * @param categoryId
-	 * @return arraylast<Product>
+	 * @return arraylast of product 
 	 */
 	public static ArrayList<Product> getProductsForCategory(ArrayList<Product> allProducts,String categoryId){
 		ArrayList<Product>  products= new ArrayList<Product>();
@@ -165,7 +165,7 @@ public class ProductUtils {
 	/**
 	 * get products that need to be reorder 
 	 * @param products
-	 * @return ArrayList<Product> 
+	 * @return ArrayList product
 	 */
 	public static ArrayList<Product> getReorderProductList(ArrayList<Product> products){
 		ArrayList<Product> reorderlist = new ArrayList<Product>();
@@ -178,9 +178,9 @@ public class ProductUtils {
 	}
 	/**
 	 * updateTransctionQuantity
-	 * @param products
-	 * @param items
-	 * @return
+	 * @param products:products
+	 * @param items:items
+	 * @return boolean
 	 */
 	public static boolean  updateTransctionQuantity(ArrayList<Product> products,ArrayList<TransactionedItem> items){
 		ArrayList<Product> reOrderProducts= new ArrayList<Product>();

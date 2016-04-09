@@ -48,7 +48,7 @@ public class Discount {
 	
 	/** 
 	 * set the discount code
-	 * @param newDiscountCode
+	 * @param newDiscountCode take in the discount code
 	 */
 	public void setCode(String newDiscountCode) {
 		discountCode = newDiscountCode;
@@ -56,7 +56,7 @@ public class Discount {
 	
 	/** 
 	 * set the discount description
-	 * @param newDescription
+	 * @param newDescription discount description
 	 */
 	public void setDescription(String newDescription) {
 		description = newDescription;
@@ -64,7 +64,7 @@ public class Discount {
 
 	/** 
 	 * set the discount percentage
-	 * @param newPercentage
+	 * @param newPercentage set the discount percentage
 	 */
 	public void setPercentage(int newPercentage) {
 		discountPercentage = newPercentage;
@@ -72,7 +72,7 @@ public class Discount {
 
 	/** 
 	 * set the discount type
-	 * @param newDiscountType
+	 * @param newDiscountType create new discount type
 	 */
 	public void setType(String newDiscountType) {
 		discountType = newDiscountType;

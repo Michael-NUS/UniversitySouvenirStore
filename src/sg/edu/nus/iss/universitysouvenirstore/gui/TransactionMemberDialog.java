@@ -151,7 +151,7 @@ public class TransactionMemberDialog extends JDialog {
 	
 	/**
 	 * Return this Member's ID
-	 * @return
+	 * @return memberID
 	 */
 	public String GetMemberID ()
 	{

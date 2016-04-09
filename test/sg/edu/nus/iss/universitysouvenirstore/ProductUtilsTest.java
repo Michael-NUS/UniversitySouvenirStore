@@ -20,7 +20,7 @@ public class ProductUtilsTest {
 
 	private ArrayList<Product> products = new ArrayList<Product>();
 	/**
-	 * @throws java.lang.Exception
+	 * @throws java.lang.Exception :  add product fail
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -35,7 +35,7 @@ public class ProductUtilsTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * @throws java.lang.Exception : error 
 	 */
 	@After
 	public void tearDown() throws Exception {
@@ -136,7 +136,7 @@ public class ProductUtilsTest {
 
 
 	/**
-	 * Test method for {@link sg.edu.nus.iss.universitysouvenirstore.ProductUtils#removeProduct(java.util.ArrayList, sg.edu.nus.iss.universitysouvenirstore.Product)}.
+	 * 
 	 */
 	@Test
 	public void testRemoveProduct() {

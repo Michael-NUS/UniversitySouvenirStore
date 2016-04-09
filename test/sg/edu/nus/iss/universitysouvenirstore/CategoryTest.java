@@ -35,7 +35,7 @@ public class CategoryTest {
 	
 	/**
 	 * Create New Category Test
-	 * @throws CustomException
+	 * @throws CustomException Category_Code_Error, Already_Exist_Error
 	 */
 	@Test
 	public void testAddCategory() throws CustomException{
@@ -46,7 +46,7 @@ public class CategoryTest {
 	
 	/**
 	 * Category Update Test
-	 * @throws CustomException
+	 * @throws CustomException Category_Code_Error, Already_Exist_Error
 	 */
 	@Test
 	public void testReplaceCategory() throws CustomException{
